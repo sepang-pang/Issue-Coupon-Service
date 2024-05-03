@@ -2,6 +2,7 @@ package com.coupon.issuecouponservice.security.userdetails;
 
 import com.coupon.issuecouponservice.domain.user.Role;
 import com.coupon.issuecouponservice.domain.user.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public class UserDetailsImpl implements UserDetails, OAuth2User {
 
+    @Getter
     private User user;
 
     private Map<String, Object> attributes;

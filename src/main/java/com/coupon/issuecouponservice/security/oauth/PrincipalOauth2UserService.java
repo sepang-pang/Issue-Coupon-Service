@@ -28,7 +28,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2User.getAttribute("email");
         String provider = userRequest.getClientRegistration().getClientId();
         String providerId = oAuth2User.getAttribute("sub");
-        String username = providerId + "_" + providerId;
+        String username = provider + "_" + providerId;
         String nickName = (String) oAuth2User.getAttribute("name");
 
         User user = userRepository.findByUsername(username);
@@ -45,9 +45,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .build();
 
             userRepository.save(user);
+
             log.info("회원가입 완료");
         }
 
         return new UserDetailsImpl(user, oAuth2User.getAttributes());
     }
+
+
 }
