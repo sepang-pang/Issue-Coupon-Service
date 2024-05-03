@@ -3,6 +3,7 @@ package com.coupon.issuecouponservice.domain.user;
 import com.coupon.issuecouponservice.domain.common.Timestamped;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,4 +37,15 @@ public class User extends Timestamped {
 
     @Column(name = "provider_id", nullable = false)
     private String providerId;
+
+    @Builder
+    public User(String nickName, String username, String email, String tel, Role role, String provider, String providerId) {
+        this.nickName = nickName;
+        this.username = username;
+        this.email = email;
+        this.tel = tel;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
 }
