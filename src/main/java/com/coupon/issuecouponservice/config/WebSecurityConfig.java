@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -20,9 +21,16 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         // CSRF 설정
         http.csrf((csrf) -> csrf.disable());
 
+        http.sessionManagement(
+                (sessionManagement) -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)
+        );
 
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
@@ -36,7 +44,12 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(principalOauth2UserService))
-                        .defaultSuccessUrl("/")
+                        .successHandler(
+                                (request, response, authentication) -> {
+                                    response.sendRedirect("/"); // 로그인 성공시 반환 로직 -> 추후 수정 필요
+                                }
+                        )
+                        .failureUrl("/login")
                         .permitAll()
         );
 
