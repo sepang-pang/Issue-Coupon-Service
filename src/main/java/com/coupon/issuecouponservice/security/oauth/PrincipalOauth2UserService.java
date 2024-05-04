@@ -3,6 +3,9 @@ package com.coupon.issuecouponservice.security.oauth;
 import com.coupon.issuecouponservice.domain.user.Role;
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
+import com.coupon.issuecouponservice.security.GoogleUserInfo;
+import com.coupon.issuecouponservice.security.KakaoUserInfo;
+import com.coupon.issuecouponservice.security.OAuth2UserInfo;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +27,19 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        Role role = Role.USER;
-        String email = oAuth2User.getAttribute("email");
-        String provider = userRequest.getClientRegistration().getClientId();
-        String providerId = oAuth2User.getAttribute("sub");
-        String username = provider + "_" + providerId;
-        String nickName = (String) oAuth2User.getAttribute("name");
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+        }
+
+        String username = oAuth2UserInfo.getUsername();
+        String nickName = oAuth2UserInfo.getNickName();
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();
+        String email = oAuth2UserInfo.getEmail();
+
 
         User user = userRepository.findByUsername(username)
                 .orElseGet(() -> {
@@ -46,9 +56,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     log.info("회원가입 완료");
                     return newUser;
                 });
-
         return new UserDetailsImpl(user, oAuth2User.getAttributes());
     }
-
-
 }
