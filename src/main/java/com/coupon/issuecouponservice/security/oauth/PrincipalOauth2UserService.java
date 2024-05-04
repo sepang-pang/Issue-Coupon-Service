@@ -31,23 +31,21 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String username = provider + "_" + providerId;
         String nickName = (String) oAuth2User.getAttribute("name");
 
-        User user = userRepository.findByUsername(username);
-
-        if (user == null) {
-            log.info("최초 로그인 및 회원가입 진행");
-            user = User.builder()
-                    .nickName(nickName)
-                    .username(username)
-                    .email(email)
-                    .role(role)
-                    .provider(provider)
-                    .providerId(providerId)
-                    .build();
-
-            userRepository.save(user);
-
-            log.info("회원가입 완료");
-        }
+        User user = userRepository.findByUsername(username)
+                .orElseGet(() -> {
+                    log.info("최초 로그인 및 회원가입 진행");
+                    User newUser = User.builder()
+                            .nickName(nickName)
+                            .username(username)
+                            .email(email)
+                            .role(Role.USER)
+                            .provider(provider)
+                            .providerId(providerId)
+                            .build();
+                    userRepository.save(newUser);
+                    log.info("회원가입 완료");
+                    return newUser;
+                });
 
         return new UserDetailsImpl(user, oAuth2User.getAttributes());
     }
