@@ -1,6 +1,7 @@
 package com.coupon.issuecouponservice.domain.user;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class User extends Timestamped {
 
     @Id
+    @Tsid
     private Long id;
 
     @Column(name = "nick_name", nullable = false)
@@ -25,7 +27,7 @@ public class User extends Timestamped {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "tel", nullable = false)
+    @Column(name = "tel")
     private String tel;
 
     @Enumerated(value = EnumType.STRING)
