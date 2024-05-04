@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j(topic = "PrincipalOauth2UserService")
@@ -24,38 +26,40 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        OAuth2UserInfo oAuth2UserInfo = getUserInfo(userRequest, oAuth2User);
 
-        OAuth2UserInfo oAuth2UserInfo = null;
-        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
-            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
-        }
+        User user = userRepository.findByUsername(oAuth2UserInfo.getUsername())
+                .orElseGet(() -> registerNewUser(oAuth2UserInfo));
 
-        String username = oAuth2UserInfo.getUsername();
-        String nickName = oAuth2UserInfo.getNickName();
-        String provider = oAuth2UserInfo.getProvider();
-        String providerId = oAuth2UserInfo.getProviderId();
-        String email = oAuth2UserInfo.getEmail();
-
-
-        User user = userRepository.findByUsername(username)
-                .orElseGet(() -> {
-                    log.info("최초 로그인 및 회원가입 진행");
-                    User newUser = User.builder()
-                            .nickName(nickName)
-                            .username(username)
-                            .email(email)
-                            .role(Role.USER)
-                            .provider(provider)
-                            .providerId(providerId)
-                            .build();
-                    userRepository.save(newUser);
-                    log.info("회원가입 완료");
-                    return newUser;
-                });
         return new UserDetailsImpl(user, oAuth2User.getAttributes());
+    }
+
+    private OAuth2UserInfo getUserInfo(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        switch (registrationId) {
+            case "google":
+                return new GoogleUserInfo(attributes);
+            case "kakao":
+                return new KakaoUserInfo(attributes);
+            default:
+                throw new IllegalArgumentException("지원하지 않는 플랫폼입니다 : " + registrationId);
+        }
+    }
+
+    private User registerNewUser(OAuth2UserInfo oAuth2UserInfo) {
+        log.info("최초 로그인 및 회원가입 진행");
+        User newUser = User.builder()
+                .nickName(oAuth2UserInfo.getNickName())
+                .username(oAuth2UserInfo.getUsername())
+                .email(oAuth2UserInfo.getEmail())
+                .role(Role.USER)
+                .provider(oAuth2UserInfo.getProvider())
+                .providerId(oAuth2UserInfo.getProviderId())
+                .build();
+        userRepository.save(newUser);
+        log.info("회원가입 완료");
+        return newUser;
     }
 }
