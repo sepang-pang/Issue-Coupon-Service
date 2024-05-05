@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.security;
+package com.coupon.issuecouponservice.security.oauth;
 
 public interface OAuth2UserInfo {
     String getNickName();
