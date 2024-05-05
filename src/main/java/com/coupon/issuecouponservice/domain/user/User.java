@@ -28,8 +28,8 @@ public class User extends Timestamped {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "tel")
-    private String tel;
+    @Column(name = "image")
+    private String image;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role", nullable = false)
@@ -42,17 +42,20 @@ public class User extends Timestamped {
     private String providerId;
 
     @Builder
-    public User(String nickName, String username, String email, String tel, Role role, String provider, String providerId) {
+    public User(String nickName, String username, String email, Role role, String provider, String providerId) {
         this.nickName = nickName;
         this.username = username;
         this.email = email;
-        this.tel = tel;
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
     }
 
     public void modifyUserDetails(UserModificationParam param) {
+        if (!param.getImage().isBlank() && !this.image.equals(param.getImage())) {
+            this.image = param.getImage();
+        }
+
         if (!param.getNickName().isBlank() && !this.nickName.equals(param.getNickName())) {
             this.nickName = param.getNickName();
         }

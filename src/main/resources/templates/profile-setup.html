@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>회원가입 페이지입니다.</h1>
-<label><input type="text" class="profile-image"></label>
+<label><img alt="프로필 이미지" class="profile-image" src="/images/default%20image.png"></label>
 <label><input type="text" class="profile-nick-name"></label>
 <label><input type="checkbox" class="check-admin"> 관리자 체크 </label>
 <button id="submit" type="button"> 제출 </button>
@@ -14,6 +14,7 @@
 <script>
     document.getElementById("submit").addEventListener("click", function () {
         const formData = {
+            image : "",
             nickName: document.querySelector(".profile-nick-name").value,
             registerAsAdmin: document.querySelector(".check-admin").checked
         }
@@ -34,6 +35,5 @@
                 alert("프로필 업데이트에 실패했습니다.");
             });
     });
-
 </script>
 </html>
