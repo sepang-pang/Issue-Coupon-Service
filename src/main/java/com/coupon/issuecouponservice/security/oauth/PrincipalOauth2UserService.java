@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +27,15 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         OAuth2UserInfo oAuth2UserInfo = getUserInfo(userRequest, oAuth2User);
 
-        User user = userRepository.findByUsername(oAuth2UserInfo.getUsername())
-                .orElseGet(() -> registerNewUser(oAuth2UserInfo));
+        AtomicBoolean isNewUser = new AtomicBoolean(false);
 
-        return new UserDetailsImpl(user, oAuth2User.getAttributes());
+        User user = userRepository.findByUsername(oAuth2UserInfo.getUsername())
+                .orElseGet(() -> {
+                    isNewUser.set(true);
+                    return registerNewUser(oAuth2UserInfo);
+                });
+
+        return new UserDetailsImpl(user, oAuth2User.getAttributes(), isNewUser.get());
     }
 
     private OAuth2UserInfo getUserInfo(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {

@@ -1,5 +1,6 @@
 package com.coupon.issuecouponservice.config;
 
+import com.coupon.issuecouponservice.security.CustomAuthenticationSuccessHandler;
 import com.coupon.issuecouponservice.security.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -18,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -25,11 +27,11 @@ public class WebSecurityConfig {
         // CSRF 설정
         http.csrf((csrf) -> csrf.disable());
 
-        http.sessionManagement(
-                (sessionManagement) -> sessionManagement
+        http.sessionManagement((sessionManagement) ->
+                sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
+                        .maximumSessions(1) // 최대 허용 세션 개수
+                        .maxSessionsPreventsLogin(false) // 중복 로그인 방지, false => 이전 세션 만료 및 최근 세션 허용
         );
 
         http.authorizeHttpRequests((authorizeHttpRequests) ->
@@ -44,11 +46,7 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(principalOauth2UserService))
-                        .successHandler(
-                                (request, response, authentication) -> {
-                                    response.sendRedirect("/"); // 로그인 성공시 반환 로직 -> 추후 수정 필요
-                                }
-                        )
+                        .successHandler(customAuthenticationSuccessHandler)
                         .failureUrl("/login")
                         .permitAll()
         );

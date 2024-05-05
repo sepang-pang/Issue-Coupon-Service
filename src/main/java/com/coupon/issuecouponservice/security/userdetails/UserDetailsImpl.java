@@ -19,9 +19,13 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
 
     private Map<String, Object> attributes;
 
-    public UserDetailsImpl(User user, Map<String, Object> attributes) {
+    @Getter
+    private boolean isNewUser;
+
+    public UserDetailsImpl(User user, Map<String, Object> attributes, boolean isNewUser) {
         this.user = user;
         this.attributes = attributes;
+        this.isNewUser = isNewUser;
     }
 
     @Override

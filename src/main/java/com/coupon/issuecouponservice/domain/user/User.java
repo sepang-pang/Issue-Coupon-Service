@@ -1,6 +1,7 @@
 package com.coupon.issuecouponservice.domain.user;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
+import com.coupon.issuecouponservice.dto.request.user.UserModificationParam;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -49,5 +50,15 @@ public class User extends Timestamped {
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
+    }
+
+    public void modifyUserDetails(UserModificationParam param) {
+        if (!param.getNickName().isBlank() && !this.nickName.equals(param.getNickName())) {
+            this.nickName = param.getNickName();
+        }
+
+        if (param.isRegisterAsAdmin()) {
+            this.role = Role.ADMIN;
+        }
     }
 }
