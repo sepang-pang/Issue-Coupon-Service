@@ -4,14 +4,16 @@ spring:
       client:
         registration:
           google:
-            client-id: 906369499176-k133393dad59mm435jajf3o1dk4uqohp.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             redirect-uri: http://localhost:8080/login/oauth2/code/google
-            scope: email,profile
+            scope:
+              - email
+              - profile
 
           kakao:
-            client-id: 6d8b5c47deb87461d185b7f05097f9bc
-            client-secret: 10KRaXUJzUWaKuWQCVwJ7D0SAi4vnBQA
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
             scope:
               - profile_nickname
               - account_email
@@ -21,12 +23,12 @@ spring:
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
 
           naver:
-            client-id: EgIrNmkRRJLVgAzB4mJ3
-            client-secret: mVbUva7r_i
+            client-id: ${NAVER_CLIENT_ID}
+            client-secret: ${NAVER_CLIENT_SECRET}
             scope:
               - name
               - email
-            client-name: Naver .
+            client-name: Naver
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/naver
 
