@@ -1,6 +1,6 @@
 package com.coupon.issuecouponservice.config;
 
-import com.coupon.issuecouponservice.security.CustomAuthenticationSuccessHandler;
+import com.coupon.issuecouponservice.security.handler.CustomAuthenticationSuccessHandler;
 import com.coupon.issuecouponservice.security.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;

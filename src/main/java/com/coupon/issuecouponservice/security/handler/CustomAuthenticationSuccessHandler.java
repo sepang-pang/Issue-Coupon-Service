@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.security;
+package com.coupon.issuecouponservice.security.handler;
 
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import jakarta.servlet.ServletException;
