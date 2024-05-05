@@ -5,6 +5,7 @@ import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
 import com.coupon.issuecouponservice.security.GoogleUserInfo;
 import com.coupon.issuecouponservice.security.KakaoUserInfo;
+import com.coupon.issuecouponservice.security.NaverUserInfo;
 import com.coupon.issuecouponservice.security.OAuth2UserInfo;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -38,14 +39,21 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private OAuth2UserInfo getUserInfo(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        switch (registrationId) {
-            case "google":
-                return new GoogleUserInfo(attributes);
-            case "kakao":
-                return new KakaoUserInfo(attributes);
-            default:
-                throw new IllegalArgumentException("지원하지 않는 플랫폼입니다 : " + registrationId);
-        }
+        return switch (registrationId) {
+            case "google" -> {
+                log.info("구글 로그인");
+                yield new GoogleUserInfo(attributes);
+            }
+            case "kakao" -> {
+                log.info("카카오 로그인");
+                yield new KakaoUserInfo(attributes);
+            }
+            case "naver" -> {
+                log.info("네이버 로그인");
+                yield new NaverUserInfo(attributes);
+            }
+            default -> throw new IllegalArgumentException("지원하지 않는 플랫폼입니다 : " + registrationId);
+        };
     }
 
     private User registerNewUser(OAuth2UserInfo oAuth2UserInfo) {
