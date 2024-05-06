@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.controller;
+package com.coupon.issuecouponservice.controller.user;
 
 import com.coupon.issuecouponservice.dto.request.user.UserModificationParam;
 import com.coupon.issuecouponservice.dto.response.ApiResponseForm;
