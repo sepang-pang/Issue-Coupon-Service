@@ -1,5 +1,7 @@
 package com.coupon.issuecouponservice.common.oauth;
 
+import com.coupon.issuecouponservice.common.oauth.info.KakaoUserInfo;
+import com.coupon.issuecouponservice.common.oauth.info.OAuth2UserInfo;
 import com.coupon.issuecouponservice.user.User;
 import com.coupon.issuecouponservice.user.UserRoleEnum;
 import com.coupon.issuecouponservice.user.repository.UserRepository;
@@ -21,11 +23,15 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        OAuth2UserInfo userInfo = null;
+        String provider = userInfo.getProvider();
+        if(provider.equals("kakao")){	//추가
+            userInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+        }
 
-        String provider = userRequest.getClientRegistration().getRegistrationId();
-        String providerId = oAuth2User.getAttribute("sub");
+        String providerId = userInfo.getProviderId();
         String username = provider + "_" + providerId; //중복이 발생하지 않도록 provider와 providerId를 조합
-        String email = oAuth2User.getAttribute("email");
+        String email = userInfo.getEmail();
         UserRoleEnum role = UserRoleEnum.GUEST; //일반 유저
 
         Optional<User> findUsername = userRepository.findByUsername(username);
