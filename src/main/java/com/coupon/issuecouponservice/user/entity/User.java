@@ -1,5 +1,6 @@
 package com.coupon.issuecouponservice.user.entity;
 
+import com.coupon.issuecouponservice.user.dto.UserParam;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,4 +35,15 @@ public class User {
     @Column(name = "role", nullable = false)
     private UserRoleEnum role;
 
+    public static User createUser(UserParam param) {
+        User user = User.builder()
+                .username(param.getUsername())
+                .nickname(param.getNickname())
+                .email(param.getEmail())
+                .role(UserRoleEnum.USER)
+                .provider(param.getProvider())
+                .providerId(param.getProviderId())
+                .build();
+        return user;
+    }
 }

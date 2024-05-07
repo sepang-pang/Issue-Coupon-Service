@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.common.oauth;
+package com.coupon.issuecouponservice.common.sercurity.oauth;
 
 import com.coupon.issuecouponservice.user.dto.UserParam;
 import com.coupon.issuecouponservice.user.entity.User;

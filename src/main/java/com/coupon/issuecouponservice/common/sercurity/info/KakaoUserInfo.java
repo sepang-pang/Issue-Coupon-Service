@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.common.oauth.info;
+package com.coupon.issuecouponservice.common.sercurity.info;
 
 import java.util.Map;
 

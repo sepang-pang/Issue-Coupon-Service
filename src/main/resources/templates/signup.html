@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+</head>
+<body>
+<h1>회원가입 페이지</h1>
+<div>
+    <label>닉네임<input type="text" class="user-nickname"></label>
+    <label>이름<input type="text" class="user-username" th:value="${userParam.getUsername()}"></label>
+    <label>이메일<input type="text" class="user-email" th:value="${userParam.getEmail()}"
+                     th:readonly="${userParam.getEmail() != null && userParam.getEmail() != '' ? 'readonly': false}"></label>
+</div>
+<div>
+    <input type="text" class="user-provider" th:value="${userParam.getProvider()}" hidden="hidden">
+    <input type="text" class="user-providerId" th:value="${userParam.getProviderId()}" hidden="hidden">
+
+</div>
+
+<button id="sign-up" type="button">회원가입</button>
+
+<script>
+    document.getElementById("sign-up").addEventListener("click", function () {
+        const formData = {
+            nickname: document.querySelector(".user-nickname").value,
+            username: document.querySelector(".user-username").value,
+            email: document.querySelector(".user-email").value,
+            provider: document.querySelector(".user-provider").value,
+            providerId: document.querySelector(".user-providerId").value
+        }
+
+// 회원가입 요청을 서버로 보내기
+        fetch('/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            })
+            .then(data => {
+// 회원가입 성공 시
+                alert("회원가입이 완료되었습니다! 환영합니다.")
+                console.log(data)
+                window.location.replace("/");
+            })
+            .catch(error => {
+                error.json().then(errData => {
+                    console.error('Error:', errData);
+                    alert(errData.errorMessage);
+
+                    if (errData.errorMessage.includes("중복된 사용자")) {
+                        loginId.focus();
+                    } else if (errData.errorMessage.includes("중복된 Email")) {
+                        email.focus();
+                    }
+
+                })
+            })
+    });
+
+</script>
+</body>
+</html>

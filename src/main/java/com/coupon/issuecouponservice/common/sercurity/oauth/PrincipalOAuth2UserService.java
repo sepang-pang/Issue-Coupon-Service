@@ -1,7 +1,7 @@
-package com.coupon.issuecouponservice.common.oauth;
+package com.coupon.issuecouponservice.common.sercurity.oauth;
 
-import com.coupon.issuecouponservice.common.oauth.info.KakaoUserInfo;
-import com.coupon.issuecouponservice.common.oauth.info.OAuth2UserInfo;
+import com.coupon.issuecouponservice.common.sercurity.info.KakaoUserInfo;
+import com.coupon.issuecouponservice.common.sercurity.info.OAuth2UserInfo;
 import com.coupon.issuecouponservice.user.entity.User;
 import com.coupon.issuecouponservice.user.entity.UserRoleEnum;
 import com.coupon.issuecouponservice.user.repository.UserRepository;

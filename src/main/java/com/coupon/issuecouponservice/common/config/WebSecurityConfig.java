@@ -1,7 +1,7 @@
 package com.coupon.issuecouponservice.common.config;
 
-import com.coupon.issuecouponservice.common.oauth.OAuth2LoginSuccessHandler;
-import com.coupon.issuecouponservice.common.oauth.PrincipalOAuth2UserService;
+import com.coupon.issuecouponservice.common.sercurity.oauth.OAuth2LoginSuccessHandler;
+import com.coupon.issuecouponservice.common.sercurity.oauth.PrincipalOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
