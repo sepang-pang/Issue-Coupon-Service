@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.domain.common;
+package com.coupon.issuecouponservice.common;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
