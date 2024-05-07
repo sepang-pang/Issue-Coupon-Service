@@ -1,6 +1,6 @@
 package com.coupon.issuecouponservice.common.oauth;
 
-import com.coupon.issuecouponservice.user.User;
+import com.coupon.issuecouponservice.user.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

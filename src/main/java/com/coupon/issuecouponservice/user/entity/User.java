@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.user;
+package com.coupon.issuecouponservice.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

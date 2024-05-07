@@ -1,6 +1,6 @@
 package com.coupon.issuecouponservice.user.repository;
 
-import com.coupon.issuecouponservice.user.User;
+import com.coupon.issuecouponservice.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

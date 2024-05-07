@@ -2,8 +2,8 @@ package com.coupon.issuecouponservice.common.oauth;
 
 import com.coupon.issuecouponservice.common.oauth.info.KakaoUserInfo;
 import com.coupon.issuecouponservice.common.oauth.info.OAuth2UserInfo;
-import com.coupon.issuecouponservice.user.User;
-import com.coupon.issuecouponservice.user.UserRoleEnum;
+import com.coupon.issuecouponservice.user.entity.User;
+import com.coupon.issuecouponservice.user.entity.UserRoleEnum;
 import com.coupon.issuecouponservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
+public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
 

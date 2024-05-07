@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.user;
+package com.coupon.issuecouponservice.user.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
