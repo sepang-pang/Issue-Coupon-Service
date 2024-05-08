@@ -57,7 +57,7 @@ public class Coupon extends Timestamped {
 
     /* == 수정 메서드 == */
     public void modifyCoupon(CouponModificationParam param) {
-        if (!param.getCouponName().isBlank() && !this.couponName.equals(param.getCouponName())) {
+        if (param.getCouponName() != null && !param.getCouponName().isBlank() && !this.couponName.equals(param.getCouponName())) {
             this.couponName = param.getCouponName();
         }
 
