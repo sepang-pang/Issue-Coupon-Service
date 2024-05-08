@@ -46,6 +46,7 @@ public class Coupon extends Timestamped {
         this.expiredAt = expiredAt;
     }
 
+    /* == 생성 메서드 == */
     public static Coupon CreateCoupon(CouponCreationParam param) {
         return Coupon.builder()
                 .couponName(param.getCouponName())
@@ -54,6 +55,7 @@ public class Coupon extends Timestamped {
                 .build();
     }
 
+    /* == 수정 메서드 == */
     public void modifyCoupon(CouponModificationParam param) {
         if (!param.getCouponName().isBlank() && !this.couponName.equals(param.getCouponName())) {
             this.couponName = param.getCouponName();
@@ -70,5 +72,10 @@ public class Coupon extends Timestamped {
         if (param.getExpiredAt() != null && !this.expiredAt.equals(param.getExpiredAt())) {
             this.expiredAt = param.getExpiredAt();
         }
+    }
+
+    /* == 삭제 메서드 == */
+    public void deleteCoupon() {
+        this.isDeleted = true;
     }
 }

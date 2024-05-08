@@ -37,11 +37,16 @@ public class CouponService {
     }
 
     public void modifyCoupon(Long couponId, CouponModificationParam param) {
-        Coupon coupon = getCoupon(couponId);
+        Coupon findCoupon = getCoupon(couponId);
 
-        coupon.modifyCoupon(param);
+        findCoupon.modifyCoupon(param);
     }
 
+    public void deleteCoupon(Long couponId) {
+        Coupon findCoupon = getCoupon(couponId);
+
+        findCoupon.deleteCoupon();
+    }
 
 
     // 쿠폰 조회
