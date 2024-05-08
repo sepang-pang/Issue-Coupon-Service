@@ -43,7 +43,7 @@ public class CouponAdminController {
 
         couponService.modifyCoupon(couponId, param);
 
-        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 생성 성공", HttpStatus.OK.value()));
+        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 수정 성공", HttpStatus.OK.value()));
     }
 
     @DeleteMapping("/coupon/{couponId}")
