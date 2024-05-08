@@ -1,9 +1,6 @@
 package com.coupon.issuecouponservice.dto.response.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
