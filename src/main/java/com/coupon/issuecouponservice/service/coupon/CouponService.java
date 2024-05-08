@@ -20,7 +20,7 @@ public class CouponService {
     private final CouponRepository couponRepository;
 
     public void createCoupon(CouponCreationParam param) {
-        checkForDuplicateCouponName(param);
+        checkForDuplicateCouponName(param.getCouponName());
 
         Coupon coupon = Coupon.CreateCoupon(param);
 
@@ -37,6 +37,8 @@ public class CouponService {
     }
 
     public void modifyCoupon(Long couponId, CouponModificationParam param) {
+        checkForDuplicateCouponName(param.getCouponName());
+
         Coupon findCoupon = getCoupon(couponId);
 
         findCoupon.modifyCoupon(param);
@@ -56,8 +58,8 @@ public class CouponService {
     }
 
     // 쿠폰 검증
-    private void checkForDuplicateCouponName(CouponCreationParam param) {
-        boolean exists = couponRepository.existsByCouponName(param.getCouponName());
+    private void checkForDuplicateCouponName(String couponName) {
+        boolean exists = couponRepository.existsByCouponName(couponName);
 
         if (exists) {
             throw new IllegalArgumentException("이미 존재하는 쿠폰명입니다.");
