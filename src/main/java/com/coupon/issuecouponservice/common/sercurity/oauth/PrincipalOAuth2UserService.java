@@ -24,7 +24,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         OAuth2UserInfo userInfo = null;
-        String provider = userInfo.getProvider();
+        String provider = userRequest.getClientRegistration().getRegistrationId();
         if(provider.equals("kakao")){	//추가
             userInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         }

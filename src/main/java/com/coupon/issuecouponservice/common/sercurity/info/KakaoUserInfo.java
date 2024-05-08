@@ -22,9 +22,7 @@ public class KakaoUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String getProvider() {
-        return "Kakao";
-    }
+    public String getProvider() {return "Kakao";}
 
     @Override
     public String getUsername() {

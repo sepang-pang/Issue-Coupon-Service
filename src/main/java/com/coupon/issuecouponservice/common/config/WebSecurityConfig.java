@@ -23,7 +23,6 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable) //이놈!
                 .authorizeHttpRequests((authorizationRequests) -> authorizationRequests
                         .requestMatchers("/user/**").hasRole("USER")
