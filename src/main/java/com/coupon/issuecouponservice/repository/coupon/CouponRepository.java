@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("select count(c) > 0 from Coupon c " +
@@ -15,4 +16,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
     @Query("select c from Coupon c where c.isDeleted = false order by c.createdAt desc")
     List<Coupon> findAllCoupons();
+
+    @Query("select c from Coupon c where c.id = :couponId and c.isDeleted = false")
+    Optional<Coupon> findOneCouponByCouponId(@Param("couponId") Long couponId);
 }

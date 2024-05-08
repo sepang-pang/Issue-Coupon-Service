@@ -2,6 +2,7 @@ package com.coupon.issuecouponservice.domain.coupon;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
+import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -51,5 +52,23 @@ public class Coupon extends Timestamped {
                 .totalQuantity(param.getTotalQuantity())
                 .expiredAt(param.getExpiredAt())
                 .build();
+    }
+
+    public void modifyCoupon(CouponModificationParam param) {
+        if (!param.getCouponName().isBlank() && !this.couponName.equals(param.getCouponName())) {
+            this.couponName = param.getCouponName();
+        }
+
+        if (this.totalQuantity != param.getTotalQuantity()) {
+            this.totalQuantity = param.getTotalQuantity();
+        }
+
+        if (this.remainQuantity != param.getRemainQuantity()) {
+            this.remainQuantity = param.getRemainQuantity();
+        }
+
+        if (param.getExpiredAt() != null && !this.expiredAt.equals(param.getExpiredAt())) {
+            this.expiredAt = param.getExpiredAt();
+        }
     }
 }

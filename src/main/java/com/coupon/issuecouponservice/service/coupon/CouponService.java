@@ -2,6 +2,7 @@ package com.coupon.issuecouponservice.service.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
+import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +27,6 @@ public class CouponService {
         couponRepository.save(coupon);
     }
 
-    private void checkForDuplicateCouponName(CouponCreationParam param) {
-        boolean exists = couponRepository.existsByCouponName(param.getCouponName());
-
-        if (exists) {
-            throw new IllegalArgumentException("이미 존재하는 쿠폰명입니다.");
-        }
-    }
-
     @Transactional(readOnly = true)
     public List<CouponForm> readAllCoupons() {
         List<Coupon> findCoupons = couponRepository.findAllCoupons();
@@ -41,5 +34,28 @@ public class CouponService {
         return findCoupons.stream()
                 .map(CouponForm::new)
                 .collect(Collectors.toList());
+    }
+
+    public void modifyCoupon(Long couponId, CouponModificationParam param) {
+        Coupon coupon = getCoupon(couponId);
+
+        coupon.modifyCoupon(param);
+    }
+
+
+
+    // 쿠폰 조회
+    private Coupon getCoupon(Long couponId) {
+        return couponRepository.findOneCouponByCouponId(couponId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
+    }
+
+    // 쿠폰 검증
+    private void checkForDuplicateCouponName(CouponCreationParam param) {
+        boolean exists = couponRepository.existsByCouponName(param.getCouponName());
+
+        if (exists) {
+            throw new IllegalArgumentException("이미 존재하는 쿠폰명입니다.");
+        }
     }
 }

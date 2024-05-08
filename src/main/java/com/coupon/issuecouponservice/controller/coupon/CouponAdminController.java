@@ -1,5 +1,6 @@
 package com.coupon.issuecouponservice.controller.coupon;
 
+import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.response.ApiResponseForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
@@ -34,5 +35,14 @@ public class CouponAdminController {
     public List<CouponForm> readAllCoupons() {
 
         return couponService.readAllCoupons();
+    }
+
+    @PatchMapping("/coupon/{couponId}")
+    public ResponseEntity<ApiResponseForm> modifyCoupon(@PathVariable("couponId") Long couponId,
+                                                        @RequestBody CouponModificationParam param) {
+
+        couponService.modifyCoupon(couponId, param);
+
+        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 생성 성공", HttpStatus.OK.value()));
     }
 }
