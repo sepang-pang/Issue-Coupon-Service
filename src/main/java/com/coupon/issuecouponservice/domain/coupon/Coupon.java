@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +39,10 @@ public class Coupon extends Timestamped {
     @Column(name = "expired_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime expiredAt;
+
+    @OneToMany(mappedBy = "coupon", cascade = CascadeType.REMOVE)
+    private List<UserCoupon> userCoupons = new ArrayList<>();
+
 
     @Builder
     public Coupon(String couponName, int totalQuantity, LocalDateTime expiredAt) {

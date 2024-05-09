@@ -1,13 +1,14 @@
 package com.coupon.issuecouponservice.domain.user;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
+import com.coupon.issuecouponservice.domain.coupon.UserCoupon;
 import com.coupon.issuecouponservice.dto.request.user.UserModificationParam;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,6 +41,9 @@ public class User extends Timestamped {
 
     @Column(name = "provider_id", nullable = false)
     private String providerId;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<UserCoupon> userCoupons = new ArrayList<>();
 
     @Builder
     public User(String nickName, String username, String email, Role role, String provider, String providerId) {

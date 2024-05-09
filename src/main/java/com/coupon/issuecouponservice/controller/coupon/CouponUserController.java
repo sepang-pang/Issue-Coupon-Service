@@ -1,11 +1,12 @@
 package com.coupon.issuecouponservice.controller.coupon;
 
-import com.coupon.issuecouponservice.dto.response.ApiResponseForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class CouponUserController {
     private final CouponService couponService;
 
     // 쿠폰 발급
+
+
 
     // 쿠폰 전체 조회
     @GetMapping("/coupon")
