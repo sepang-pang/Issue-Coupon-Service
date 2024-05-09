@@ -5,6 +5,7 @@ import com.coupon.issuecouponservice.domain.user.User;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,10 @@ public class UserCoupon {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    public UserCoupon(Coupon coupon, User user){
+        this.coupon = coupon;
+        this.user = user;
+    }
+
 }

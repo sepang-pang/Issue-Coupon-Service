@@ -85,4 +85,10 @@ public class Coupon extends Timestamped {
     public void deleteCoupon() {
         this.isDeleted = true;
     }
+
+    /* == 검증 메서드 == */
+    public void validateCoupon() {
+        if(this.remainQuantity <= 0) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
+        if(this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
+    }
 }

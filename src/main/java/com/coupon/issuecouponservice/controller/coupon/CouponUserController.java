@@ -1,12 +1,15 @@
 package com.coupon.issuecouponservice.controller.coupon;
 
+import com.coupon.issuecouponservice.dto.request.CouponIssueParam;
+import com.coupon.issuecouponservice.dto.response.ApiResponseForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
+import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,8 +21,11 @@ public class CouponUserController {
     private final CouponService couponService;
 
     // 쿠폰 발급
-
-
+    @PostMapping("/coupon")
+    public ResponseEntity<ApiResponseForm> issueCoupon(@RequestBody CouponIssueParam couponIssueParam, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        couponService.issueCoupon(couponIssueParam, userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseForm("쿠폰 발급 성공", HttpStatus.OK.value()));
+    }
 
     // 쿠폰 전체 조회
     @GetMapping("/coupon")
