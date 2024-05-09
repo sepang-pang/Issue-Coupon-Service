@@ -69,4 +69,10 @@ public class CouponService {
             throw new IllegalArgumentException("이미 존재하는 쿠폰명입니다.");
         }
     }
+
+    // 쿠폰 상세 조회
+    public CouponForm selectCoupon(Long couponId) {
+        Coupon coupon = getCoupon(couponId);
+        return new CouponForm(coupon);
+    }
 }
