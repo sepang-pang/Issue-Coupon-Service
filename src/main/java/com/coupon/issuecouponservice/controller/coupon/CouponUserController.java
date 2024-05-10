@@ -8,6 +8,7 @@ import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,12 +35,15 @@ public class CouponUserController {
     }
 
     // 쿠폰 상세 조회
-    @GetMapping("/coupone/{couponId}")
+    @GetMapping("/coupon/{couponId}")
     public CouponForm selectCoupon(@PathVariable Long couponId){
         return couponService.selectCoupon(couponId);
     }
 
     // 사용자 쿠폰 전체 조회
+    @GetMapping("/{userId}/coupon")
+    public List<CouponForm> readAllUserCoupons(@PathVariable Long userId){
+        return couponService.readAllUserCoupons(userId);
+    }
 
-    // 사용자 쿠폰 상세 조회
 }

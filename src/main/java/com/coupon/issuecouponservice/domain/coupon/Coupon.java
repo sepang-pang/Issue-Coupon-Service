@@ -91,4 +91,8 @@ public class Coupon extends Timestamped {
         if(this.remainQuantity <= 0) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
         if(this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
     }
+
+    public void decreaseQuantity() {
+        this.remainQuantity = this.remainQuantity - 1;
+    }
 }

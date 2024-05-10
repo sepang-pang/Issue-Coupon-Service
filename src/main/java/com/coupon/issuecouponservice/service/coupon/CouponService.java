@@ -77,6 +77,7 @@ public class CouponService {
     }
 
     // 쿠폰 상세 조회
+    @Transactional(readOnly = true)
     public CouponForm selectCoupon(Long couponId) {
         Coupon coupon = getCoupon(couponId);
         return new CouponForm(coupon);
@@ -86,8 +87,19 @@ public class CouponService {
     public void issueCoupon(CouponIssueParam couponIssueParam, User user) {
         Coupon coupon = getCoupon(couponIssueParam.getCouponId());
         coupon.validateCoupon();
-        UserCoupon userCoupon = new UserCoupon(coupon, user);
+        UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
         couponUserRepository.save(userCoupon);
+    }
+
+    // 사용자 쿠폰 전체 조회
+    @Transactional(readOnly = true)
+    public List<CouponForm> readAllUserCoupons(Long userId) {
+       List<UserCoupon> findUserCoupons = couponUserRepository.findByUserId(userId);
+
+        return findUserCoupons.stream()
+                .map(UserCoupon::getCoupon)
+                .map(CouponForm::new)
+                .collect(Collectors.toList());
     }
 
 }
