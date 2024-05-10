@@ -2,18 +2,17 @@ package com.coupon.issuecouponservice.service.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
 import com.coupon.issuecouponservice.domain.user.User;
-import com.coupon.issuecouponservice.domain.user_coupon.UserCoupon;
-import com.coupon.issuecouponservice.dto.request.CouponIssueParam;
+import com.coupon.issuecouponservice.domain.coupon.UserCoupon;
+import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
-import com.coupon.issuecouponservice.repository.user_coupon.CouponUserRepository;
+import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class CouponService {
 
     private final CouponRepository couponRepository;
-    private final CouponUserRepository couponUserRepository;
+    private final UserCouponRepository couponUserRepository;
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {

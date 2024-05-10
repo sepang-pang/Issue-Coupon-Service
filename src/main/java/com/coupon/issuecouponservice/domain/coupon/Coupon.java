@@ -1,7 +1,6 @@
 package com.coupon.issuecouponservice.domain.coupon;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
-import com.coupon.issuecouponservice.domain.user_coupon.UserCoupon;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import io.hypersistence.utils.hibernate.id.Tsid;

@@ -1,6 +1,5 @@
-package com.coupon.issuecouponservice.domain.user_coupon;
+package com.coupon.issuecouponservice.domain.coupon;
 
-import com.coupon.issuecouponservice.domain.coupon.Coupon;
 import com.coupon.issuecouponservice.domain.user.User;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package com.coupon.issuecouponservice.controller.coupon;
 
-import com.coupon.issuecouponservice.dto.request.CouponIssueParam;
+import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.response.ApiResponseForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;

@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.dto.request;
+package com.coupon.issuecouponservice.dto.request.coupon;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
