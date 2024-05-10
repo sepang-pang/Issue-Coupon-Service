@@ -27,6 +27,9 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_name", nullable = false)
     private String couponName;
 
+    @Column(name = "coupon_image", nullable = false)
+    private String couponImage;
+
     @Column(name = "total_quantity", nullable = false)
     private int totalQuantity;
 
@@ -45,8 +48,9 @@ public class Coupon extends Timestamped {
 
 
     @Builder
-    public Coupon(String couponName, int totalQuantity, LocalDateTime expiredAt) {
+    public Coupon(String couponName, String couponImage, int totalQuantity, LocalDateTime expiredAt) {
         this.couponName = couponName;
+        this.couponImage = couponImage;
         this.totalQuantity = totalQuantity;
         this.remainQuantity = totalQuantity; // 생성 시점에서 초기 잔여 수량은 전체 수량이다.
         this.expiredAt = expiredAt;
@@ -56,6 +60,7 @@ public class Coupon extends Timestamped {
     public static Coupon CreateCoupon(CouponCreationParam param) {
         return Coupon.builder()
                 .couponName(param.getCouponName())
+                .couponImage(param.getCouponImage())
                 .totalQuantity(param.getTotalQuantity())
                 .expiredAt(param.getExpiredAt())
                 .build();

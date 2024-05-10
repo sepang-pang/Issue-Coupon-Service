@@ -7,6 +7,7 @@ import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
+import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -77,9 +78,9 @@ public class CouponService {
 
     // 쿠폰 상세 조회
     @Transactional(readOnly = true)
-    public CouponForm selectCoupon(Long couponId) {
+    public CouponOneForm selectCoupon(Long couponId) {
         Coupon coupon = getCoupon(couponId);
-        return new CouponForm(coupon);
+        return new CouponOneForm(coupon);
     }
 
     // 쿠폰 발급
