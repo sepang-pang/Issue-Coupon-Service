@@ -2,7 +2,6 @@ package com.coupon.issuecouponservice.controller.coupon;
 
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
-import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-//@Secured("USER")
+@Secured("USER")
 public class CouponUserController {
 
     private final CouponService couponService;
