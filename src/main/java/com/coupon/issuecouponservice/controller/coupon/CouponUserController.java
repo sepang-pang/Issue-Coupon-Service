@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@Secured("USER")
 public class CouponUserController {
 
     private final CouponService couponService;
