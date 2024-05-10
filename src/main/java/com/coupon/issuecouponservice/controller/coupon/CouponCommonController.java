@@ -28,7 +28,7 @@ public class CouponCommonController {
 
     // 쿠폰 상세 조회
     @GetMapping("/coupon/{couponId}")
-    public CouponOneForm selectCoupon(@PathVariable Long couponId){
+    public CouponOneForm readOneCoupon(@PathVariable Long couponId){
         return couponService.selectCoupon(couponId);
     }
 
