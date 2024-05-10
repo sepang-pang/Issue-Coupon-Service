@@ -86,7 +86,7 @@ public class CouponService {
     // 쿠폰 발급
     public void issueCoupon(CouponIssueParam couponIssueParam, User user) {
         Coupon coupon = getCoupon(couponIssueParam.getCouponId());
-        coupon.validateCoupon();
+        coupon.validateCoupon(couponIssueParam.getCouponId());
         UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
         couponUserRepository.save(userCoupon);
     }

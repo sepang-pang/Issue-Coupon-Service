@@ -87,9 +87,19 @@ public class Coupon extends Timestamped {
     }
 
     /* == 검증 메서드 == */
-    public void validateCoupon() {
+    public void validateCoupon(Long couponId) {
         if(this.remainQuantity <= 0) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
         if(this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
+        if(couponAlreadyIssue(couponId)) throw new IllegalArgumentException("중복된 쿠폰입니다.");
+    }
+
+    private boolean couponAlreadyIssue(Long couponId) {
+        for(UserCoupon userCoupon : userCoupons){
+            if(userCoupon.getCoupon().getId().equals(couponId)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void decreaseQuantity() {
