@@ -30,13 +30,6 @@ public class CouponAdminController {
 
     }
 
-    @GetMapping("/coupon")
-    public List<CouponForm> readAllCoupons() {
-
-        return couponService.readAllCoupons();
-
-    }
-
     @PatchMapping("/coupon/{couponId}")
     public void modifyCoupon(@PathVariable("couponId") Long couponId, @RequestBody CouponModificationParam param) {
 
