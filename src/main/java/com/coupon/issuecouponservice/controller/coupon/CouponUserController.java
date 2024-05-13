@@ -30,8 +30,8 @@ public class CouponUserController {
     public List<CouponForm> readAllUserCoupons(@PathVariable Long userId){
 //        return couponService.readAllUserCoupons(userId);
 //        return couponService.readAllUserCouponsV1(userId);
-        return couponService.readAllUserCouponsV2(userId);
-//        return couponService.readAllUserCouponsV3(userId);
+//        return couponService.readAllUserCouponsV2(userId);
+        return couponService.readAllUserCouponsV3(userId);
     }
 
 }

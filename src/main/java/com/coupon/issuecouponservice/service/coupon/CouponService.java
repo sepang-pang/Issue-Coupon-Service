@@ -124,7 +124,7 @@ public class CouponService {
 //    }
 
     // 사용자 쿠폰 전체 조회 V2 => batch size
-    @Transactional(readOnly = true)
+/*    @Transactional(readOnly = true)
     public List<CouponForm> readAllUserCouponsV2(Long userId) {
        List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
 
@@ -132,10 +132,10 @@ public class CouponService {
                 .map(UserCoupon::getCoupon)
                 .map(CouponForm::new)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     // 사용자 쿠폰 전체 조회 V3 => fetch join
- /*   @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<CouponForm> readAllUserCouponsV3(Long userId) {
         System.out.println("======================= 유저 쿠폰 =======================");
         List<UserCoupon> findUserCoupons = userCouponRepository.findUserCouponsByUserId(userId);
@@ -144,6 +144,6 @@ public class CouponService {
         return findUserCoupons.stream()
                 .map(uc -> new CouponForm(uc.getCoupon()))
                 .toList();
-    }*/
+    }
 
 }
