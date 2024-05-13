@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class CouponService {
 
     private final CouponRepository couponRepository;
-    private final UserCouponRepository couponUserRepository;
+    private final UserCouponRepository userCouponRepository;
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
@@ -88,18 +88,62 @@ public class CouponService {
         Coupon coupon = getCoupon(couponIssueParam.getCouponId());
         coupon.validateCoupon(couponIssueParam.getCouponId());
         UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
-        couponUserRepository.save(userCoupon);
+        userCouponRepository.save(userCoupon);
     }
 
     // 사용자 쿠폰 전체 조회
-    @Transactional(readOnly = true)
+/*    @Transactional(readOnly = true)
     public List<CouponForm> readAllUserCoupons(Long userId) {
-       List<UserCoupon> findUserCoupons = couponUserRepository.findByUserId(userId);
+        System.out.println("======================= 유저 쿠폰 =======================");
+        List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
+
+        System.out.println("======================= 쿠폰 조회 =======================");
+        List<Coupon> findCoupons = findUserCoupons.stream()
+                .map(UserCoupon::getCoupon).toList();
+
+        System.out.println("====================== 쿠폰 FORM 반환 =======================");
+        return findCoupons.stream()
+                .map(CouponForm::new).toList();
+    }*/
+
+    // 사용자 쿠폰 전체 조회 V1 => where ~ in
+    @Transactional(readOnly = true)
+    public List<CouponForm> readAllUserCouponsV1(Long userId) {
+        System.out.println("======================= 유저 쿠폰 =======================");
+        List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
+
+        System.out.println("======================= CouponIds =======================");
+        List<Long> couponIds = findUserCoupons.stream()
+                .map(uc -> uc.getCoupon().getId()).toList();
+
+        System.out.println("======================= 쿠폰 =======================");
+        List<Coupon> findAllCoupons = couponRepository.findAllByIdIn(couponIds);
+
+        System.out.println("======================= 쿠폰 반환 =======================");
+        return findAllCoupons.stream().map(CouponForm::new).toList();
+    }
+
+    // 사용자 쿠폰 전체 조회 V2 => batch size
+/*    @Transactional(readOnly = true)
+    public List<CouponForm> readAllUserCouponsV2(Long userId) {
+       List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
 
         return findUserCoupons.stream()
                 .map(UserCoupon::getCoupon)
                 .map(CouponForm::new)
                 .collect(Collectors.toList());
-    }
+    }*/
+
+    // 사용자 쿠폰 전체 조회 V3 => fetch join
+ /*   @Transactional(readOnly = true)
+    public List<CouponForm> readAllUserCouponsV3(Long userId) {
+        System.out.println("======================= 유저 쿠폰 =======================");
+        List<UserCoupon> findUserCoupons = userCouponRepository.findUserCouponsByUserId(userId);
+
+        System.out.println("======================= 쿠폰 =======================");
+        return findUserCoupons.stream()
+                .map(uc -> new CouponForm(uc.getCoupon()))
+                .toList();
+    }*/
 
 }
