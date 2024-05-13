@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@Secured("USER")
+//@Secured("USER")
 public class CouponUserController {
 
     private final CouponService couponService;
@@ -28,7 +28,10 @@ public class CouponUserController {
     // 사용자 쿠폰 전체 조회
     @GetMapping("/{userId}/coupon")
     public List<CouponForm> readAllUserCoupons(@PathVariable Long userId){
-        return couponService.readAllUserCoupons(userId);
+//        return couponService.readAllUserCoupons(userId);
+        return couponService.readAllUserCouponsV1(userId);
+//        return couponService.readAllUserCouponsV2(userId);
+//        return couponService.readAllUserCouponsV3(userId);
     }
 
 }

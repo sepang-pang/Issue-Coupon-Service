@@ -27,7 +27,7 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_name", nullable = false)
     private String couponName;
 
-    @Column(name = "coupon_image", nullable = false)
+    @Column(name = "coupon_image")
     private String couponImage;
 
     @Column(name = "total_quantity", nullable = false)
@@ -40,7 +40,7 @@ public class Coupon extends Timestamped {
     private boolean isDeleted;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "stock_status", nullable = false)
+    @Column(name = "stock_status")
     private StockStatus stockStatus;
 
     @Column(name = "expired_at")
