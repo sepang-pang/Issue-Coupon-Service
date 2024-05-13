@@ -19,5 +19,4 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
     @Query("select c from Coupon c where c.id = :couponId and c.isDeleted = false")
     Optional<Coupon> findOneCouponByCouponId(@Param("couponId") Long couponId);
-
 }

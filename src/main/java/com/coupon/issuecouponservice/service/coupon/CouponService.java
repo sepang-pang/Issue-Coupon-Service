@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class CouponService {
 
     private final CouponRepository couponRepository;
-    private final UserCouponRepository userCouponRepository;
+    private final UserCouponRepository couponUserRepository;
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
@@ -88,19 +88,18 @@ public class CouponService {
         Coupon coupon = getCoupon(couponIssueParam.getCouponId());
         coupon.validateCoupon(couponIssueParam.getCouponId());
         UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
-        userCouponRepository.save(userCoupon);
+        couponUserRepository.save(userCoupon);
     }
 
     // 사용자 쿠폰 전체 조회
     @Transactional(readOnly = true)
     public List<CouponForm> readAllUserCoupons(Long userId) {
-        System.out.println("======================= 유저 쿠폰 =======================");
-        List<UserCoupon> findUserCoupons = userCouponRepository.findUserCouponsByUserId(userId);
+       List<UserCoupon> findUserCoupons = couponUserRepository.findByUserId(userId);
 
-        System.out.println("======================= 쿠폰 =======================");
         return findUserCoupons.stream()
-                .map(uc -> new CouponForm(uc.getCoupon()))
-                .toList();
+                .map(UserCoupon::getCoupon)
+                .map(CouponForm::new)
+                .collect(Collectors.toList());
     }
 
 }
