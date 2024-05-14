@@ -102,11 +102,6 @@ public class Coupon extends Timestamped {
         if(couponAlreadyIssue(couponId)) throw new IllegalArgumentException("중복된 쿠폰입니다.");
     }
 
-    private boolean stockStatusChange() {
-
-        return true;
-    }
-
     /* == 검증 메서드 : 중복 검증  == */
     private boolean couponAlreadyIssue(Long couponId) {
         for(UserCoupon userCoupon : userCoupons){
