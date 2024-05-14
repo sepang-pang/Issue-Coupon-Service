@@ -27,8 +27,11 @@ public class CouponService {
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
-        checkForDuplicateCouponName(param.getCouponName()); // 쿠폰 이름 중복 검증
 
+        // 쿠폰 이름 중복 검증
+        checkForDuplicateCouponName(param.getCouponName());
+
+        // 쿠폰 생성
         Coupon coupon = Coupon.CreateCoupon(param);
 
         couponRepository.save(coupon);
@@ -46,28 +49,76 @@ public class CouponService {
 
     // 쿠폰 수정
     public void modifyCoupon(Long couponId, CouponModificationParam param) {
-        checkForDuplicateCouponName(param.getCouponName()); // 쿠폰 이름 중복 검증
 
+        // 쿠폰 이름 중복 검증
+        checkForDuplicateCouponName(param.getCouponName());
+
+        // 쿠폰 조회
         Coupon findCoupon = getCoupon(couponId);
 
+        // 쿠폰 수정
         findCoupon.modifyCoupon(param);
     }
 
     // 쿠폰 삭제
     public void deleteCoupon(Long couponId) {
+
+        // 쿠폰 조회
         Coupon findCoupon = getCoupon(couponId);
 
+        // 쿠폰 삭제
         findCoupon.deleteCoupon();
     }
 
+    // 쿠폰 상세 조회
+    @Transactional(readOnly = true)
+    public CouponOneForm selectCoupon(Long couponId) {
 
-    // 쿠폰 조회
+        // 쿠폰 조회
+        Coupon coupon = getCoupon(couponId);
+
+        // 쿠폰 반환
+        return new CouponOneForm(coupon);
+    }
+
+    // 쿠폰 발급
+    public void issueCoupon(CouponIssueParam couponIssueParam, User user) {
+
+        // 쿠폰 조회
+        Coupon coupon = getCoupon(couponIssueParam.getCouponId());
+
+        // 쿠폰 검증
+        coupon.validateCoupon(couponIssueParam.getCouponId());
+
+        // 쿠폰 발급
+        UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
+
+        userCouponRepository.save(userCoupon);
+    }
+
+    // 사용자 쿠폰 전체 조회
+    @Transactional(readOnly = true)
+    public List<CouponForm> readAllUserCoupons(Long userId) {
+
+        // 쿠폰 목록 조회
+       List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
+
+
+       // 쿠폰 반환
+        return findUserCoupons.stream()
+                .map(uc -> new CouponForm(uc.getCoupon()))
+                .collect(Collectors.toList());
+    }
+
+
+
+    // 쿠폰 조회 메서드
     private Coupon getCoupon(Long couponId) {
         return couponRepository.findOneCouponByCouponId(couponId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
     }
 
-    // 쿠폰 검증
+    // 쿠폰 검증 메서드
     private void checkForDuplicateCouponName(String couponName) {
         boolean exists = couponRepository.existsByCouponName(couponName);
 
@@ -76,30 +127,5 @@ public class CouponService {
         }
     }
 
-    // 쿠폰 상세 조회
-    @Transactional(readOnly = true)
-    public CouponOneForm selectCoupon(Long couponId) {
-        Coupon coupon = getCoupon(couponId);
-        return new CouponOneForm(coupon);
-    }
-
-    // 쿠폰 발급
-    public void issueCoupon(CouponIssueParam couponIssueParam, User user) {
-        Coupon coupon = getCoupon(couponIssueParam.getCouponId());
-        coupon.validateCoupon(couponIssueParam.getCouponId());
-        UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
-        userCouponRepository.save(userCoupon);
-    }
-
-    // 사용자 쿠폰 전체 조회
-    @Transactional(readOnly = true)
-    public List<CouponForm> readAllUserCoupons(Long userId) {
-       List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
-
-        return findUserCoupons.stream()
-                .map(UserCoupon::getCoupon)
-                .map(CouponForm::new)
-                .collect(Collectors.toList());
-    }
 
 }
