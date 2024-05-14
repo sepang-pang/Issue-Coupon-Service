@@ -9,7 +9,6 @@ import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
-import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class CouponService {
 
     private final CouponRepository couponRepository;
-    private final UserCouponRepository userCouponRepository;
+    private final UserCouponQueryService userCouponQueryService;
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
@@ -93,7 +92,7 @@ public class CouponService {
         // 쿠폰 발급
         UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
 
-        userCouponRepository.save(userCoupon);
+        userCouponQueryService.saveUserCoupon(userCoupon);
     }
 
     // 사용자 쿠폰 전체 조회
@@ -101,7 +100,7 @@ public class CouponService {
     public List<CouponForm> readAllUserCoupons(Long userId) {
 
         // 쿠폰 목록 조회
-       List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
+        List<UserCoupon> findUserCoupons = userCouponQueryService.getUserCoupons(userId);
 
 
        // 쿠폰 반환
