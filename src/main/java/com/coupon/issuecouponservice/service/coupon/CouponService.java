@@ -1,12 +1,13 @@
 package com.coupon.issuecouponservice.service.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
-import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.domain.coupon.UserCoupon;
-import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
+import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
+import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
+import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class CouponService {
 
     private final CouponRepository couponRepository;
-    private final UserCouponRepository couponUserRepository;
+    private final UserCouponRepository userCouponRepository;
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
@@ -77,9 +78,9 @@ public class CouponService {
 
     // 쿠폰 상세 조회
     @Transactional(readOnly = true)
-    public CouponForm selectCoupon(Long couponId) {
+    public CouponOneForm selectCoupon(Long couponId) {
         Coupon coupon = getCoupon(couponId);
-        return new CouponForm(coupon);
+        return new CouponOneForm(coupon);
     }
 
     // 쿠폰 발급
@@ -87,13 +88,13 @@ public class CouponService {
         Coupon coupon = getCoupon(couponIssueParam.getCouponId());
         coupon.validateCoupon(couponIssueParam.getCouponId());
         UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
-        couponUserRepository.save(userCoupon);
+        userCouponRepository.save(userCoupon);
     }
 
     // 사용자 쿠폰 전체 조회
     @Transactional(readOnly = true)
     public List<CouponForm> readAllUserCoupons(Long userId) {
-       List<UserCoupon> findUserCoupons = couponUserRepository.findByUserId(userId);
+       List<UserCoupon> findUserCoupons = userCouponRepository.findByUserId(userId);
 
         return findUserCoupons.stream()
                 .map(UserCoupon::getCoupon)

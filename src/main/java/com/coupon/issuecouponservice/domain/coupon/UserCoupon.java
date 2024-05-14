@@ -18,11 +18,11 @@ public class UserCoupon {
     @Tsid
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="coupon_id")
     private Coupon coupon;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 

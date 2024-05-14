@@ -12,6 +12,8 @@ public class CouponCreationParam {
 
     private String couponName;
 
+    private String couponImage;
+
     private int totalQuantity;
 
     private int remainQuantity;

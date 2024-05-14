@@ -24,33 +24,23 @@ public class CouponAdminController {
     private final CouponService couponService;
 
     @PostMapping("/coupon")
-    public ResponseEntity<ApiResponseForm> createCoupon(@RequestBody CouponCreationParam param) {
+    public void createCoupon(@RequestBody CouponCreationParam param) {
 
         couponService.createCoupon(param);
 
-        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 생성 성공", HttpStatus.OK.value()));
-    }
-
-    @GetMapping("/coupon")
-    public List<CouponForm> readAllCoupons() {
-
-        return couponService.readAllCoupons();
     }
 
     @PatchMapping("/coupon/{couponId}")
-    public ResponseEntity<ApiResponseForm> modifyCoupon(@PathVariable("couponId") Long couponId,
-                                                        @RequestBody CouponModificationParam param) {
+    public void modifyCoupon(@PathVariable("couponId") Long couponId, @RequestBody CouponModificationParam param) {
 
         couponService.modifyCoupon(couponId, param);
 
-        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 수정 성공", HttpStatus.OK.value()));
     }
 
     @DeleteMapping("/coupon/{couponId}")
-    public ResponseEntity<ApiResponseForm> deleteCoupon(@PathVariable("couponId") Long couponId) {
+    public void deleteCoupon(@PathVariable("couponId") Long couponId) {
 
         couponService.deleteCoupon(couponId);
 
-        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 삭제 성공", HttpStatus.OK.value()));
     }
 }

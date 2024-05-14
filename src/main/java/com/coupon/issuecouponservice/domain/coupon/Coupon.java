@@ -27,6 +27,9 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_name", nullable = false)
     private String couponName;
 
+    @Column(name = "coupon_image")
+    private String couponImage;
+
     @Column(name = "total_quantity", nullable = false)
     private int totalQuantity;
 
@@ -35,6 +38,10 @@ public class Coupon extends Timestamped {
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "stock_status")
+    private StockStatus stockStatus;
 
     @Column(name = "expired_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,10 +52,12 @@ public class Coupon extends Timestamped {
 
 
     @Builder
-    public Coupon(String couponName, int totalQuantity, LocalDateTime expiredAt) {
+    public Coupon(String couponName, String couponImage, int totalQuantity, LocalDateTime expiredAt) {
         this.couponName = couponName;
+        this.couponImage = couponImage;
         this.totalQuantity = totalQuantity;
         this.remainQuantity = totalQuantity; // 생성 시점에서 초기 잔여 수량은 전체 수량이다.
+        this.stockStatus = StockStatus.IN_STOCK;
         this.expiredAt = expiredAt;
     }
 
@@ -56,6 +65,7 @@ public class Coupon extends Timestamped {
     public static Coupon CreateCoupon(CouponCreationParam param) {
         return Coupon.builder()
                 .couponName(param.getCouponName())
+                .couponImage(param.getCouponImage())
                 .totalQuantity(param.getTotalQuantity())
                 .expiredAt(param.getExpiredAt())
                 .build();
@@ -87,11 +97,17 @@ public class Coupon extends Timestamped {
 
     /* == 검증 메서드 == */
     public void validateCoupon(Long couponId) {
-        if(this.remainQuantity <= 0) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
+        if(this.stockStatus.equals(StockStatus.OUT_OF_STOCK)) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
         if(this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
         if(couponAlreadyIssue(couponId)) throw new IllegalArgumentException("중복된 쿠폰입니다.");
     }
 
+    private boolean stockStatusChange() {
+
+        return true;
+    }
+
+    /* == 검증 메서드 : 중복 검증  == */
     private boolean couponAlreadyIssue(Long couponId) {
         for(UserCoupon userCoupon : userCoupons){
             if(userCoupon.getCoupon().getId().equals(couponId)){
@@ -101,7 +117,12 @@ public class Coupon extends Timestamped {
         return false;
     }
 
+    /* == 쿠폰 재고 감소 == */
     public void decreaseQuantity() {
         this.remainQuantity = this.remainQuantity - 1;
+        if(this.remainQuantity <= 0){
+            this.stockStatus = StockStatus.OUT_OF_STOCK;
+        }
+
     }
 }
