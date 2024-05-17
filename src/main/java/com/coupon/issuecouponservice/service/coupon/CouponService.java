@@ -77,12 +77,9 @@ public class CouponService {
     }
 
     // 쿠폰 발급
-    public void issueCoupon(CouponIssueParam couponIssueParam, User user) {
+    public void issueCoupon(CouponIssueParam param, User user) {
         // 쿠폰 조회
-        Coupon coupon = getCoupon(couponIssueParam.getCouponId());
-
-        // 쿠폰 검증
-        coupon.validateCoupon(couponIssueParam.getCouponId());
+        Coupon coupon = getCoupon(param.getCouponId());
 
         // 쿠폰 발급
         UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);

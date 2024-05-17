@@ -35,7 +35,12 @@ public class UserCoupon {
     }
 
     public static UserCoupon CreateUserCoupon(Coupon coupon, User user) {
+        // 쿠폰 검증
+        coupon.validateCoupon();
+
+        // 재고 감소
         coupon.decreaseQuantity();
+
         return UserCoupon.builder()
                 .coupon(coupon)
                 .user(user)
