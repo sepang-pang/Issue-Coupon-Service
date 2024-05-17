@@ -99,7 +99,6 @@ public class Coupon extends Timestamped {
     public void validateCoupon(Long couponId) {
         if(this.stockStatus.equals(StockStatus.OUT_OF_STOCK)) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
         if(this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
-        if(couponAlreadyIssue(couponId)) throw new IllegalArgumentException("중복된 쿠폰입니다.");
     }
 
     /* == 검증 메서드 : 중복 검증  == */

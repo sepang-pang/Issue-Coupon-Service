@@ -9,9 +9,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "user_coupon")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "user_coupon", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"coupon_id", "user_id"})
+})
 public class UserCoupon {
 
     @Id
