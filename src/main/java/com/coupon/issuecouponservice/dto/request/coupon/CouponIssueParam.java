@@ -9,4 +9,7 @@ public class CouponIssueParam {
 
     private Long couponId;
 
+    public CouponIssueParam(Long couponId) {
+        this.couponId = couponId;
+    }
 }
