@@ -26,7 +26,6 @@ public class CouponService {
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
-
         // 쿠폰 이름 중복 검증
         checkForDuplicateCouponName(param.getCouponName());
 
@@ -48,7 +47,6 @@ public class CouponService {
 
     // 쿠폰 수정
     public void modifyCoupon(Long couponId, CouponModificationParam param) {
-
         // 쿠폰 이름 중복 검증
         checkForDuplicateCouponName(param.getCouponName());
 
@@ -61,7 +59,6 @@ public class CouponService {
 
     // 쿠폰 삭제
     public void deleteCoupon(Long couponId) {
-
         // 쿠폰 조회
         Coupon findCoupon = getCoupon(couponId);
 
@@ -72,7 +69,6 @@ public class CouponService {
     // 쿠폰 상세 조회
     @Transactional(readOnly = true)
     public CouponOneForm selectCoupon(Long couponId) {
-
         // 쿠폰 조회
         Coupon coupon = getCoupon(couponId);
 
@@ -82,7 +78,6 @@ public class CouponService {
 
     // 쿠폰 발급
     public void issueCoupon(CouponIssueParam couponIssueParam, User user) {
-
         // 쿠폰 조회
         Coupon coupon = getCoupon(couponIssueParam.getCouponId());
 
@@ -102,13 +97,11 @@ public class CouponService {
         // 쿠폰 목록 조회
         List<UserCoupon> findUserCoupons = userCouponQueryService.getUserCoupons(userId);
 
-
-       // 쿠폰 반환
+        // 쿠폰 반환
         return findUserCoupons.stream()
                 .map(uc -> new CouponForm(uc.getCoupon()))
                 .collect(Collectors.toList());
     }
-
 
 
     // 쿠폰 조회 메서드
