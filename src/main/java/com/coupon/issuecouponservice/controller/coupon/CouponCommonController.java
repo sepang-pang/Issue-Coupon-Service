@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/common")
 public class CouponCommonController {
 
     private final CouponService couponService;
