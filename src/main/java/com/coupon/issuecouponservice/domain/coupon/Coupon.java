@@ -117,6 +117,5 @@ public class Coupon extends Timestamped {
         if(this.remainQuantity <= 0){
             this.stockStatus = StockStatus.OUT_OF_STOCK;
         }
-
     }
 }

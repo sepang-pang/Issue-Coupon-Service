@@ -15,12 +15,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -40,19 +37,13 @@ class CouponConcurrencyTest {
 
     CouponIssueParam param;
 
-    Map<Integer, User> usersMap;
-
+    List<User> users;
 
     @BeforeEach
     void setUp() {
         param = new CouponIssueParam(1L);
 
-        List<User> users = userRepository.findAll();
-
-        AtomicInteger counter = new AtomicInteger(0);
-
-        usersMap = users.stream()
-                .collect(Collectors.toMap(user -> counter.getAndIncrement(), user -> user));
+        users = userRepository.findAll();
     }
 
     @AfterEach
@@ -63,7 +54,7 @@ class CouponConcurrencyTest {
     @Test
     @Transactional
     @DisplayName("쿠폰 한 명 발급")
-        void 쿠폰_한_명_발급() {
+    void 쿠폰_한_명_발급() {
         // given
         User user = userRepository.findById(1L).get();
 
@@ -71,8 +62,43 @@ class CouponConcurrencyTest {
         couponService.issueCoupon(param, user);
 
         // then
-        Long count = userCouponRepository.findByCouponId(param.getCouponId());
+        Long count = userCouponRepository.countByCouponId(param.getCouponId());
         assertThat(count).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("쿠폰 여러 명 발급")
+    void 쿠폰_여러_명_발급() throws InterruptedException {
+        int threadCount = 1000;
+        ExecutorService executorService = Executors.newFixedThreadPool(32);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+
+        for (int i = 0; i < threadCount; i++) {
+            final int threadNumber = i + 1;
+            int key = i;
+            executorService.submit(() -> {
+                try {
+                    couponService.issueCoupon(param, users.get(key));
+                    System.out.println("Thread " + threadNumber + " - 성공");
+
+                } catch (PessimisticLockingFailureException e) {
+                    System.out.println("Thread " + threadNumber + " - 락 충돌 감지");
+
+                } catch (Exception e) {
+                    System.out.println("Thread " + threadNumber + " - " + e.getMessage());
+
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        latch.await();
+        executorService.shutdown();
+
+        Long count = userCouponRepository.countByCouponId(param.getCouponId());
+
+        assertThat(count).isEqualTo(100);
     }
 
 }
