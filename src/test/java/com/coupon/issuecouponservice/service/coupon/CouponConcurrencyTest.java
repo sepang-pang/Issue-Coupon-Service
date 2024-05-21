@@ -2,6 +2,7 @@ package com.coupon.issuecouponservice.service.coupon;
 
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
+import com.coupon.issuecouponservice.facade.OptimisticLockFacade;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -28,6 +29,9 @@ class CouponConcurrencyTest {
 
     @Autowired
     private CouponService couponService;
+
+    @Autowired
+    private OptimisticLockFacade optimisticLockFacade;
 
     @Autowired
     private UserCouponRepository userCouponRepository;
@@ -78,7 +82,7 @@ class CouponConcurrencyTest {
             int key = i;
             executorService.submit(() -> {
                 try {
-                    couponService.issueCoupon(param, users.get(key));
+                    optimisticLockFacade.issueCoupon(param, users.get(key));
                     System.out.println("Thread " + threadNumber + " - 성공");
 
                 } catch (PessimisticLockingFailureException e) {
