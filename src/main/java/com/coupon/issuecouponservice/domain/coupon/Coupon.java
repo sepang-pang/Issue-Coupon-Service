@@ -47,9 +47,6 @@ public class Coupon extends Timestamped {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime expiredAt;
 
-    @Version
-    private Long version;
-
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.REMOVE)
     private List<UserCoupon> userCoupons = new ArrayList<>();
 
