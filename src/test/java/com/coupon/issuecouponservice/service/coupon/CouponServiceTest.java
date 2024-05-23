@@ -2,8 +2,6 @@ package com.coupon.issuecouponservice.service.coupon;
 
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
-import com.coupon.issuecouponservice.facade.NamedLockStockFacade;
-import com.coupon.issuecouponservice.facade.OptimisticLockStockFacade;
 import com.coupon.issuecouponservice.facade.RedisLockStockFacade;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
