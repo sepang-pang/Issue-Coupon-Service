@@ -14,4 +14,5 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
             "where uc.user.id = :userId")
     List<UserCoupon> findUserCouponsByUserId(@Param("userId") Long userId);
 
+    Long countByCouponId(Long couponId);
 }

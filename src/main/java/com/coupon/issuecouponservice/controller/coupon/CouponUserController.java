@@ -2,6 +2,7 @@ package com.coupon.issuecouponservice.controller.coupon;
 
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
+import com.coupon.issuecouponservice.facade.RedissonLockFacade;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,12 @@ import static com.coupon.issuecouponservice.domain.user.Role.Authority.USER;
 public class CouponUserController {
 
     private final CouponService couponService;
+    private final RedissonLockFacade redissonLockFacade;
 
     // 쿠폰 발급
     @PostMapping("/coupon")
     public void issueCoupon(@RequestBody CouponIssueParam couponIssueParam, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        couponService.issueCoupon(couponIssueParam, userDetails.getUser());
+        redissonLockFacade.issueCouponWithLock(couponIssueParam, userDetails.getUser());
     }
 
     // 사용자 쿠폰 전체 조회
