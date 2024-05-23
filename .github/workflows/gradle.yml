@@ -26,13 +26,15 @@ jobs:
         with:
             host port: 3306
             character set server: 'utf8'
-            mysql database: 'test_coupon'
             mysql user: 'root'
             mysql password: ${{ secrets.DB_PASSWORD }}
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
         run: chmod +x ./gradlew
+
+      - name: 어플리케이션 실행 테스트(테스트 코드X)
+        run: ./gradlew clean build --exclude-task test
 
       # Bulid Test
       - name: Build with Gradle
@@ -42,7 +44,7 @@ jobs:
 
       # PR conversation & Action에 몇 개의 테스트 중에 몇 개가 통과 되었는지
       # 어떤 테스트 파일에서 실패했는지 가르쳐 줌.
-      - name: Publish Test Results
+      - name: 테스트 결과 PR에 코멘트 작성
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
