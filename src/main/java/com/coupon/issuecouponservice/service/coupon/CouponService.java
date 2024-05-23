@@ -11,7 +11,6 @@ import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -78,7 +77,6 @@ public class CouponService {
     }
 
     // 쿠폰 발급
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void issueCoupon(CouponIssueParam param, User user) {
         // 쿠폰 조회
         Coupon coupon = getCoupon(param.getCouponId());
