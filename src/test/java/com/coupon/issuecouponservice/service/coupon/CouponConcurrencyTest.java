@@ -23,7 +23,6 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
-@TestPropertySource(locations = "/application-test.properties")
 @SpringBootTest
 class CouponConcurrencyTest {
 
