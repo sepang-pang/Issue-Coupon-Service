@@ -35,6 +35,7 @@ public class UserCoupon {
     }
 
     public static UserCoupon CreateUserCoupon(Coupon coupon, User user) {
+        coupon.validateCoupon();
         coupon.decreaseQuantity();
         return UserCoupon.builder()
                 .coupon(coupon)

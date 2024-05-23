@@ -20,6 +20,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Coupon extends Timestamped {
 
+    @Version
+    private Long version;
+
     @Id
     @Tsid
     private Long id;
@@ -96,7 +99,7 @@ public class Coupon extends Timestamped {
     }
 
     /* == 검증 메서드 == */
-    public void validateCoupon(Long couponId) {
+    public void validateCoupon() {
         if(this.stockStatus.equals(StockStatus.OUT_OF_STOCK)) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
         if(this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
     }
