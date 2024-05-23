@@ -24,6 +24,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 @SpringBootTest
+@TestPropertySource(locations = "/application-test.properties")
 class CouponConcurrencyTest {
 
     @Autowired
