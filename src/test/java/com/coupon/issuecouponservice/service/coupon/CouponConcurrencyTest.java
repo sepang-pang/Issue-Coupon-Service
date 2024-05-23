@@ -5,10 +5,7 @@ import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.facade.RedissonLockFacade;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.PessimisticLockingFailureException;
@@ -24,6 +21,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestPropertySource(locations = "/application-test.properties")
 class CouponConcurrencyTest {
 
@@ -57,6 +56,7 @@ class CouponConcurrencyTest {
 
     @Test
     @Transactional
+    @Order(1)
     @DisplayName("쿠폰 한 명 발급")
     void 쿠폰_한_명_발급() {
         // given
@@ -71,6 +71,7 @@ class CouponConcurrencyTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("쿠폰 여러 명 발급")
     void 쿠폰_여러_명_발급() throws InterruptedException {
         int threadCount = 1000;
