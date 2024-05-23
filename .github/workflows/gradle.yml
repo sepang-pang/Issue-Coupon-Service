@@ -6,9 +6,7 @@ on:
   pull_request:
     branches: [ "develop" ]
 
-permissions:
-  checks: write
-  pull-requests: write
+permissions: write-all
 
 jobs:
   build:
@@ -27,12 +25,9 @@ jobs:
         uses: samin/mysql-action@v1
         with:
             host port: 3306
-            container port: 3306
-            character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-            collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-            mysql version: '8.0.33' # Optional, default value is "latest". The version of the MySQL
-            mysql database: test_coupon # Optional, default value is "test". The specified database which will be create
-            mysql user: root # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Of course you can use secrets, too
+            character set server: 'utf8'
+            mysql database: 'test_coupon'
+            mysql user: 'root'
             mysql password: ${{ secrets.DB_PASSWORD }}
 
       # gradle 실행 허가
