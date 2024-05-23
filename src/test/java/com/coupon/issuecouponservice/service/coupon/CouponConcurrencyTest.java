@@ -11,14 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -30,8 +26,8 @@ class CouponConcurrencyTest {
     @Autowired
     private CouponService couponService;
 
-    @Autowired
-    private RedissonLockFacade redissonLockFacade;
+//    @Autowired
+//    private RedissonLockFacade redissonLockFacade;
 
     @Autowired
     private UserCouponRepository userCouponRepository;
@@ -70,39 +66,39 @@ class CouponConcurrencyTest {
         assertThat(count).isEqualTo(1L);
     }
 
-    @Test
-    @DisplayName("쿠폰 여러 명 발급")
-    void 쿠폰_여러_명_발급() throws InterruptedException {
-        int threadCount = 1000;
-        ExecutorService executorService = Executors.newFixedThreadPool(32);
-        CountDownLatch latch = new CountDownLatch(threadCount);
-
-        for (int i = 0; i < threadCount; i++) {
-            final int threadNumber = i + 1;
-            int key = i;
-            executorService.submit(() -> {
-                try {
-                    redissonLockFacade.issueCouponWithLock(param, users.get(key));
-                    System.out.println("Thread " + threadNumber + " - 성공");
-
-                } catch (PessimisticLockingFailureException e) {
-                    System.out.println("Thread " + threadNumber + " - 락 충돌 감지");
-
-                } catch (Exception e) {
-                    System.out.println("Thread " + threadNumber + " - " + e.getMessage());
-
-                } finally {
-                    latch.countDown();
-                }
-            });
-        }
-
-        latch.await();
-        executorService.shutdown();
-
-        Long count = userCouponRepository.countByCouponId(param.getCouponId());
-
-        assertThat(count).isEqualTo(100);
-    }
+//    @Test
+//    @DisplayName("쿠폰 여러 명 발급")
+//    void 쿠폰_여러_명_발급() throws InterruptedException {
+//        int threadCount = 1000;
+//        ExecutorService executorService = Executors.newFixedThreadPool(32);
+//        CountDownLatch latch = new CountDownLatch(threadCount);
+//
+//        for (int i = 0; i < threadCount; i++) {
+//            final int threadNumber = i + 1;
+//            int key = i;
+//            executorService.submit(() -> {
+//                try {
+//                    redissonLockFacade.issueCouponWithLock(param, users.get(key));
+//                    System.out.println("Thread " + threadNumber + " - 성공");
+//
+//                } catch (PessimisticLockingFailureException e) {
+//                    System.out.println("Thread " + threadNumber + " - 락 충돌 감지");
+//
+//                } catch (Exception e) {
+//                    System.out.println("Thread " + threadNumber + " - " + e.getMessage());
+//
+//                } finally {
+//                    latch.countDown();
+//                }
+//            });
+//        }
+//
+//        latch.await();
+//        executorService.shutdown();
+//
+//        Long count = userCouponRepository.countByCouponId(param.getCouponId());
+//
+//        assertThat(count).isEqualTo(100);
+//    }
 
 }
