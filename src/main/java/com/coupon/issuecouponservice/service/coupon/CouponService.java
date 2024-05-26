@@ -78,7 +78,6 @@ public class CouponService {
     }
 
     // 쿠폰 발급
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void issueCoupon(CouponIssueParam param, User user) {
         // 쿠폰 조회
         Coupon coupon = getCoupon(param.getCouponId());
