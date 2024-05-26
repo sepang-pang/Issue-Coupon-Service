@@ -1,7 +1,9 @@
 package com.coupon.issuecouponservice.repository.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -17,6 +19,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("select c from Coupon c where c.isDeleted = false order by c.createdAt desc")
     List<Coupon> findAllCoupons();
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select c from Coupon c where c.id = :couponId and c.isDeleted = false")
     Optional<Coupon> findOneCouponByCouponId(@Param("couponId") Long couponId);
 }
