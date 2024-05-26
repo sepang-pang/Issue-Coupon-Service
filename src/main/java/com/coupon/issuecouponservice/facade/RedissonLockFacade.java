@@ -19,7 +19,7 @@ public class RedissonLockFacade {
     private final RedissonClient redissonClient;
     private final CouponService couponService;
 
-    public void issueCouponWithLock(CouponIssueParam param, User user) {
+    public void issueCoupon(CouponIssueParam param, User user) {
         RLock lock = redissonClient.getLock(param.getCouponId().toString());
 
         try {

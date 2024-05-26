@@ -2,8 +2,7 @@ package com.coupon.issuecouponservice.service.coupon;
 
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
-import com.coupon.issuecouponservice.facade.OptimisticLockFacade;
-import com.coupon.issuecouponservice.facade.RedissonLockFacade;
+import com.coupon.issuecouponservice.facade.NamedLockFacade;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
 import org.junit.jupiter.api.*;
@@ -30,7 +29,7 @@ class CouponConcurrencyTest {
     private CouponService couponService;
 
     @Autowired
-    private OptimisticLockFacade optimisticLockFacade;
+    private NamedLockFacade namedLockFacade;
 
     @Autowired
     private UserCouponRepository userCouponRepository;
@@ -81,7 +80,7 @@ class CouponConcurrencyTest {
             int key = i;
             executorService.submit(() -> {
                 try {
-                    optimisticLockFacade.issueCoupon(param, users.get(key));
+                    namedLockFacade.issueCoupon(param, users.get(key));
                     System.out.println("Thread " + threadNumber + " - 성공");
 
                 } catch (PessimisticLockingFailureException e) {
