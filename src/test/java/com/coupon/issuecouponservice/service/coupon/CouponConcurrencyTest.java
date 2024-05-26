@@ -80,7 +80,7 @@ class CouponConcurrencyTest {
             int key = i;
             executorService.submit(() -> {
                 try {
-                    redissonLockFacade.issueCoupon(param, users.get(key));
+                    redissonLockFacade.issueCouponWithLock(param, users.get(key));
                     System.out.println("Thread " + threadNumber + " - 성공");
 
                 } catch (PessimisticLockingFailureException e) {
