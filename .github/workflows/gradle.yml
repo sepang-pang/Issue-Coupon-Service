@@ -10,8 +10,20 @@ permissions: write-all
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.DB }}
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
 
     steps:
       - uses: actions/checkout@v3
@@ -21,13 +33,13 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: MySQL 설치
-        uses: samin/mysql-action@v1
-        with:
-            host port: 3306
-            character set server: 'utf8'
-            mysql user: 'root'
-            mysql password: ${{ secrets.DB_PASSWORD }}
+      - name: test properties 파일 생성
+        run: |
+          cd ./src/test/resources
+          touch ./application-test.properties
+          echo "${{ secrets.APPLICATION_TEST_PROPERTIES }}" > ./application-test.properties
+        shell: bash
+
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
@@ -38,9 +50,9 @@ jobs:
 
       # Bulid Test
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        with:
-          arguments: build
+        run: ./gradlew build
+      #
+
 
       # PR conversation & Action에 몇 개의 테스트 중에 몇 개가 통과 되었는지
       # 어떤 테스트 파일에서 실패했는지 가르쳐 줌.
