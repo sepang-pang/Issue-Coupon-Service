@@ -51,9 +51,7 @@ jobs:
 
       # Bulid Test
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        with:
-          arguments: build
+        run: ./gradlew build
 
       # PR conversation & Action에 몇 개의 테스트 중에 몇 개가 통과 되었는지
       # 어떤 테스트 파일에서 실패했는지 가르쳐 줌.
