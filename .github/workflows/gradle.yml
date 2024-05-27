@@ -46,9 +46,6 @@ jobs:
       - name: Run chmod to make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: 어플리케이션 실행 테스트(테스트 코드X)
-        run: ./gradlew clean build --exclude-task test
-
       # Bulid Test
       - name: Build with Gradle
         run: ./gradlew build
