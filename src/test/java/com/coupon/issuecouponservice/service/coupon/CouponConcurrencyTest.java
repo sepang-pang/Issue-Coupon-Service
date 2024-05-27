@@ -9,7 +9,10 @@ import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import com.coupon.issuecouponservice.repository.coupon.UserCouponRepository;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.PessimisticLockingFailureException;
@@ -27,7 +30,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(locations = "/application-test.properties")
 class CouponConcurrencyTest {
 
