@@ -46,6 +46,10 @@ public class Coupon extends Timestamped {
     @Column(name = "stock_status")
     private StockStatus stockStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "coupon_status")
+    private CouponStatus couponStatus;
+
     @Column(name = "cutoff_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime cutoff_at;
