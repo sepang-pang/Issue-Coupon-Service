@@ -27,6 +27,9 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_name", nullable = false)
     private String couponName;
 
+    @Column(name = "coupon_content", nullable = false)
+    private String couponContent;
+
     @Column(name = "coupon_image")
     private String couponImage;
 
@@ -42,6 +45,10 @@ public class Coupon extends Timestamped {
     @Enumerated(EnumType.STRING)
     @Column(name = "stock_status")
     private StockStatus stockStatus;
+
+    @Column(name = "cutoff_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime cutoff_at;
 
     @Column(name = "expired_at")
     @Temporal(TemporalType.TIMESTAMP)
