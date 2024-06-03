@@ -27,6 +27,9 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_name", nullable = false)
     private String couponName;
 
+    @Column(name = "coupon_content", nullable = false)
+    private String couponContent;
+
     @Column(name = "coupon_image")
     private String couponImage;
 
@@ -43,6 +46,14 @@ public class Coupon extends Timestamped {
     @Column(name = "stock_status")
     private StockStatus stockStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "coupon_status")
+    private CouponStatus couponStatus;
+
+    @Column(name = "cutoff_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime cutoff_at;
+
     @Column(name = "expired_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime expiredAt;
@@ -52,12 +63,14 @@ public class Coupon extends Timestamped {
 
 
     @Builder
-    public Coupon(String couponName, String couponImage, int totalQuantity, LocalDateTime expiredAt) {
+    public Coupon(String couponName, String couponContent, String couponImage, int totalQuantity, LocalDateTime expiredAt) {
         this.couponName = couponName;
+        this.couponContent = couponContent;
         this.couponImage = couponImage;
         this.totalQuantity = totalQuantity;
         this.remainQuantity = totalQuantity; // 생성 시점에서 초기 잔여 수량은 전체 수량이다.
         this.stockStatus = StockStatus.IN_STOCK;
+        this.couponStatus = CouponStatus.INACTIVE;
         this.expiredAt = expiredAt;
     }
 

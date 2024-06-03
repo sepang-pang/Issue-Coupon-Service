@@ -70,6 +70,7 @@ class CouponConcurrencyTest {
 
         coupon = Coupon.builder()
                 .couponName("테스트 쿠폰")
+                .couponContent("쿠폰입니다.")
                 .couponImage("image")
                 .expiredAt(LocalDateTime.now().plusDays(30))
                 .totalQuantity(100)
