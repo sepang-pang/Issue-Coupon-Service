@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-application_test.properties
+application-test.properties
 application.properties
 application.yml
 .idea
