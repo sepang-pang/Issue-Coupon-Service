@@ -1,0 +1,103 @@
+@font-face {
+    font-family: 'OKDDUNG';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/OKDDUNG.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Freesentation-9Black';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-9Black.woff2') format('woff2');
+    font-style: normal;
+}
+
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background: url('/images/럭키쿠폰 로그인페이지.png') no-repeat center center;
+    background-size: cover;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    border-radius: 20px;
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.oauth-container {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 60%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.oauth-button {
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.oauth-button:hover {
+    opacity: 0.8;
+}
+
+.oauth-button:active {
+    transform: scale(0.97);
+    filter: brightness(0.9);
+}
+
+.oauth-button img {
+    width: 30vh;
+}
+
+.coupon-logo {
+    font-family: 'OKDDUNG', sans-serif;
+    font-size: clamp(1.5rem, 2vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: 0.125rem;
+}
+
+.coupon-logo span {
+    color: #FF6347;
+}
+
+.login-divider {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-divider hr {
+    margin-bottom: 10px;
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    width: 100%;
+}
+
+.login-divider p {
+    font-family: 'Freesentation-9Black', sans-serif;
+    font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+}
