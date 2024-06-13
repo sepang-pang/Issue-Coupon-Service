@@ -63,9 +63,5 @@ public class User extends Timestamped {
         if (!param.getNickName().isBlank() && !this.nickName.equals(param.getNickName())) {
             this.nickName = param.getNickName();
         }
-
-        if (param.isRegisterAsAdmin()) {
-            this.role = Role.ADMIN;
-        }
     }
 }
