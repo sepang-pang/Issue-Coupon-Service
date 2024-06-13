@@ -12,6 +12,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* === 공통 설정 === */
 body {
     background-color: #f4f4f4;
@@ -57,14 +64,6 @@ body {
 .oauth-container {
     padding: 20px;
     height: 60%;
-}
-
-.image-box {
-    width: 20vw;
-}
-
-.d-grid {
-    width: 100%;
 }
 
 .oauth-button {
@@ -123,6 +122,54 @@ body {
     max-width: 600px;
     margin: auto;
     padding: 50px 20px;
+}
+
+.image-box {
+    position: relative;
+    width: 10vw;
+    height: 10vw;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: opacity 0.5s ease;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: background-color 0.5s ease, opacity 0.5s ease;
+    font-family: 'SUITE-Regular', sans-serif;
+    font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+    border-radius: 50%;
+}
+
+.image-box:hover .overlay {
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+}
+
+.image-box:hover img {
+    opacity: 0.5;
+}
+
+.d-grid {
+    width: 100%;
 }
 
 .form-control {

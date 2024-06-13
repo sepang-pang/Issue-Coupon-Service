@@ -23,22 +23,25 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/css/account.css">
 
-    <title>로그인</title>
+    <title>프로필 설정</title>
 </head>
 <body>
 <div class="background-container">
     <div class="setup-container">
-        <div class="image-box">
-            <img src="/images/default%20image.png" class="rounded" alt="...">
+        <div class="image-box" onclick="document.getElementById('file-input').click();">
+            <img src="/images/default%20image.png" id="image-preview" alt="">
+            <input type="file" id="file-input" onchange="previewImage(this);" style="display: none">
+            <div class="overlay">이미지 선택</div>
         </div>
         <div class="mb-3">
             <input type="text" class="form-control" id="formGroupExampleInput" placeholder="활동명을 입력해주세요. (선택 사항)">
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-            <button type="button" class="btn btn-secondary custom-button">건너뛰기</button>
-            <button type="button" class="btn btn-primary custom-button">등록하기</button>
+            <button type="button" class="btn btn-secondary custom-button" id="skip">건너뛰기</button>
+            <button type="button" class="btn btn-primary custom-button" id="submit">등록하기</button>
         </div>
     </div>
 </div>
 </body>
+<script src="/js/profile-setup.js"></script>
 </html>
