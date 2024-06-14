@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/upcoming-coupons").permitAll()
                         .anyRequest().authenticated()
         );
 
