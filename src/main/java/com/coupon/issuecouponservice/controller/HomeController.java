@@ -25,6 +25,11 @@ public class HomeController {
         return "upcoming-coupons";
     }
 
+    @GetMapping("/my-page")
+    public String myPage() {
+        return "my-page";
+    }
+
     @GetMapping("/test")
     public String test() {
         return "test";
