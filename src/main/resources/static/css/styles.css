@@ -6,6 +6,13 @@
 }
 
 @font-face {
+    font-family: 'TTLaundryGothicR';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicR.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Freesentation-4Regular';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-4Regular.woff2') format('woff2');
     font-weight: 400;
@@ -55,6 +62,10 @@ p {
 
 .f-4Regular {
     font-family: 'Freesentation-4Regular', sans-serif;
+}
+
+.f-TTLG-R {
+    font-family: 'TTLaundryGothicR', sans-serif;
 }
 
 .social-icon {
@@ -358,6 +369,11 @@ p {
 .rotate-90 {
     display: inline-block;
     transform: rotate(-90deg);
+}
+
+.left-right-reversal {
+    display: inline-block;
+    transform: scaleX(-1);
 }
 
 .coupon-table {
