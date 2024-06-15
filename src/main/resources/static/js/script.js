@@ -2,10 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname;
     if (currentPath === "/") {
         document.getElementById("nav-home").classList.add("active");
-    } else if (currentPath === "/upcoming") {
+    } else if (currentPath === "/upcoming-coupons") {
         document.getElementById("nav-upcoming").classList.add("active");
-    } else if (currentPath === "/contact") {
-        document.getElementById("nav-contact").classList.add("active");
+    } else if (currentPath === "/past-coupons") {
+        document.getElementById("nav-past").classList.add("active");
+    } else if (currentPath === "/my-page") {
+        document.getElementById("nav-my-page").classList.add("active");
     }
 });
 
