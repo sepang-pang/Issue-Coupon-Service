@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/upcoming-coupons").permitAll()
+                        .requestMatchers("/past-coupons").permitAll()
                         .requestMatchers("/my-page").permitAll()
                         .anyRequest().authenticated()
         );
