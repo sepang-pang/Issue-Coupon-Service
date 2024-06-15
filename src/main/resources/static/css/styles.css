@@ -6,6 +6,13 @@
 }
 
 @font-face {
+    font-family: 'Freesentation-4Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-4Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Freesentation-5Medium';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-5Medium.woff2') format('woff2');
     font-weight: 500;
@@ -44,6 +51,19 @@ p {
     font-family: 'Freesentation-5Medium', sans-serif;
     font-size: clamp(1rem, 1vw, 1.2rem);
     color: black;
+}
+
+.f-4Regular {
+    font-family: 'Freesentation-4Regular', sans-serif;
+}
+
+.social-icon {
+    height: 2em;
+    width: auto;
+}
+
+.color-coral {
+    color: #FF6347;
 }
 
 .coupon-logo {
@@ -324,4 +344,58 @@ p {
     color: black;
     border: 1px solid black;
     transition: background-color 0.3s, color 0.3s;
+}
+
+.table-container-custom {
+    width: 70%;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rotate-90 {
+    display: inline-block;
+    transform: rotate(-90deg);
+}
+
+.coupon-table {
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+.coupon-table tbody td:first-child,
+.coupon-table thead th:first-child {
+    text-align: left;
+}
+
+.coupon-table-title {
+    font-family: 'Freesentation-9Black', sans-serif;
+    /*color: #6E757C;*/
+    color: black;
+}
+
+.coupon-table th {
+    font-family: 'Freesentation-9Black', sans-serif;
+}
+
+.coupon-table td {
+    font-family: 'Freesentation-6SemiBold', sans-serif;
+}
+
+.coupon-table th, .coupon-table td {
+    text-align: center;
+    vertical-align: middle;
+    background-color: transparent;
+    border-bottom: 1px solid #6E757C;
+    color: #6c757d;
+}
+
+.coupon-table tbody tr {
+    height: 10vh;
+}
+
+.badge {
+    font-size: 1rem;
 }
