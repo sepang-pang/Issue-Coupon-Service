@@ -8,5 +8,4 @@ import lombok.NoArgsConstructor;
 public class UserModificationParam {
     private String image;
     private String nickName;
-    private boolean registerAsAdmin;
 }

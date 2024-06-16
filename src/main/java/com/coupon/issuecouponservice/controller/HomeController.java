@@ -20,6 +20,21 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/upcoming-coupons")
+    public String upcoming() {
+        return "upcoming-coupons";
+    }
+
+    @GetMapping("/past-coupons")
+    public String past() {
+        return "past-coupons";
+    }
+
+    @GetMapping("/my-page")
+    public String myPage() {
+        return "my-page";
+    }
+
     @GetMapping("/test")
     public String test() {
         return "test";
