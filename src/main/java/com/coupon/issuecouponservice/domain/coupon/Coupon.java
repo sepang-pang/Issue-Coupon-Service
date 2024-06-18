@@ -50,9 +50,13 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_status")
     private CouponStatus couponStatus;
 
-    @Column(name = "cutoff_at")
+    @Column(name = "open_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime cutoff_at;
+    private LocalDateTime openAt;
+
+    @Column(name = "closed_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime closedAt;
 
     @Column(name = "expired_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -63,7 +67,7 @@ public class Coupon extends Timestamped {
 
 
     @Builder
-    public Coupon(String couponName, String couponContent, String couponImage, int totalQuantity, LocalDateTime expiredAt) {
+    public Coupon(String couponName, String couponContent, String couponImage, int totalQuantity, LocalDateTime openAt, LocalDateTime closedAt, LocalDateTime expiredAt) {
         this.couponName = couponName;
         this.couponContent = couponContent;
         this.couponImage = couponImage;
@@ -71,6 +75,8 @@ public class Coupon extends Timestamped {
         this.remainQuantity = totalQuantity; // 생성 시점에서 초기 잔여 수량은 전체 수량이다.
         this.stockStatus = StockStatus.IN_STOCK;
         this.couponStatus = CouponStatus.INACTIVE;
+        this.openAt = openAt;
+        this.closedAt = closedAt;
         this.expiredAt = expiredAt;
     }
 
@@ -78,8 +84,11 @@ public class Coupon extends Timestamped {
     public static Coupon CreateCoupon(CouponCreationParam param) {
         return Coupon.builder()
                 .couponName(param.getCouponName())
+                .couponContent(param.getCouponContent())
                 .couponImage(param.getCouponImage())
                 .totalQuantity(param.getTotalQuantity())
+                .openAt(param.getOpenAt())
+                .closedAt(param.getClosedAt())
                 .expiredAt(param.getExpiredAt())
                 .build();
     }
@@ -130,5 +139,10 @@ public class Coupon extends Timestamped {
         if(this.remainQuantity <= 0){
             this.stockStatus = StockStatus.OUT_OF_STOCK;
         }
+    }
+
+    /* == 쿠폰 상태값 변경 == */
+    public void updateCouponStatus(CouponStatus couponStatus) {
+        this.couponStatus = couponStatus;
     }
 }
