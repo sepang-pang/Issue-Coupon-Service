@@ -23,6 +23,7 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final UserCouponQueryService userCouponQueryService;
+    private final CouponScheduler couponScheduler;
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
@@ -33,7 +34,11 @@ public class CouponService {
         Coupon coupon = Coupon.CreateCoupon(param);
 
         couponRepository.save(coupon);
+
+        // 스케줄 등록
+        couponScheduler.scheduleCouponStatusChange(coupon);
     }
+
 
     // 쿠폰 전체 조회
     @Transactional(readOnly = true)
