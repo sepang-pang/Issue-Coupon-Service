@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <!--Viewport-->
@@ -82,24 +82,25 @@
             <div class="container d-flex justify-content-center">
                 <!-- 타이머 화면 -->
                 <div class="d-flex flex-wrap justify-content-center align-items-center timer-bg-custom p-3 mb-5"
+                     id="timer" th:data-closed-at="${#temporals.format(coupon.closedAt, 'yyyy-MM-dd''T''HH:mm:ss')}"
                      style="min-width: 400px; width: 70%;">
                     <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5">2</div>
+                        <div class="number custom-fs-5" id="days">0</div>
                         <div class="caption">DAYS</div>
                     </div>
                     <div class="h3 mx-3">:</div>
                     <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5">06</div>
+                        <div class="number custom-fs-5" id="hours">00</div>
                         <div class="caption">HOURS</div>
                     </div>
                     <div class="h3 mx-3">:</div>
                     <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5">15</div>
+                        <div class="number custom-fs-5" id="minutes">00</div>
                         <div class="caption">MINUTES</div>
                     </div>
                     <div class="h3 mx-3">:</div>
                     <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5">48</div>
+                        <div class="number custom-fs-5" id="seconds">00</div>
                         <div class="caption">SECONDS</div>
                     </div>
                 </div>
@@ -114,18 +115,21 @@
                         <rect width="100%" height="100%" fill="#868e96"></rect>
                     </svg>
                 </div>
-                <h2 class="fw-normal mt-4">행운을 가져다주는 펭귄 쿠폰</h2>
+                <h2 class="fw-normal mt-4" id="coupon-name" th:text="${coupon.couponName}"></h2>
                 <div class="container mb-4" id="expiration-counter">
                     <span>사용 기한 :</span>
-                    <span id="start-date">2024.06.13</span> ~ <span id="end-date">2025.06.13</span>
+                    <span id="start-date" th:text="${#temporals.format(coupon.openAt, 'yyyy.MM.dd')}">2024.06.13</span>
+                    ~
+                    <span id="end-date" th:text="${#temporals.format(coupon.expiredAt, 'yyyy.MM.dd')}">2025.06.25</span>
                 </div>
-                <div class="container max-width-600">
-                    <p>당신은 하얀펭귄을 보았습니다. 이 쿠폰을 발급받으시면, 별 건 없고 귀엽습니다. </p>
+                <div class="container max-width-600" id="coupon-content">
+                    <p th:text="${coupon.couponContent}"></p>
                 </div>
 
                 <div class="container justify-content-center mt-5">
                     <div class="container mb-2" id="stock-counter">
-                        <span id="current-stock">78</span> / <span id="total-stock">100</span>
+                        <span id="current-stock" th:text="${coupon.remainQuantity}">78</span> /
+                        <span id="total-stock" th:text="${coupon.totalQuantity}">100</span>
                     </div>
                 </div>
                 <button class="mb-5 mt-2 btn-custom btn-bg btn-gra-anim" type="button">
