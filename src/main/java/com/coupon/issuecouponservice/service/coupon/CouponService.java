@@ -50,6 +50,15 @@ public class CouponService {
                 .collect(Collectors.toList());
     }
 
+    // 진행 중 쿠폰 조회
+    @Transactional(readOnly = true)
+    public CouponOneForm readActiveCoupon() {
+        Coupon findCoupon = couponRepository.findActiveCoupon()
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않는 쿠폰입니다."));
+
+        return new CouponOneForm(findCoupon);
+    }
+
     // 쿠폰 수정
     public void modifyCoupon(Long couponId, CouponModificationParam param) {
         // 쿠폰 이름 중복 검증
