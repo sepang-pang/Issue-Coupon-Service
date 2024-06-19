@@ -1,8 +1,11 @@
 package com.coupon.issuecouponservice.controller;
 
+import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
+import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -10,8 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class HomeController {
 
+    private final CouponService couponService;
+
     @GetMapping({"", "/"})
-    public String home() {
+    public String home(Model model) {
+        CouponOneForm coupon = couponService.readActiveCoupon();
+        model.addAttribute("coupon", coupon);
         return "index";
     }
 

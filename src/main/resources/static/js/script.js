@@ -109,3 +109,37 @@ document.addEventListener("DOMContentLoaded", function() {
     setupPagination();
     renderPage(currentPage);
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const timerElement = document.getElementById('timer');
+    const closedAt = new Date(timerElement.dataset.closedAt);
+
+    function updateRemainingTime() {
+        const now = new Date();
+        const timeDifference = closedAt - now;
+
+        if (timeDifference > 0) {
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        } else {
+            // 시간이 지났을 때 처리
+            document.getElementById('days').textContent = '0';
+            document.getElementById('hours').textContent = '00';
+            document.getElementById('minutes').textContent = '00';
+            document.getElementById('seconds').textContent = '00';
+        }
+    }
+
+    // 매 초마다 업데이트
+    setInterval(updateRemainingTime, 1000);
+    updateRemainingTime(); // 초기 실행
+});
+
+

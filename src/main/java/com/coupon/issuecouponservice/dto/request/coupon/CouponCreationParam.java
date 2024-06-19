@@ -12,11 +12,19 @@ public class CouponCreationParam {
 
     private String couponName;
 
+    private String couponContent;
+
     private String couponImage;
 
     private int totalQuantity;
 
     private int remainQuantity;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime openAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime closedAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime expiredAt;

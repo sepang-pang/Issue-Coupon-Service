@@ -23,6 +23,7 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final UserCouponQueryService userCouponQueryService;
+    private final CouponScheduler couponScheduler;
 
     // 쿠폰 생성
     public void createCoupon(CouponCreationParam param) {
@@ -33,7 +34,11 @@ public class CouponService {
         Coupon coupon = Coupon.CreateCoupon(param);
 
         couponRepository.save(coupon);
+
+        // 스케줄 등록
+        couponScheduler.scheduleCouponStatusChange(coupon);
     }
+
 
     // 쿠폰 전체 조회
     @Transactional(readOnly = true)
@@ -43,6 +48,15 @@ public class CouponService {
         return findCoupons.stream()
                 .map(CouponForm::new)
                 .collect(Collectors.toList());
+    }
+
+    // 진행 중 쿠폰 조회
+    @Transactional(readOnly = true)
+    public CouponOneForm readActiveCoupon() {
+        Coupon findCoupon = couponRepository.findActiveCoupon()
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않는 쿠폰입니다."));
+
+        return new CouponOneForm(findCoupon);
     }
 
     // 쿠폰 수정
