@@ -19,7 +19,7 @@ public class HomeController {
     public String home(Model model) {
         CouponOneForm coupon = couponService.readActiveCoupon();
         model.addAttribute("coupon", coupon);
-        return "index";
+        return "main";
     }
 
     @GetMapping("/login")
