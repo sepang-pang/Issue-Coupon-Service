@@ -26,55 +26,11 @@
     <link rel="icon" href="/images/title-logo-512.png" type="image/png">
 </head>
 <body>
-<!-- 최상단 네비게이션 바
-     * 로그인 및 로그아웃, 장바구니 탭
--->
-<nav class="py-2 bg-white">
-    <div class="container-fluid d-flex flex-wrap">
-        <ul class="nav ms-auto">
-            <li class="nav-item"><a href="/my-page" class="nav-link link-body-emphasis" id="nav-my-page">마이페이지</a></li>
-            <li class="nav-item"><a href="#" class="nav-link link-body-emphasis">로그아웃</a></li>
-        </ul>
-    </div>
-</nav>
-
-<!-- 사이트 이름 -->
-<div class="container text-center mt-3 mb-5">
-    <a href="/" class="text-decoration-none">
-        <h1 class="coupon-logo">COUKY<span>RUN</span></h1>
-        <p class="f-TTLG-R"><i class="bi bi-quote"></i> Lucky Coupon First-Come, First-Served Distribution Service
-            <i class="bi bi-quote left-right-reversal"></i>
-        </p>
-    </a>
-</div>
-
-
-<!-- 중간 네비게이션 바
-     * 홈, 오픈 예정 쿠폰, 기한 지난 쿠폰 탭
--->
-<nav class="navbar navbar-expand-lg bg-white border-top border-bottom" aria-label="Eleventh navbar example">
-    <div class="container d-flex flex-wrap">
-        <!--        <a class="navbar-brand" href="#">COUPON</a>-->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09"
-                aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsExample09">
-            <ul class="navbar-nav ms-auto mb-2 pb-1 pt-1 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/" id="nav-home">진행 중 쿠폰</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/upcoming-coupons" id="nav-upcoming">오픈 예정 쿠폰</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/past-coupons" id="nav-past">종료된 쿠폰</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<!-- 네비게이션 바 설정 -->
+<header>
+    <div th:replace="nav-bar-1st :: navbarFragment"></div>
+    <div th:replace="nav-bar-2nd :: navbarFragment"></div>
+</header>
 
 <div class="container d-flex flex-column full-height full-width bg-custom">
     <div class="album py-5 bg-transparent">
