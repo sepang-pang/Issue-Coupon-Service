@@ -2,6 +2,7 @@ package com.coupon.issuecouponservice.controller;
 
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
+import com.coupon.issuecouponservice.dto.response.user.UserForm;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +45,15 @@ public class HomeController {
 
     @GetMapping("/my-page")
     public String myPage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 사용자 정보를 UserForm 객체로 변환
+        UserForm userForm = new UserForm(userDetails.getUser());
+
+        // 현재 로그인한 사용자의 모든 쿠폰을 조회
         List<CouponForm> coupons = couponService.readAllUserCoupons(userDetails.getUser());
-        model.addAttribute("user", userDetails.getUser());
+
+        model.addAttribute("user", userForm);
         model.addAttribute("coupons", coupons);
+
         return "my-page";
     }
 
