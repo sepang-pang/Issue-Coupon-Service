@@ -101,7 +101,7 @@
         <div class="container d-flex justify-content-between mb-3">
             <h3 class="coupon-table-title"><i class="fi fi-rr-ticket rotate-90"></i>&nbsp;내 <span
                     class="color-coral">쿠폰</span> 현황</h3>
-            <p class="mt-1">나의 보유 쿠폰<span class="color-coral"> 5 </span>장</p>
+            <p class="mt-1">나의 보유 쿠폰 <span class="color-coral" th:text="${coupons.size()}"> </span> 장</p>
         </div>
         <table class="table coupon-table table-hover">
             <thead>
@@ -113,35 +113,20 @@
             </tr>
             </thead>
             <tbody>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>행운을 주는 펭귄쓰</td>
-                <td>2023-06-01</td>
-                <td>2023-12-01</td>
-                <td><span class="badge bg-success">유효</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>아무 의미 없는 너굴맨</td>
-                <td>2023-06-05</td>
-                <td>2023-12-05</td>
-                <td><span class="badge bg-warning">만료 임박</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>츄르를 노려보는 고양이</td>
-                <td>2023-06-10</td>
-                <td>2023-12-10</td>
-                <td><span class="badge bg-danger">만료</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>멍 때리는 고라파덕</td>
-                <td>2023-06-15</td>
-                <td>2023-12-15</td>
-                <td><span class="badge bg-success">유효</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>땅 파고 있는 두더지</td>
-                <td>2023-06-20</td>
-                <td>2023-12-20</td>
-                <td><span class="badge bg-warning">만료 임박</span></td>
+            <tr th:each="coupon : ${coupons}" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalSheet'">
+                <td th:text="${coupon.couponName}">쿠폰 이름</td>
+                <td th:text="${#temporals.format(coupon.createdAt, 'yyyy-MM-dd')}">발행 일자</td>
+                <td th:text="${#temporals.format(coupon.expiredAt, 'yyyy-MM-dd')}">만료 일자</td>
+                <td>
+                <span th:if="${coupon.expiredAt.isBefore(T(java.time.LocalDateTime).now())}"
+                        class="badge bg-danger" th:text="'만료'"></span>
+                    <span th:if="${T(java.time.Duration).between(T(java.time.LocalDateTime).now(), coupon.expiredAt).toDays() <= 14
+                   and T(java.time.Duration).between(T(java.time.LocalDateTime).now(), coupon.expiredAt).toDays() > 0}"
+                          class="badge bg-warning" th:text="'만료 임박'"></span>
+                    <span th:if="${T(java.time.Duration).between(T(java.time.LocalDateTime).now(), coupon.expiredAt).toDays() > 14}"
+                          class="badge bg-success" th:text="'유효'"></span>
+                </td>
+
             </tr>
             </tbody>
         </table>

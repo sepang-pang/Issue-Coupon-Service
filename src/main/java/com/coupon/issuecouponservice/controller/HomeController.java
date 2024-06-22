@@ -1,5 +1,6 @@
 package com.coupon.issuecouponservice.controller;
 
+import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
@@ -9,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,7 +44,9 @@ public class HomeController {
 
     @GetMapping("/my-page")
     public String myPage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<CouponForm> coupons = couponService.readAllUserCoupons(userDetails.getUser());
         model.addAttribute("user", userDetails.getUser());
+        model.addAttribute("coupons", coupons);
         return "my-page";
     }
 
