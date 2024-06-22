@@ -103,14 +103,17 @@ public class CouponService {
 
     // 사용자 쿠폰 전체 조회
     @Transactional(readOnly = true)
-    public List<CouponForm> readAllUserCoupons(Long userId) {
+    public List<CouponForm> readAllUserCoupons(User user) {
 
         // 쿠폰 목록 조회
-        List<UserCoupon> findUserCoupons = userCouponQueryService.getUserCoupons(userId);
+        List<UserCoupon> findUserCoupons = userCouponQueryService.getUserCoupons(user.getId());
+
+        // 쿠폰 개수 합산
+        int possessionCount = findUserCoupons.size();
 
         // 쿠폰 반환
         return findUserCoupons.stream()
-                .map(uc -> new CouponForm(uc.getCoupon()))
+                .map(uc -> new CouponForm(uc.getCoupon(), uc.getCreatedAt(), possessionCount))
                 .collect(Collectors.toList());
     }
 

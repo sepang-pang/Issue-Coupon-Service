@@ -11,6 +11,8 @@ public class CouponForm {
     private String couponName;
     private int totalQuantity;
     private int remainQuantity;
+    private int possessionCount;
+    private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
 
     public CouponForm(Coupon coupon) {
@@ -18,6 +20,17 @@ public class CouponForm {
         this.couponName = coupon.getCouponName();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
+        this.createdAt = coupon.getCreatedAt();
+        this.expiredAt = coupon.getExpiredAt();
+    }
+
+    public CouponForm(Coupon coupon, LocalDateTime createdAt, int possessionCount) {
+        this.couponId = coupon.getId();
+        this.couponName = coupon.getCouponName();
+        this.totalQuantity = coupon.getTotalQuantity();
+        this.remainQuantity = coupon.getRemainQuantity();
+        this.possessionCount = possessionCount;
+        this.createdAt = createdAt;
         this.expiredAt = coupon.getExpiredAt();
     }
 }
