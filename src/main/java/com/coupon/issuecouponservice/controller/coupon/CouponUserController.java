@@ -30,9 +30,9 @@ public class CouponUserController {
     }
 
     // 사용자 쿠폰 전체 조회
-    @GetMapping("/{userId}/coupon")
-    public List<CouponForm> readAllUserCoupons(@PathVariable Long userId){
-        return couponService.readAllUserCoupons(userId);
+    @GetMapping("/coupon")
+    public List<CouponForm> readAllUserCoupons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return couponService.readAllUserCoupons(userDetails.getUser());
     }
 
 }
