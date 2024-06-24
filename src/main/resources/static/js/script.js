@@ -142,4 +142,35 @@ document.addEventListener('DOMContentLoaded', function() {
     updateRemainingTime(); // 초기 실행
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const couponRows = document.querySelectorAll('tr[data-bs-toggle="modal"]');
+    couponRows.forEach(function(row) {
+        row.addEventListener('click', function() {
+            const couponName = this.getAttribute('data-name');
+            const couponDescription = this.getAttribute('data-description');
+            const createdDate = this.getAttribute('data-created');
+            const expiredDate = this.getAttribute('data-expired');
+            const couponStatus = this.getAttribute('data-status');
+
+            // 모달 요소에 값을 설정
+            document.getElementById('modalCouponName').innerText = couponName;
+            document.getElementById('modalCouponDescription').innerText = couponDescription;
+            document.getElementById('modalCouponCreated').innerText = createdDate;
+            document.getElementById('modalCouponExpired').innerText = expiredDate;
+            const statusBadge = document.getElementById('modalCouponStatus');
+            statusBadge.innerText = couponStatus;
+            switch(couponStatus) {
+                case '만료':
+                    statusBadge.className = 'badge bg-danger';
+                    break;
+                case '만료 임박':
+                    statusBadge.className = 'badge bg-warning';
+                    break;
+                case '유효':
+                    statusBadge.className = 'badge bg-success';
+                    break;
+            }
+        });
+    });
+});
 

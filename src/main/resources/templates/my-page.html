@@ -113,20 +113,23 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="coupon : ${coupons}" th:data-bs-toggle="'modal'" th:data-bs-target="'#modalSheet'">
+            <tr th:each="coupon : ${coupons}" th:data-bs-toggle="modal" th:data-bs-target="'#modalSheet'"
+                th:data-name="${coupon.couponName}"
+                th:data-description="${coupon.couponContent}"
+                th:data-status="${coupon.validityStatus.description}"
+                th:data-created="${#temporals.format(coupon.createdAt, 'yyyy-MM-dd')}"
+                th:data-expired="${#temporals.format(coupon.expiredAt, 'yyyy-MM-dd')}">
+
                 <td th:text="${coupon.couponName}">쿠폰 이름</td>
                 <td th:text="${#temporals.format(coupon.createdAt, 'yyyy-MM-dd')}">발행 일자</td>
                 <td th:text="${#temporals.format(coupon.expiredAt, 'yyyy-MM-dd')}">만료 일자</td>
                 <td>
-                <span th:if="${coupon.expiredAt.isBefore(T(java.time.LocalDateTime).now())}"
-                        class="badge bg-danger" th:text="'만료'"></span>
-                    <span th:if="${T(java.time.Duration).between(T(java.time.LocalDateTime).now(), coupon.expiredAt).toDays() <= 14
-                   and T(java.time.Duration).between(T(java.time.LocalDateTime).now(), coupon.expiredAt).toDays() > 0}"
-                          class="badge bg-warning" th:text="'만료 임박'"></span>
-                    <span th:if="${T(java.time.Duration).between(T(java.time.LocalDateTime).now(), coupon.expiredAt).toDays() > 14}"
-                          class="badge bg-success" th:text="'유효'"></span>
+                    <span th:switch="${coupon.validityStatus.description}">
+                        <span th:case="'만료'" class="badge bg-danger" th:text="${coupon.validityStatus.description}"></span>
+                        <span th:case="'만료 임박'" class="badge bg-warning" th:text="${coupon.validityStatus.description}"></span>
+                        <span th:case="'유효'" class="badge bg-success" th:text="${coupon.validityStatus.description}"></span>
+                    </span>
                 </td>
-
             </tr>
             </tbody>
         </table>
@@ -156,23 +159,22 @@
                           dominant-baseline="central">Thumbnail
                     </text>
                 </svg>
-                <div class="card-body d-flex flex-column mt-3">
+                <div class="card-body d-flex flex-column mt-3 w-100">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="fw-normal">쿠폰 이름 1</h2>
-                        <span class="badge bg-success ms-1">유효</span>
+                        <h2 class="fw-normal" id="modalCouponName">쿠폰 이름</h2>
+                        <span class="badge bg-success ms-1" id="modalCouponStatus">유효</span>
                     </div>
-                    <p class="card-text">쿠폰에 대한 설명이 기재될 예정입니다. 이 쿠폰은 행운을 가져다주는 특별한 쿠폰으로,
-                        사용 시 당신에게 엄청난 행운이 찾아갈 것입니다. 얼른 쿠폰을 발급 받으세요. 100자</p>
+                    <p class="card-text" id="modalCouponDescription">쿠폰에 대한 설명이 기재될 예정입니다.</p>
                 </div>
             </div>
             <div class="container d-flex justify-content-between align-items-center p-3">
                 <small class="text-body-secondary">
                     <span>발행 일자 </span>
-                    <span>2023-06-01</span>
+                    <span id="modalCouponCreated">2023-06-01</span>
                 </small>
                 <small class="text-body-secondary">
                     <span>만료 일자 </span>
-                    <span>2023-12-01</span>
+                    <span id="modalCouponExpired">2023-12-01</span>
                 </small>
             </div>
         </div>

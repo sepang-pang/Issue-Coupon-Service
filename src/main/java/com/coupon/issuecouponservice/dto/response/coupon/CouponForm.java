@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class CouponForm {
     private Long couponId;
     private String couponName;
+    private String couponContent;
     private int totalQuantity;
     private int remainQuantity;
     private int possessionCount;
@@ -30,6 +31,7 @@ public class CouponForm {
     public CouponForm(Coupon coupon, LocalDateTime createdAt, int possessionCount) {
         this.couponId = coupon.getId();
         this.couponName = coupon.getCouponName();
+        this.couponContent = coupon.getCouponContent();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
         this.possessionCount = possessionCount;
