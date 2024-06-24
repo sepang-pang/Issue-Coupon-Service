@@ -50,6 +50,10 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_status")
     private CouponStatus couponStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "validity_status")
+    private ValidityStatus validityStatus;
+
     @Column(name = "open_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime openAt;
@@ -75,6 +79,7 @@ public class Coupon extends Timestamped {
         this.remainQuantity = totalQuantity; // 생성 시점에서 초기 잔여 수량은 전체 수량이다.
         this.stockStatus = StockStatus.IN_STOCK;
         this.couponStatus = CouponStatus.INACTIVE;
+        this.validityStatus = ValidityStatus.VALID;
         this.openAt = openAt;
         this.closedAt = closedAt;
         this.expiredAt = expiredAt;
@@ -144,5 +149,9 @@ public class Coupon extends Timestamped {
     /* == 쿠폰 상태값 변경 == */
     public void updateCouponStatus(CouponStatus couponStatus) {
         this.couponStatus = couponStatus;
+    }
+
+    public void updateValidityStatus(ValidityStatus validityStatus) {
+        this.validityStatus = validityStatus;
     }
 }

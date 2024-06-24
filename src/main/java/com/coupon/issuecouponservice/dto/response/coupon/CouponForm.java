@@ -1,6 +1,7 @@
 package com.coupon.issuecouponservice.dto.response.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
+import com.coupon.issuecouponservice.domain.coupon.ValidityStatus;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ public class CouponForm {
     private int totalQuantity;
     private int remainQuantity;
     private int possessionCount;
+    private ValidityStatus validityStatus;
     private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
 
@@ -20,6 +22,7 @@ public class CouponForm {
         this.couponName = coupon.getCouponName();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
+        this.validityStatus = coupon.getValidityStatus();
         this.createdAt = coupon.getCreatedAt();
         this.expiredAt = coupon.getExpiredAt();
     }
@@ -30,6 +33,7 @@ public class CouponForm {
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
         this.possessionCount = possessionCount;
+        this.validityStatus = coupon.getValidityStatus();
         this.createdAt = createdAt;
         this.expiredAt = coupon.getExpiredAt();
     }
