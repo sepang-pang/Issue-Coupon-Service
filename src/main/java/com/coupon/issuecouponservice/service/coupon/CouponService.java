@@ -10,6 +10,8 @@ import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,15 +105,12 @@ public class CouponService {
 
     // 사용자 쿠폰 전체 조회
     @Transactional(readOnly = true)
-    public List<CouponForm> readAllUserCoupons(Long userId) {
-
+    public Page<CouponForm> readAllUserCoupons(User user, Pageable pageable) {
         // 쿠폰 목록 조회
-        List<UserCoupon> findUserCoupons = userCouponQueryService.getUserCoupons(userId);
+        Page<UserCoupon> findUserCoupons = userCouponQueryService.getUserCoupons(user.getId(), pageable);
 
         // 쿠폰 반환
-        return findUserCoupons.stream()
-                .map(uc -> new CouponForm(uc.getCoupon()))
-                .collect(Collectors.toList());
+        return findUserCoupons.map(uc -> new CouponForm(uc.getCoupon(), uc.getCreatedAt()));
     }
 
 

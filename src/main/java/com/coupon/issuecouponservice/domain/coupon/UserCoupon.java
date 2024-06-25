@@ -1,5 +1,6 @@
 package com.coupon.issuecouponservice.domain.coupon;
 
+import com.coupon.issuecouponservice.domain.common.Timestamped;
 import com.coupon.issuecouponservice.domain.user.User;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_coupon", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"coupon_id", "user_id"})
 })
-public class UserCoupon {
+public class UserCoupon extends Timestamped {
 
     @Id
     @Tsid
