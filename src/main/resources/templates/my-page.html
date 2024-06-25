@@ -53,7 +53,8 @@
                 </text>
             </svg>
             <div class="container d-flex flex-column justify-content-center align-items-center mt-3">
-                <h2 class="fw-normal mt-1">유저 1
+                <h2 class="fw-normal mt-1">
+                    <span th:text="${user.getNickName()}">유저 닉네임</span>
                     <span class="ms-1 f-4Regular">님</span>
                     <span class="ms-1">
                         <a href="/user/profile/setup">
@@ -61,9 +62,19 @@
                         </a>
                     </span>
                 </h2>
-                <div class="d-flex align-items-center gap-2">
-                    <img class="social-icon" src="/images/카카오-256.png" alt="카카오 이미지">
-                    <p class="mt-3"><span>카카오</span>로 로그인 중</p>
+                <div th:switch="${user.getProvider()}">
+                    <div th:case='kakao' class="d-flex align-items-center gap-2">
+                        <img src="/images/카카오-256.png" alt="카카오 이미지" class="social-icon">
+                        <p class="mt-3">카카오로 로그인 중</p>
+                    </div>
+                    <div th:case='google' class="d-flex align-items-center gap-2">
+                        <img src="/images/구글-256.png" alt="구글 이미지" class="social-icon">
+                        <p class="mt-3">구글로 로그인 중</p>
+                    </div>
+                    <div th:case='naver' class="d-flex align-items-center gap-2">
+                        <img src="/images/네이버-256.png" alt="네이버 이미지" class="social-icon">
+                        <p class="mt-3">네이버로 로그인 중</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,7 +84,7 @@
         <div class="container d-flex justify-content-between mb-3">
             <h3 class="coupon-table-title"><i class="fi fi-rr-ticket rotate-90"></i>&nbsp;내 <span
                     class="color-coral">쿠폰</span> 현황</h3>
-            <p class="mt-1">나의 보유 쿠폰<span class="color-coral"> 5 </span>장</p>
+            <p class="mt-1">나의 보유 쿠폰 <span class="color-coral" th:text="${count}"> </span> 장</p>
         </div>
         <table class="table coupon-table table-hover">
             <thead>
@@ -85,38 +96,71 @@
             </tr>
             </thead>
             <tbody>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>행운을 주는 펭귄쓰</td>
-                <td>2023-06-01</td>
-                <td>2023-12-01</td>
-                <td><span class="badge bg-success">유효</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>아무 의미 없는 너굴맨</td>
-                <td>2023-06-05</td>
-                <td>2023-12-05</td>
-                <td><span class="badge bg-warning">만료 임박</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>츄르를 노려보는 고양이</td>
-                <td>2023-06-10</td>
-                <td>2023-12-10</td>
-                <td><span class="badge bg-danger">만료</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>멍 때리는 고라파덕</td>
-                <td>2023-06-15</td>
-                <td>2023-12-15</td>
-                <td><span class="badge bg-success">유효</span></td>
-            </tr>
-            <tr data-bs-toggle="modal" data-bs-target="#modalSheet">
-                <td>땅 파고 있는 두더지</td>
-                <td>2023-06-20</td>
-                <td>2023-12-20</td>
-                <td><span class="badge bg-warning">만료 임박</span></td>
+            <th:block th:if="${count == 0}">
+                <tr>
+                    <td colspan="4" class="text-center">현재 보유한 쿠폰이 없어요 😵‍💫</td>
+                </tr>
+            </th:block>
+            <tr th:each="coupon : ${coupons}" th:data-bs-toggle="modal" th:data-bs-target="'#modalSheet'"
+                th:data-name="${coupon.couponName}"
+                th:data-description="${coupon.couponContent}"
+                th:data-status="${coupon.validityStatus.description}"
+                th:data-created="${#temporals.format(coupon.createdAt, 'yyyy-MM-dd')}"
+                th:data-expired="${#temporals.format(coupon.expiredAt, 'yyyy-MM-dd')}">
+
+                <td th:text="${coupon.couponName}">쿠폰 이름</td>
+                <td th:text="${#temporals.format(coupon.createdAt, 'yyyy-MM-dd')}">발행 일자</td>
+                <td th:text="${#temporals.format(coupon.expiredAt, 'yyyy-MM-dd')}">만료 일자</td>
+                <td>
+                    <span th:switch="${coupon.validityStatus.description}">
+                        <span th:case="'만료'" class="badge bg-danger"
+                              th:text="${coupon.validityStatus.description}"></span>
+                        <span th:case="'만료 임박'" class="badge bg-warning"
+                              th:text="${coupon.validityStatus.description}"></span>
+                        <span th:case="'유효'" class="badge bg-success"
+                              th:text="${coupon.validityStatus.description}"></span>
+                    </span>
+                </td>
             </tr>
             </tbody>
         </table>
+        <nav aria-label="Page navigation" th:if="${count > 0}">
+            <ul class="pagination mt-5">
+                <!-- 처음 페이지로 이동: 첫 번째 그룹에서는 항상 렌더링, 2페이지 이상에서 활성화 -->
+                <li class="page-item" th:if="${paginationUtils.totalGroups > 1 || paginationUtils.currentPage > 1}">
+                    <a class="page-link" th:href="@{/my-page(page=0, size=${coupons.size})}" aria-label="First" th:classappend="${paginationUtils.currentPage == 1 ? 'disabled' : ''}">
+                        <i class="fa-solid fa-angles-left"></i>
+                    </a>
+                </li>
+
+                <!-- 이전 페이지 그룹으로 이동: 첫 번째 그룹에서는 렌더링되지만 비활성화 -->
+                <li class="page-item" th:if="${paginationUtils.totalGroups > 1}" th:classappend="${paginationUtils.isFirstGroup ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/my-page(page=${paginationUtils.isFirstGroup ? paginationUtils.currentPage - 1 : paginationUtils.startPage - 2}, size=${coupons.size})}" aria-label="Previous Group">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </a>
+                </li>
+
+                <!-- 페이지 번호 표시 -->
+                <li th:each="i : ${#numbers.sequence(paginationUtils.startPage, paginationUtils.endPage)}"
+                    th:class="${i == paginationUtils.currentPage ? 'page-item active' : 'page-item'}">
+                    <a class="page-link" th:href="@{/my-page(page=${i - 1}, size=${coupons.size})}" th:text="${i}"></a>
+                </li>
+
+                <!-- 다음 페이지 그룹으로 이동 -->
+                <li class="page-item" th:if="${!paginationUtils.isLastGroup}">
+                    <a class="page-link" th:href="@{/my-page(page=${paginationUtils.endPage}, size=${coupons.size})}" aria-label="Next Group">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </li>
+
+                <!-- 마지막 페이지로 이동 -->
+                <li class="page-item" th:if="${!paginationUtils.isLastGroup}">
+                    <a class="page-link" th:href="@{/my-page(page=${paginationUtils.totalPages - 1}, size=${coupons.size})}" aria-label="Last">
+                        <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 
@@ -143,23 +187,22 @@
                           dominant-baseline="central">Thumbnail
                     </text>
                 </svg>
-                <div class="card-body d-flex flex-column mt-3">
+                <div class="card-body d-flex flex-column mt-3 w-100">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="fw-normal">쿠폰 이름 1</h2>
-                        <span class="badge bg-success ms-1">유효</span>
+                        <h2 class="fw-normal" id="modalCouponName">쿠폰 이름</h2>
+                        <span class="badge bg-success ms-1" id="modalCouponStatus">유효</span>
                     </div>
-                    <p class="card-text">쿠폰에 대한 설명이 기재될 예정입니다. 이 쿠폰은 행운을 가져다주는 특별한 쿠폰으로,
-                        사용 시 당신에게 엄청난 행운이 찾아갈 것입니다. 얼른 쿠폰을 발급 받으세요. 100자</p>
+                    <p class="card-text" id="modalCouponDescription">쿠폰에 대한 설명이 기재될 예정입니다.</p>
                 </div>
             </div>
             <div class="container d-flex justify-content-between align-items-center p-3">
                 <small class="text-body-secondary">
                     <span>발행 일자 </span>
-                    <span>2023-06-01</span>
+                    <span id="modalCouponCreated">2023-06-01</span>
                 </small>
                 <small class="text-body-secondary">
                     <span>만료 일자 </span>
-                    <span>2023-12-01</span>
+                    <span id="modalCouponExpired">2023-12-01</span>
                 </small>
             </div>
         </div>

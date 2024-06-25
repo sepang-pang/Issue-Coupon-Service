@@ -28,6 +28,10 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
         this.isNewUser = isNewUser;
     }
 
+    public void updateUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;

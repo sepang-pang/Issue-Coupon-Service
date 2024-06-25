@@ -25,7 +25,7 @@ document.getElementById("submit").addEventListener("click", function () {
     }).then(response => response.json())
         .then(data => {
             console.log("Success: ", data);
-            window.location.href = "/";
+            window.location.href = "/my-page";
         })
         .catch((error) => {
             console.error("Error: ", error);
