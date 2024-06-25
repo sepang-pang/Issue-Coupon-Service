@@ -27,6 +27,11 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/create-coupon")
+    public String create() {
+        return "create-coupon";
+    }
+
     @GetMapping("/upcoming-coupons")
     public String upcoming() {
         return "upcoming-coupons";

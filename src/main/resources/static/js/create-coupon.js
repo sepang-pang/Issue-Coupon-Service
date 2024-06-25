@@ -37,6 +37,23 @@ document.getElementById("create").addEventListener("click", function () {
         expiredAt: document.getElementById("end-date").value
     };
 
+    const openAtDate = new Date(formData.openAt);
+    const closedAtDate = new Date(formData.closedAt);
+    const expiredAtDate = new Date(formData.expiredAt);
+
+    if(openAtDate >= closedAtDate){
+        alert("쿠폰 발급 시작일은 쿠폰 발급 마감일보다 이전이어야 합니다.");
+        return;
+    }
+    if(openAtDate >= expiredAtDate){
+        alert("쿠폰 발급 시작일은 쿠폰 만료일보다 이전이어야 합니다.");
+        return;
+    }
+    if(closedAtDate >= expiredAtDate){
+        alert( "쿠폰 발급 마감일은 쿠폰 만료일보다 이전이어야 합니다.");
+        return;
+    }
+
     const requestOptions = {
         method: 'POST',
         headers: {
