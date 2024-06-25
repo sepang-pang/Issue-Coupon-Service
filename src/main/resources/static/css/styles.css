@@ -77,6 +77,72 @@ p {
     color: #FF6347;
 }
 
+.full-height {
+    height: 100vh;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.btn-custom-2nd {
+    background-color: #FF6347;
+    color: white;
+}
+
+.btn-custom-2nd:hover {
+    background-color: #FF4500;
+    color: white;
+}
+
+.container-custom {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    width: 1000px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+.form-group label {
+    align-self: flex-start;
+    margin-bottom: 5px;
+    color: black;
+}
+
+.form-group input, .form-group textarea {
+    flex-grow: 1;
+    width: 100%;
+}
+
+#couponImagePreview {
+    display: none;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.btn-container button {
+    padding: 1rem;
+    width: 49%;
+    height: 4.5rem;
+}
+
 .coupon-logo {
     font-family: 'OKDDUNG', sans-serif;
     font-size: clamp(2rem, 3vw, 4rem);
@@ -172,7 +238,7 @@ p {
 }
 
 /* === 발급 버튼 디자인 === */
-.btn-custom {
+.btn-custom, .btn-custom-2nd {
     font-family: 'Freesentation-5Medium', sans-serif;
     padding: clamp(0.8rem, 2vw, 1.5rem);
     font-size: clamp(1rem, 1.5vw, 1.5rem);
