@@ -1,3 +1,27 @@
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOMContentLoaded event triggered");
+    // 페이지 로드 시 관리자 권한 확인
+    fetch('/user/check-role')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Received data:", data);
+            if (!data.isAdmin) {
+                alert('관리자 권한이 필요합니다.');
+                window.location.href = '/';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching admin status:', error);
+            alert('권한 확인 중 오류가 발생했습니다.');
+            window.location.href = '/';
+        });
+});
+
 document.getElementById("back").addEventListener("click", function () {
     window.location.href = "/";
 });
