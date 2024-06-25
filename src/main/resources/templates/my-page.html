@@ -113,6 +113,11 @@
             </tr>
             </thead>
             <tbody>
+            <th:block th:if="${count == 0}">
+                <tr>
+                    <td colspan="4" class="text-center">현재 보유한 쿠폰이 없어요 😵‍💫</td>
+                </tr>
+            </th:block>
             <tr th:each="coupon : ${coupons}" th:data-bs-toggle="modal" th:data-bs-target="'#modalSheet'"
                 th:data-name="${coupon.couponName}"
                 th:data-description="${coupon.couponContent}"
@@ -136,7 +141,7 @@
             </tr>
             </tbody>
         </table>
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" th:if="${count > 0}">
             <ul class="pagination mt-5">
                 <!-- 처음 페이지로 이동: 첫 번째 그룹에서는 항상 렌더링, 2페이지 이상에서 활성화 -->
                 <li class="page-item" th:if="${paginationUtils.totalGroups > 1 || paginationUtils.currentPage > 1}">
