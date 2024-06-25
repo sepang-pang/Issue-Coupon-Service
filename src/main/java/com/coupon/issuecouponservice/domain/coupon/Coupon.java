@@ -51,15 +51,12 @@ public class Coupon extends Timestamped {
     private CouponStatus couponStatus;
 
     @Column(name = "open_at")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime openAt;
 
     @Column(name = "closed_at")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime closedAt;
 
     @Column(name = "expired_at")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime expiredAt;
 
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.REMOVE)
