@@ -336,10 +336,10 @@ p {
 }
 
 .page-link[aria-label="First"],
-.page-link[aria-label="Previous group"],
-.page-link[aria-label="Next group"],
+.page-link[aria-label="Previous Group"],
+.page-link[aria-label="Next Group"],
 .page-link[aria-label="Last"] {
-    background-color: transparent; /* 예시: 배경색 */
+    background-color: transparent;
     color: #959595;
     border: 1px solid #959595;
 }
@@ -349,8 +349,8 @@ p {
 }
 
 .page-link[aria-label="First"]:hover,
-.page-link[aria-label="Previous group"]:hover,
-.page-link[aria-label="Next group"]:hover,
+.page-link[aria-label="Previous Group"]:hover,
+.page-link[aria-label="Next Group"]:hover,
 .page-link[aria-label="Last"]:hover {
     color: black;
     border: 1px solid black;

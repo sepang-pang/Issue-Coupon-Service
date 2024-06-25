@@ -13,7 +13,6 @@ public class CouponForm {
     private String couponContent;
     private int totalQuantity;
     private int remainQuantity;
-    private int possessionCount;
     private ValidityStatus validityStatus;
     private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
@@ -28,13 +27,12 @@ public class CouponForm {
         this.expiredAt = coupon.getExpiredAt();
     }
 
-    public CouponForm(Coupon coupon, LocalDateTime createdAt, int possessionCount) {
+    public CouponForm(Coupon coupon, LocalDateTime createdAt) {
         this.couponId = coupon.getId();
         this.couponName = coupon.getCouponName();
         this.couponContent = coupon.getCouponContent();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
-        this.possessionCount = possessionCount;
         this.validityStatus = coupon.getValidityStatus();
         this.createdAt = createdAt;
         this.expiredAt = coupon.getExpiredAt();
