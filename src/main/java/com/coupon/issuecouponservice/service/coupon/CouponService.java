@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +32,11 @@ public class CouponService {
         // 쿠폰 이름 중복 검증
         checkForDuplicateCouponName(param.getCouponName());
 
+        // 쿠폰 마감일자 최신순으로 조회
+        List<Coupon> coupons = couponRepository.findAllByOrderByClosedAtDesc();
+
         // 쿠폰 생성
-        Coupon coupon = Coupon.CreateCoupon(param);
+        Coupon coupon = Coupon.CreateCoupon(param, coupons);
 
         couponRepository.save(coupon);
 
@@ -130,11 +132,4 @@ public class CouponService {
         }
     }
 
-    // 특정 기간(시작일, 마감일)에 존재하는 쿠폰 확인 메서드
-    public boolean checkCouponExists(String openAt, String closedAt) {
-        LocalDateTime openDateTime = LocalDateTime.parse(openAt);
-        LocalDateTime closedDateTime = LocalDateTime.parse(closedAt);
-
-        return couponRepository.existsByOpenAtBetweenOrClosedAtBetween(openDateTime, closedDateTime, openDateTime, closedDateTime);
-    }
 }

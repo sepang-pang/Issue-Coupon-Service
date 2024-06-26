@@ -38,11 +38,4 @@ public class CouponAdminController {
 
     }
 
-    @GetMapping("/coupon/exists")
-    public boolean checkCouponExists(@RequestParam String openAt, @RequestParam String closedAt) {
-
-        return couponService.checkCouponExists(openAt, closedAt);
-
-    }
-
 }

@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +24,5 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("select c from Coupon c where c.couponStatus = 'ACTIVE' and c.isDeleted = false ")
     Optional<Coupon> findActiveCoupon();
 
-    // 특정 기간 내의 쿠폰 조회
-    boolean existsByOpenAtBetweenOrClosedAtBetween(LocalDateTime couponOpenAt, LocalDateTime couponClosedAt, LocalDateTime openAt, LocalDateTime closedAt);
+    List<Coupon> findAllByOrderByClosedAtDesc();
 }
