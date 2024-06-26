@@ -37,4 +37,12 @@ public class CouponAdminController {
         couponService.deleteCoupon(couponId);
 
     }
+
+    @GetMapping("/coupon/exists")
+    public boolean checkCouponExists(@RequestParam String openAt, @RequestParam String closedAt) {
+
+        return couponService.checkCouponExists(openAt, closedAt);
+
+    }
+
 }
