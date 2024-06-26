@@ -83,7 +83,9 @@ public class Coupon extends Timestamped {
     }
 
     /* == 생성 메서드 == */
-    public static Coupon CreateCoupon(CouponCreationParam param) {
+    public static Coupon CreateCoupon(CouponCreationParam param, List<Coupon> coupons) {
+        checkClosedAt(param, coupons);
+
         return Coupon.builder()
                 .couponName(param.getCouponName())
                 .couponContent(param.getCouponContent())
@@ -133,6 +135,16 @@ public class Coupon extends Timestamped {
             }
         }
         return false;
+    }
+
+    /* == 검증 메서드 : 날짜 검증  == */
+    private static void checkClosedAt(CouponCreationParam param, List<Coupon> coupons) {
+        if(!coupons.isEmpty()){
+            LocalDateTime lastCouponClosedAt = coupons.get(0).getClosedAt();
+            if(param.getOpenAt().isBefore(lastCouponClosedAt)){
+                throw new IllegalArgumentException("새 쿠폰의 시작일은 기존 쿠폰의 발급 마감일( " + lastCouponClosedAt + " )보다 이후여야 합니다.");
+            }
+        }
     }
 
     /* == 쿠폰 재고 감소 == */
