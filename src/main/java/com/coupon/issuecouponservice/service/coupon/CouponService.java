@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +33,15 @@ public class CouponService {
     public void createCoupon(CouponCreationParam param) {
         // 쿠폰 이름 중복 검증
         checkForDuplicateCouponName(param.getCouponName());
+
+        // 쿠폰 날짜 중복 검증
+        List<Coupon> coupons = couponRepository.findAllByOrderByClosedAtDesc();
+        if(!coupons.isEmpty()){
+            LocalDateTime lastCouponClosedAt = coupons.get(0).getClosedAt();
+            if(param.getOpenAt().isBefore(lastCouponClosedAt)){
+                throw new IllegalArgumentException("새 쿠폰의 시작일은 기존 쿠폰의 발급 마감일( " + lastCouponClosedAt + " )보다 이후여야 합니다.");
+            }
+        }
 
         // 쿠폰 생성
         Coupon coupon = Coupon.CreateCoupon(param);
@@ -130,11 +140,4 @@ public class CouponService {
         }
     }
 
-    // 특정 기간(시작일, 마감일)에 존재하는 쿠폰 확인 메서드
-    public boolean checkCouponExists(String openAt, String closedAt) {
-        LocalDateTime openDateTime = LocalDateTime.parse(openAt);
-        LocalDateTime closedDateTime = LocalDateTime.parse(closedAt);
-
-        return couponRepository.existsByOpenAtBetweenOrClosedAtBetween(openDateTime, closedDateTime, openDateTime, closedDateTime);
-    }
 }

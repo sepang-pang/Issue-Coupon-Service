@@ -25,6 +25,5 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("select c from Coupon c where c.couponStatus = 'ACTIVE' and c.isDeleted = false ")
     Optional<Coupon> findActiveCoupon();
 
-    // 특정 기간 내의 쿠폰 조회
-    boolean existsByOpenAtBetweenOrClosedAtBetween(LocalDateTime couponOpenAt, LocalDateTime couponClosedAt, LocalDateTime openAt, LocalDateTime closedAt);
+    List<Coupon> findAllByOrderByClosedAtDesc();
 }
