@@ -21,6 +21,7 @@ public class CouponForm {
     public CouponForm(Coupon coupon) {
         this.couponId = coupon.getId();
         this.couponName = coupon.getCouponName();
+        this.couponContent = coupon.getCouponContent();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
         this.validityStatus = coupon.getValidityStatus();
