@@ -1,6 +1,8 @@
 package com.coupon.issuecouponservice.repository.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +25,10 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     // 진행 중 쿠폰 조회
     @Query("select c from Coupon c where c.couponStatus = 'ACTIVE' and c.isDeleted = false ")
     Optional<Coupon> findActiveCoupon();
+
+    // 종료 된 쿠폰 조회
+    @Query("select c from Coupon c where c.couponStatus = 'CLOSED' and c.isDeleted = false order by c.closedAt")
+    Page<Coupon> findClosedCoupons(Pageable pageable);
 
     List<Coupon> findAllByOrderByClosedAtDesc();
 }

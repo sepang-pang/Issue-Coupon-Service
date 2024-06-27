@@ -46,7 +46,16 @@ public class HomeController {
     }
 
     @GetMapping("/past-coupons")
-    public String past() {
+    public String past(Model model, @PageableDefault(size = 9) Pageable pageable) {
+
+        Page<CouponForm> coupons = couponService.readAllClosedCoupons(pageable);
+
+        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
+
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("count", (int) coupons.getTotalElements());
+        model.addAttribute("paginationUtils", paginationUtils);
+
         return "past-coupons";
     }
 
