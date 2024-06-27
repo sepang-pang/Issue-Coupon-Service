@@ -56,10 +56,8 @@ public class CouponService {
     // 진행 중 쿠폰 조회
     @Transactional(readOnly = true)
     public CouponOneForm readActiveCoupon() {
-        Coupon findCoupon = couponRepository.findActiveCoupon()
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않는 쿠폰입니다."));
-
-        return new CouponOneForm(findCoupon);
+        Coupon findCoupon = couponRepository.findActiveCoupon().orElse(null);
+        return findCoupon != null ? new CouponOneForm(findCoupon) : null;
     }
 
     // 쿠폰 수정

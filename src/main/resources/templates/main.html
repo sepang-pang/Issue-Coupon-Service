@@ -35,7 +35,7 @@
 <div class="container d-flex flex-column full-height full-width bg-custom">
     <div class="container-fluid flex-grow-1 pt-5">
         <div class="position-relative p-5 text-center text-muted bg-transparent">
-            <div class="container d-flex justify-content-center">
+            <div th:if="${coupon != null}" class="container d-flex justify-content-center">
                 <!-- 타이머 화면 -->
                 <div class="d-flex flex-wrap justify-content-center align-items-center timer-bg-custom p-3 mb-5"
                      id="timer" th:data-closed-at="${#temporals.format(coupon.closedAt, 'yyyy-MM-dd''T''HH:mm:ss')}"
@@ -63,7 +63,7 @@
             </div>
 
             <!-- 쿠폰 정보 화면 -->
-            <div class="container mt-5">
+            <div th:if="${coupon != null}" class="container mt-5">
                 <div class="ratio ratio-16x9 max-width-600">
                     <svg class="bd-placeholder-img" xmlns="http://www.w3.org/2000/svg" role="img"
                          aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -91,6 +91,15 @@
                 <button class="mb-5 mt-2 btn-custom btn-bg btn-gra-anim" type="button">
                     발급받기
                 </button>
+            </div>
+
+            <!-- 쿠폰이 없는 경우 메시지 표시 -->
+            <div class="justify-content-center align-items-center" th:if="${coupon == null}">
+                <div class="container">
+                    <img src="/images/soon.gif" alt="soon" width="200" height="200">
+                    <h2 class="fw-normal">아쉽게도 현재 진행 중인 쿠폰이 없어요 😢</h2>
+                    <p>곧 새로운 쿠폰으로 찾아뵙겠습니다.</p>
+                </div>
             </div>
         </div>
     </div>
