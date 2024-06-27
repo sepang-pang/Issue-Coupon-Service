@@ -58,8 +58,9 @@
                                 <small class="text-body-secondary"><span>총재고 : </span>
                                     <span th:text="${coupon.totalQuantity}">100</span><span>장</span>
                                 </small>
-                                <small th:text="${#temporals.format(coupon.closedAt, 'yyyy-MM-dd')}"
-                                       class="text-body-secondary">발급 마감일</small>
+                                <small class="text-body-secondary">마감 일자
+                                    <span th:text="${#temporals.format(coupon.closedAt, 'yyyy-MM-dd')}"></span>
+                                </small>
                             </div>
                         </div>
                     </div>
