@@ -11,22 +11,84 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const myPageLink = document.getElementById("nav-my-page");
+
+    myPageLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        const url = this.getAttribute("href");
+
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = url;
+                } else if (response.status === 401) {
+                    window.location.href = "/login";
+                } else {
+                    throw new Error('페이지를 불러오는데 실패했습니다');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+});
+
+
+document.getElementById("issue").addEventListener("click", function () {
+    const formData = {
+        couponId: this.getAttribute('data-coupon-id')
+    };
+
+    fetch("/user/coupon", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData),
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            else if (response.status === 401) {
+                window.location = "/login"
+                return Promise.reject(new Error("로그인이 필요한 서비스입니다."));
+            }
+            else {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.error);
+                });
+            }
+        })
+        .then(data => {
+            console.log("Success: ", data);
+            alert("쿠폰 발급에 성공했습니다.");
+            location.reload();
+        })
+        .catch((error) => {
+            console.error("Error: ", error.message);
+            alert("쿠폰 발급에 실패했습니다: " + error.message);
+        });
+});
+
+
 // == 카드 높이 조정 스크립트 == //
-window.onload = function() {
+window.onload = function () {
     let maxHeight = 0;
     const cardBodies = document.querySelectorAll('.card-body');
-    cardBodies.forEach(function(card) {
+    cardBodies.forEach(function (card) {
         if (card.offsetHeight > maxHeight) {
             maxHeight = card.offsetHeight;
         }
     });
-    cardBodies.forEach(function(card) {
+    cardBodies.forEach(function (card) {
         card.style.height = maxHeight + 'px';
     });
 };
 
 // == 페이징 처리 스크립트 == //
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const itemsPerPage = 9;
     const pagesPerGroup = 10;
     const container = document.querySelector('.row');
@@ -71,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
         pageLink.href = '#';
         pageLink.textContent = text;
         pageLink.setAttribute('aria-label', ariaLabel || text);
-        pageLink.addEventListener('click', function(e) {
+        pageLink.addEventListener('click', function (e) {
             e.preventDefault();
             currentPage = page;
             if (text === '〈〈' || text === '〈' || text === '〉' || text === '〉〉') {
@@ -110,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function() {
     renderPage(currentPage);
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const timerElement = document.getElementById('timer');
     const closedAt = new Date(timerElement.dataset.closedAt);
 
@@ -144,8 +206,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener("DOMContentLoaded", function () {
     const couponRows = document.querySelectorAll('tr[data-bs-toggle="modal"]');
-    couponRows.forEach(function(row) {
-        row.addEventListener('click', function() {
+    couponRows.forEach(function (row) {
+        row.addEventListener('click', function () {
             const couponName = this.getAttribute('data-name');
             const couponDescription = this.getAttribute('data-description');
             const createdDate = this.getAttribute('data-created');
@@ -159,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('modalCouponExpired').innerText = expiredDate;
             const statusBadge = document.getElementById('modalCouponStatus');
             statusBadge.innerText = couponStatus;
-            switch(couponStatus) {
+            switch (couponStatus) {
                 case '만료':
                     statusBadge.className = 'badge bg-danger';
                     break;

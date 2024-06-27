@@ -88,7 +88,8 @@
                         <span id="total-stock" th:text="${coupon.totalQuantity}">100</span>
                     </div>
                 </div>
-                <button class="mb-5 mt-2 btn-custom btn-bg btn-gra-anim" type="button">
+                <button class="mb-5 mt-2 btn-custom btn-bg btn-gra-anim" type="button" id="issue"
+                th:data-coupon-id="${coupon.couponId}">
                     발급받기
                 </button>
             </div>
