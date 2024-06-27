@@ -16,15 +16,18 @@ public class CouponForm {
     private ValidityStatus validityStatus;
     private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
+    private LocalDateTime closedAt;
 
     public CouponForm(Coupon coupon) {
         this.couponId = coupon.getId();
         this.couponName = coupon.getCouponName();
+        this.couponContent = coupon.getCouponContent();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
         this.validityStatus = coupon.getValidityStatus();
         this.createdAt = coupon.getCreatedAt();
         this.expiredAt = coupon.getExpiredAt();
+        this.closedAt = coupon.getClosedAt();
     }
 
     public CouponForm(Coupon coupon, LocalDateTime createdAt) {

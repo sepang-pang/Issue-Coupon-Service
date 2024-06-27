@@ -66,8 +66,13 @@ public class WebSecurityConfig {
                     @Override
                     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        response.setContentType("application/json");
-                        response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"" + authException.getMessage() + "\"}");
+                        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"redirectUrl\": \"/login\"}");
+                        } else {
+                            // 일반 요청 처리
+                            response.sendRedirect("/login");
+                        }
                     }
                 })
         );

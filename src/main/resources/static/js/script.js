@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // 페이지의 현재 경로에 따라 내비게이션 탭 활성화
     const currentPath = window.location.pathname;
     if (currentPath === "/") {
         document.getElementById("nav-home").classList.add("active");
@@ -9,171 +10,41 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (currentPath === "/my-page") {
         document.getElementById("nav-my-page").classList.add("active");
     }
-});
 
-document.addEventListener("DOMContentLoaded", function() {
+    // 모달 관련 이벤트 리스너 설정
+    const couponElements = document.querySelectorAll('tr[data-bs-toggle="modal"]');
+    couponElements.forEach(function (element) {
+        element.addEventListener('click', function () {
+            const couponName = this.getAttribute('data-name');
+            const couponDescription = this.getAttribute('data-description');
+            const createdDate = this.getAttribute('data-created');
+            const expiredDate = this.getAttribute('data-expired');
+            const couponStatus = this.getAttribute('data-status');
+
+            // 모달 요소에 값을 설정
+            updateModalContent(couponName, couponDescription, createdDate, expiredDate, couponStatus);
+        });
+    });
+
+    // My Page 링크 클릭 이벤트 처리
     const myPageLink = document.getElementById("nav-my-page");
-
-    myPageLink.addEventListener("click", function(event) {
+    myPageLink.addEventListener("click", function (event) {
         event.preventDefault();
-        const url = this.getAttribute("href");
-
-        fetch(url)
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = url;
-                } else if (response.status === 401) {
-                    window.location.href = "/login";
-                } else {
-                    throw new Error('페이지를 불러오는데 실패했습니다');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        handleMyPageLink(this.getAttribute("href"));
     });
-});
 
-
-document.getElementById("issue").addEventListener("click", function () {
-    const formData = {
-        couponId: this.getAttribute('data-coupon-id')
-    };
-
-    fetch("/user/coupon", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData),
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            else if (response.status === 401) {
-                window.location = "/login"
-                return Promise.reject(new Error("로그인이 필요한 서비스입니다."));
-            }
-            else {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.error);
-                });
-            }
-        })
-        .then(data => {
-            console.log("Success: ", data);
-            alert("쿠폰 발급에 성공했습니다.");
-            location.reload();
-        })
-        .catch((error) => {
-            console.error("Error: ", error.message);
-            alert("쿠폰 발급에 실패했습니다: " + error.message);
-        });
-});
-
-
-// == 카드 높이 조정 스크립트 == //
-window.onload = function () {
-    let maxHeight = 0;
-    const cardBodies = document.querySelectorAll('.card-body');
-    cardBodies.forEach(function (card) {
-        if (card.offsetHeight > maxHeight) {
-            maxHeight = card.offsetHeight;
-        }
+    // 쿠폰 요청 이벤트 리스너
+    document.getElementById("issue").addEventListener("click", function () {
+        issueCoupon(this.getAttribute('data-coupon-id'));
     });
-    cardBodies.forEach(function (card) {
-        card.style.height = maxHeight + 'px';
-    });
-};
 
-// == 페이징 처리 스크립트 == //
-document.addEventListener("DOMContentLoaded", function () {
-    const itemsPerPage = 9;
-    const pagesPerGroup = 10;
-    const container = document.querySelector('.row');
-    const allCards = container.querySelectorAll('.col');
-    const totalItems = allCards.length;
-    const pageCount = Math.ceil(totalItems / itemsPerPage);
-    let currentGroup = 1;
-    let currentPage = 1;
-
-    function setupPagination() {
-        const paginationContainer = document.getElementById('pagination');
-        paginationContainer.innerHTML = '';
-
-        const totalGroups = Math.ceil(pageCount / pagesPerGroup);
-        const groupStart = (currentGroup - 1) * pagesPerGroup + 1;
-        const groupEnd = Math.min(pageCount, currentGroup * pagesPerGroup);
-
-
-        if (currentGroup > 1) {
-            addButton(paginationContainer, '〈〈', 1, 'First');
-            addButton(paginationContainer, '〈', groupStart - 1, 'Previous group');
-        }
-
-        // Page numbers
-        for (let i = groupStart; i <= groupEnd; i++) {
-            addButton(paginationContainer, i, i);
-        }
-
-        // 'Next Group' and 'Last' buttons
-        if (currentGroup < totalGroups) {
-            addButton(paginationContainer, '〉', groupEnd + 1, 'Next group');
-            addButton(paginationContainer, '〉〉', pageCount, 'Last');
-        }
-    }
-
-    function addButton(container, text, page, ariaLabel = '') {
-        const pageItem = document.createElement('li');
-        pageItem.className = 'page-item';
-        if (page === currentPage) pageItem.classList.add('active');
-        const pageLink = document.createElement('a');
-        pageLink.className = 'page-link';
-        pageLink.href = '#';
-        pageLink.textContent = text;
-        pageLink.setAttribute('aria-label', ariaLabel || text);
-        pageLink.addEventListener('click', function (e) {
-            e.preventDefault();
-            currentPage = page;
-            if (text === '〈〈' || text === '〈' || text === '〉' || text === '〉〉') {
-                currentGroup = Math.ceil(page / pagesPerGroup);
-            }
-            renderPage(page);
-            updateActivePage(page);
-        });
-        pageItem.appendChild(pageLink);
-        container.appendChild(pageItem);
-    }
-
-    function updateActivePage(page) {
-        document.querySelectorAll('#pagination .page-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        const activePage = Array.from(document.querySelectorAll('#pagination .page-link')).find(link => link.textContent == page.toString());
-        if (activePage) {
-            activePage.parentElement.classList.add('active');
-        }
-    }
-
-    function renderPage(pageNumber) {
-        const startIndex = (pageNumber - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        allCards.forEach((card, index) => {
-            card.style.display = 'none';
-            if (index >= startIndex && index < endIndex) {
-                card.style.display = 'block';
-            }
-        });
-        setupPagination();
-    }
-
-    setupPagination();
-    renderPage(currentPage);
-});
-
-document.addEventListener('DOMContentLoaded', function () {
+    // 타이머 업데이트
     const timerElement = document.getElementById('timer');
+    updateTimer(timerElement);
+});
+
+// 타이머 업데이트 함수
+function updateTimer(timerElement) {
     const closedAt = new Date(timerElement.dataset.closedAt);
 
     function updateRemainingTime() {
@@ -199,40 +70,98 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 매 초마다 업데이트
-    setInterval(updateRemainingTime, 1000);
+    setInterval(updateRemainingTime, 1000); // 매 초마다 업데이트
     updateRemainingTime(); // 초기 실행
-});
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-    const couponRows = document.querySelectorAll('tr[data-bs-toggle="modal"]');
-    couponRows.forEach(function (row) {
-        row.addEventListener('click', function () {
-            const couponName = this.getAttribute('data-name');
-            const couponDescription = this.getAttribute('data-description');
-            const createdDate = this.getAttribute('data-created');
-            const expiredDate = this.getAttribute('data-expired');
-            const couponStatus = this.getAttribute('data-status');
 
-            // 모달 요소에 값을 설정
-            document.getElementById('modalCouponName').innerText = couponName;
-            document.getElementById('modalCouponDescription').innerText = couponDescription;
-            document.getElementById('modalCouponCreated').innerText = createdDate;
-            document.getElementById('modalCouponExpired').innerText = expiredDate;
-            const statusBadge = document.getElementById('modalCouponStatus');
-            statusBadge.innerText = couponStatus;
-            switch (couponStatus) {
-                case '만료':
-                    statusBadge.className = 'badge bg-danger';
-                    break;
-                case '만료 임박':
-                    statusBadge.className = 'badge bg-warning';
-                    break;
-                case '유효':
-                    statusBadge.className = 'badge bg-success';
-                    break;
-            }
-        });
+// 모달 내용 업데이트 함수
+function updateModalContent(name, description, created, expired, status) {
+    document.getElementById('modalCouponName').innerText = name;
+    document.getElementById('modalCouponDescription').innerText = description;
+    document.getElementById('modalCouponCreated').innerText = created;
+    document.getElementById('modalCouponExpired').innerText = expired;
+    updateStatusBadge(status);
+}
+
+// My Page 링크 핸들링 함수
+function handleMyPageLink(url) {
+    fetch(url).then(response => {
+        if (response.ok) {
+            window.location.href = url;
+        } else if (response.status === 401) {
+            window.location.href = "/login";
+        } else {
+            throw new Error('페이지를 불러오는데 실패했습니다.');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
     });
-});
+}
+
+// 쿠폰 발급 요청 함수
+function issueCoupon(couponId) {
+    const formData = {couponId: couponId};
+    fetch("/user/coupon", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(formData),
+    }).then(handleCouponResponse)
+        .catch((error) => {
+            console.error("Error: ", error.message);
+            alert("쿠폰 발급에 실패했습니다: " + error.message);
+        });
+}
+
+
+// 쿠폰 응답 처리 함수
+function handleCouponResponse(response) {
+    if (response.ok) {
+        return response.json().then(data => {
+            alert("쿠폰 발급에 성공했습니다.");
+            location.reload();
+        });
+    } else if (response.status === 401) {
+        window.location = "/login";
+        return Promise.reject(new Error("로그인이 필요합니다."));
+    } else {
+        return response.json().then(errorData => {
+            throw new Error(errorData.error);
+        });
+    }
+}
+
+
+// 상태 배지 업데이트
+function updateStatusBadge(status) {
+    const statusBadge = document.getElementById('modalCouponStatus');
+    statusBadge.innerText = status;
+    switch (status) {
+        case '만료':
+            statusBadge.className = 'badge bg-danger';
+            break;
+        case '만료 임박':
+            statusBadge.className = 'badge bg-warning';
+            break;
+        case '유효':
+            statusBadge.className = 'badge bg-success';
+            break;
+    }
+}
+
+window.onload = function () {
+    let maxHeight = 0;
+    const cardBodies = document.querySelectorAll('.card-body');
+    cardBodies.forEach(function (card) {
+        if (card.offsetHeight > maxHeight) {
+            maxHeight = card.offsetHeight;
+        }
+    });
+    cardBodies.forEach(function (card) {
+        card.style.height = maxHeight + 'px';
+    });
+};
 

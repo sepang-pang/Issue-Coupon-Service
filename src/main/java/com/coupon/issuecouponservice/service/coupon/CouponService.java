@@ -62,6 +62,16 @@ public class CouponService {
         return findCoupon != null ? new CouponOneForm(findCoupon) : null;
     }
 
+
+    // 종료된 쿠폰 전체 조회
+    @Transactional(readOnly = true)
+    public Page<CouponForm> readAllClosedCoupons(Pageable pageable) {
+        // 쿠폰 목록 조회
+        Page<Coupon> findCoupons = couponRepository.findClosedCoupons(pageable);
+
+        return findCoupons.map(CouponForm::new);
+    }
+
     // 쿠폰 수정
     public void modifyCoupon(Long couponId, CouponModificationParam param) {
         // 쿠폰 이름 중복 검증
