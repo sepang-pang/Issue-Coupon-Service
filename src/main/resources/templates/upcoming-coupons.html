@@ -35,6 +35,12 @@
 <div class="container d-flex flex-column full-height full-width bg-custom">
     <div class="album py-5 bg-transparent">
         <div class="container">
+            <div class="d-flex justify-content-center text-center mt-5" th:if="${count == 0}">
+                <div class="d-flex justify-content-center align-items-center p-3 bg-white bg-opacity-50 rounded-3 shadow"
+                     style="width: 70%; height: 300px;">
+                    <h2 class="fw-normal">아직 오픈 예정된 쿠폰이 없어요 😅</h2>
+                </div>
+            </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div th:each="coupon : ${coupons} " class="col">
                     <div class="card shadow-sm">
