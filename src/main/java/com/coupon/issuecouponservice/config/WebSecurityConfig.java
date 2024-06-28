@@ -2,7 +2,6 @@ package com.coupon.issuecouponservice.config;
 
 import com.coupon.issuecouponservice.security.handler.CustomAuthenticationSuccessHandler;
 import com.coupon.issuecouponservice.security.oauth.PrincipalOauth2UserService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -61,10 +60,19 @@ public class WebSecurityConfig {
                         .permitAll()
         );
 
+        http.logout((logout) ->
+                logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/") // 사용자 정의 로그아웃 성공 후 리다이렉트 페이지
+                        .invalidateHttpSession(true) // 세션 무효화
+                        .deleteCookies("JSESSIONID", "remember-me") // 추가적인 쿠키 삭제
+                        .permitAll()
+        );
+
         http.exceptionHandling((exception) ->
                 exception.authenticationEntryPoint(new AuthenticationEntryPoint() {
                     @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                         if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
                             response.setContentType("application/json");
@@ -76,6 +84,7 @@ public class WebSecurityConfig {
                     }
                 })
         );
+
         return http.build();
     }
 
