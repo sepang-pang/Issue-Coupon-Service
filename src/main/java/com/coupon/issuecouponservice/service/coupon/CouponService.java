@@ -62,6 +62,12 @@ public class CouponService {
         return findCoupon != null ? new CouponOneForm(findCoupon) : null;
     }
 
+    // 예정된 쿠폰 전체 조히
+    public Page<CouponForm> readAllOpenCoupons(Pageable pageable) {
+        Page<Coupon> findCoupons = couponRepository.findOpenCoupons(pageable);
+
+        return findCoupons.map(CouponForm::new);
+    }
 
     // 종료된 쿠폰 전체 조회
     @Transactional(readOnly = true)

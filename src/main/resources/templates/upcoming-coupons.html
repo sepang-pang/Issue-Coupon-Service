@@ -64,8 +64,50 @@
                 </div>
             </div>
         </div>
-        <nav aria-label="Page navigation example" class="mt-5">
-            <ul class="pagination justify-content-center" id="pagination">
+        <nav class="d-flex justify-content-center" aria-label="Page navigation" th:if="${count > 0} ">
+            <ul class="pagination mt-5">
+                <!-- 처음 페이지로 이동: 첫 번째 그룹에서는 항상 렌더링, 2페이지 이상에서 활성화 -->
+                <li class="page-item" th:if="${paginationUtils.totalGroups > 1 || paginationUtils.currentPage > 1}">
+                    <a class="page-link" th:href="@{/upcoming-coupons(page=0, size=${coupons.size})}" aria-label="First"
+                       th:classappend="${paginationUtils.currentPage == 1 ? 'disabled' : ''}">
+                        <i class="fa-solid fa-angles-left"></i>
+                    </a>
+                </li>
+
+                <!-- 이전 페이지 그룹으로 이동: 첫 번째 그룹에서는 렌더링되지만 비활성화 -->
+                <li class="page-item" th:if="${paginationUtils.totalGroups > 1}"
+                    th:classappend="${paginationUtils.isFirstGroup ? 'disabled' : ''}">
+                    <a class="page-link"
+                       th:href="@{/upcoming-coupons(page=${paginationUtils.isFirstGroup ? paginationUtils.currentPage - 1 : paginationUtils.startPage - 2}, size=${coupons.size})}"
+                       aria-label="Previous Group">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </a>
+                </li>
+
+                <!-- 페이지 번호 표시 -->
+                <li th:each="i : ${#numbers.sequence(paginationUtils.startPage, paginationUtils.endPage)}"
+                    th:class="${i == paginationUtils.currentPage ? 'page-item active' : 'page-item'}">
+                    <a class="page-link" th:href="@{/upcoming-coupons(page=${i - 1}, size=${coupons.size})}"
+                       th:text="${i}"></a>
+                </li>
+
+                <!-- 다음 페이지 그룹으로 이동 -->
+                <li class="page-item" th:if="${!paginationUtils.isLastGroup}">
+                    <a class="page-link"
+                       th:href="@{/upcoming-coupons(page=${paginationUtils.endPage}, size=${coupons.size})}"
+                       aria-label="Next Group">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </li>
+
+                <!-- 마지막 페이지로 이동 -->
+                <li class="page-item" th:if="${!paginationUtils.isLastGroup}">
+                    <a class="page-link"
+                       th:href="@{/past-coupons(page=${paginationUtils.totalPages - 1}, size=${coupons.size})}"
+                       aria-label="Last">
+                        <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

@@ -43,10 +43,15 @@ public class HomeController {
     }
 
     @GetMapping("/upcoming-coupons")
-    public String upcoming(Model model) {
-        List<CouponForm> coupons = couponService.readAllCoupons();
+    public String upcoming(Model model, @PageableDefault(size = 9) Pageable pageable) {
+        Page<CouponForm> coupons = couponService.readAllOpenCoupons(pageable);
+
+        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
 
         model.addAttribute("coupons", coupons);
+        model.addAttribute("count", (int) coupons.getTotalElements());
+        model.addAttribute("paginationUtils", paginationUtils);
+
         return "upcoming-coupons";
     }
 
