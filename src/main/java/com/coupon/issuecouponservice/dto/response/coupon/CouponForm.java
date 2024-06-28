@@ -16,6 +16,7 @@ public class CouponForm {
     private ValidityStatus validityStatus;
     private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
+    private LocalDateTime openAt;
     private LocalDateTime closedAt;
 
     public CouponForm(Coupon coupon) {
@@ -27,6 +28,7 @@ public class CouponForm {
         this.validityStatus = coupon.getValidityStatus();
         this.createdAt = coupon.getCreatedAt();
         this.expiredAt = coupon.getExpiredAt();
+        this.openAt = coupon.getOpenAt();
         this.closedAt = coupon.getClosedAt();
     }
 
