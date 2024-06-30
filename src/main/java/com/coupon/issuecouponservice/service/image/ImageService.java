@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 @Component
 @RequiredArgsConstructor
-public class S3UploadService {
+public class ImageService {
 
     private final AmazonS3 amazonS3Client;
 
