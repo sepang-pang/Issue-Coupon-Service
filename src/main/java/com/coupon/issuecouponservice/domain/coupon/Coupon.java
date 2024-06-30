@@ -1,6 +1,7 @@
 package com.coupon.issuecouponservice.domain.coupon;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
+import com.coupon.issuecouponservice.domain.image.Image;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import io.hypersistence.utils.hibernate.id.Tsid;
@@ -66,6 +67,8 @@ public class Coupon extends Timestamped {
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.REMOVE)
     private List<UserCoupon> userCoupons = new ArrayList<>();
 
+    @OneToMany(mappedBy = "coupon", cascade = CascadeType.REMOVE)
+    private List<Image> images = new ArrayList<>();
 
     @Builder
     public Coupon(String couponName, String couponContent, String couponImage, int totalQuantity, LocalDateTime openAt, LocalDateTime closedAt, LocalDateTime expiredAt) {

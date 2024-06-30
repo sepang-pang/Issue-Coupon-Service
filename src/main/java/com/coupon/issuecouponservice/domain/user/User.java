@@ -2,6 +2,7 @@ package com.coupon.issuecouponservice.domain.user;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
 import com.coupon.issuecouponservice.domain.coupon.UserCoupon;
+import com.coupon.issuecouponservice.domain.image.Image;
 import com.coupon.issuecouponservice.dto.request.user.UserModificationParam;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
@@ -44,6 +45,9 @@ public class User extends Timestamped {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserCoupon> userCoupons = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Image> images = new ArrayList<>();
 
     @Builder
     public User(String nickName, String username, String email, Role role, String provider, String providerId) {
