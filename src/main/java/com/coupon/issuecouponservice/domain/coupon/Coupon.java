@@ -81,7 +81,7 @@ public class Coupon extends Timestamped {
         this.expiredAt = expiredAt;
     }
 
-    public void setCouponImage(String couponFile) {
+    public void updateCouponImage(String couponFile) {
         this.couponImage = couponFile;
     }
 

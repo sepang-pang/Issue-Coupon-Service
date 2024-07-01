@@ -52,7 +52,7 @@ public class CouponService {
             }
 
             // 쿠폰에 파일 URL 설정
-            coupon.setCouponImage(couponFile);
+            coupon.updateCouponImage(couponFile);
 
         }
 
