@@ -29,12 +29,7 @@ public class UserService {
     public void modifyUserProfile(User user, UserModificationParam param, MultipartFile file) throws IOException {
         User findUser = getUser(user);
 
-        if (file != null && !file.isEmpty()) {
-            // 파일 업로드
-            String userFile = imageService.upload(file, "findUser " + findUser.getId());
-
-            findUser.updateUserImage(userFile);
-        }
+        uploadImage(file, findUser);
 
         findUser.modifyUserDetails(param);
 
@@ -59,5 +54,14 @@ public class UserService {
     private User getUser(User user) {
         return userRepository.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+    }
+
+    // 파일 이미지 업로드 메서드
+    private void uploadImage(MultipartFile file, User findUser) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            String userFile = imageService.upload(file, "findUser " + findUser.getId());
+
+            findUser.updateUserImage(userFile);
+        }
     }
 }
