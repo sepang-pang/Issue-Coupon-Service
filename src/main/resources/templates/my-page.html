@@ -44,14 +44,7 @@
 <div class="container d-flex flex-column full-height full-width bg-custom">
     <div class="container text-center d-flex justify-content-center" style="margin-top: 50px">
         <div class="col-lg-4">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
-                 preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                <rect width="100%" height="100%" fill="var(--bs-secondary-color)"/>
-                <text x="50%" y="50%" fill="#eceeef" dy=".3em" text-anchor="middle"
-                      dominant-baseline="central">Thumbnail
-                </text>
-            </svg>
+            <img width="140" height="140" th:src="${user.image}" alt="프로필 사진">
             <div class="container d-flex flex-column justify-content-center align-items-center mt-3">
                 <h2 class="fw-normal mt-1">
                     <span th:text="${user.getNickName()}">유저 닉네임</span>

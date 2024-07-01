@@ -17,7 +17,7 @@ public class UserForm {
     public UserForm(User user) {
         this.nickName = user.getNickName();
         this.email = user.getEmail();
-        this.image = user.getEmail();
+        this.image = user.getUserImage();
         this.provider = user.getProvider();
     }
 }
