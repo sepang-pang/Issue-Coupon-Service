@@ -28,4 +28,8 @@ public class Image {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Image(Coupon coupon, String fileUrl) {
+        this.coupon = coupon;
+        this.imageUrl = fileUrl;
+    }
 }
