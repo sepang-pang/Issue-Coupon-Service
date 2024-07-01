@@ -66,7 +66,6 @@ public class Coupon extends Timestamped {
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.REMOVE)
     private List<UserCoupon> userCoupons = new ArrayList<>();
 
-
     @Builder
     public Coupon(String couponName, String couponContent, String couponImage, int totalQuantity, LocalDateTime openAt, LocalDateTime closedAt, LocalDateTime expiredAt) {
         this.couponName = couponName;
@@ -80,6 +79,10 @@ public class Coupon extends Timestamped {
         this.openAt = openAt;
         this.closedAt = closedAt;
         this.expiredAt = expiredAt;
+    }
+
+    public void updateCouponImage(String couponFile) {
+        this.couponImage = couponFile;
     }
 
     /* == 생성 메서드 == */

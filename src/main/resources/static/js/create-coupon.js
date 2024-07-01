@@ -27,8 +27,9 @@ document.getElementById("back").addEventListener("click", function () {
 });
 document.getElementById("create").addEventListener("click", function () {
 
-    const formData = {
-        couponImage: document.getElementById("coupon-image").value,
+    const formData = new FormData();
+
+    const param = {
         couponName: document.getElementById("coupon-name").value,
         couponContent: document.getElementById("coupon-content").value,
         totalQuantity: document.getElementById("total-quantity").value,
@@ -54,12 +55,13 @@ document.getElementById("create").addEventListener("click", function () {
         return;
     }
 
+    formData.append('param', new Blob([JSON.stringify(param)], {type: 'application/json'}));
+    formData.append('couponImage', document.getElementById("coupon-image").files[0]);
+
     const requestOptions = {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        body: formData
+
     };
     console.log("Sending data: ", formData);
 

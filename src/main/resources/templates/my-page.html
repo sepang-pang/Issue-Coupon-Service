@@ -44,14 +44,7 @@
 <div class="container d-flex flex-column full-height full-width bg-custom">
     <div class="container text-center d-flex justify-content-center" style="margin-top: 50px">
         <div class="col-lg-4">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
-                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
-                 preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                <rect width="100%" height="100%" fill="var(--bs-secondary-color)"/>
-                <text x="50%" y="50%" fill="#eceeef" dy=".3em" text-anchor="middle"
-                      dominant-baseline="central">Thumbnail
-                </text>
-            </svg>
+            <img width="140" height="140" th:src="${user.image}" alt="프로필 사진">
             <div class="container d-flex flex-column justify-content-center align-items-center mt-3">
                 <h2 class="fw-normal mt-1">
                     <span th:text="${user.getNickName()}">유저 닉네임</span>
@@ -172,37 +165,29 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modalSheet" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div th:each="coupon : ${coupons}" class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content rounded-4 p-2">
             <div class="modal-header border-bottom-0">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-header border-bottom-0 d-flex flex-column align-items-center justify-content-center px-5 pb-3">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                     preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#55595c"/>
-                    <text x="50%" y="50%" fill="#eceeef" dy=".3em" text-anchor="middle"
-                          dominant-baseline="central">Thumbnail
-                    </text>
-                </svg>
+                <img width="100%" height="225" th:src="${coupon.couponImage}" alt="쿠폰 이미지">
                 <div class="card-body d-flex flex-column mt-3 w-100">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="fw-normal" id="modalCouponName">쿠폰 이름</h2>
-                        <span class="badge bg-success ms-1" id="modalCouponStatus">유효</span>
+                        <h2 th:text="${coupon.couponName}" class="fw-normal" id="modalCouponName">쿠폰 이름</h2>
+                        <span th:text="${coupon.validityStatus}" class="badge bg-success ms-1" id="modalCouponStatus">유효</span>
                     </div>
-                    <p class="card-text" id="modalCouponDescription">쿠폰에 대한 설명이 기재될 예정입니다.</p>
+                    <p th:text="${coupon.couponContent}" class="card-text" id="modalCouponDescription">쿠폰에 대한 설명이 기재될 예정입니다.</p>
                 </div>
             </div>
             <div class="container d-flex justify-content-between align-items-center p-3">
                 <small class="text-body-secondary">
                     <span>발행 일자 </span>
-                    <span id="modalCouponCreated">2023-06-01</span>
+                    <span th:text="${#temporals.format(coupon.openAt, 'yyyy-MM-dd')}" id="modalCouponCreated">2023-06-01</span>
                 </small>
                 <small class="text-body-secondary">
                     <span>만료 일자 </span>
-                    <span id="modalCouponExpired">2023-12-01</span>
+                    <span th:text="${#temporals.format(coupon.expiredAt, 'yyyy-MM-dd')}" id="modalCouponExpired">2023-12-01</span>
                 </small>
             </div>
         </div>

@@ -13,7 +13,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,9 +35,9 @@ public class UserController {
     @PatchMapping("/profile/setup")
     @ResponseBody
     public ResponseEntity<ApiResponseForm> modifyUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                      @RequestBody UserModificationParam param) {
-
-        userService.modifyUserProfile(userDetails.getUser(), param);
+                                                      @RequestPart("param") UserModificationParam param,
+                                                      @RequestPart(value = "userImage", required = false) MultipartFile file) throws IOException {
+        userService.modifyUserProfile(userDetails.getUser(), param, file);
 
         return ResponseEntity.ok().body(new ApiResponseForm("프로필 작성 완료", HttpStatus.OK.value()));
     }

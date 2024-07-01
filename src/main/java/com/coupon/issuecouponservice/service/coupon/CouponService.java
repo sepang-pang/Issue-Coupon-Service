@@ -9,12 +9,15 @@ import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
+import com.coupon.issuecouponservice.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,10 +28,11 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final UserCouponQueryService userCouponQueryService;
+    private final ImageService imageService;
     private final CouponScheduler couponScheduler;
 
     // 쿠폰 생성
-    public void createCoupon(CouponCreationParam param) {
+    public void createCoupon(CouponCreationParam param, MultipartFile file) throws IOException {
         // 쿠폰 이름 중복 검증
         checkForDuplicateCouponName(param.getCouponName());
 
@@ -38,6 +42,10 @@ public class CouponService {
         // 쿠폰 생성
         Coupon coupon = Coupon.CreateCoupon(param, coupons);
 
+        // 쿠폰 이미지 업로드
+        uploadImage(file, coupon);
+
+        // 쿠폰 저장
         couponRepository.save(coupon);
 
         // 스케줄 등록
@@ -143,6 +151,15 @@ public class CouponService {
 
         if (exists) {
             throw new IllegalArgumentException("이미 존재하는 쿠폰명입니다.");
+        }
+    }
+
+    // 쿠폰 이미지 업로드 메서드
+    private void uploadImage(MultipartFile file, Coupon coupon) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            String couponFile = imageService.upload(file, "coupon " + coupon.getId());
+
+            coupon.updateCouponImage(couponFile);
         }
     }
 

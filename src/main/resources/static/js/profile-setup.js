@@ -11,17 +11,17 @@ document.getElementById("skip").addEventListener("click", function () {
 })
 
 document.getElementById("submit").addEventListener("click", function () {
-    const formData = {
-        nickName: document.querySelector(".form-control").value,
-        image: ""
+    const formData = new FormData();
+    const param = {
+        nickName: document.querySelector(".form-control").value
     }
+
+    formData.append('param', new Blob([JSON.stringify(param)], {type: 'application/json'}));
+    formData.append('userImage', document.getElementById("file-input").files[0]);
 
     fetch("/user/profile/setup", {
         method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        body: formData
     }).then(response => response.json())
         .then(data => {
             console.log("Success: ", data);

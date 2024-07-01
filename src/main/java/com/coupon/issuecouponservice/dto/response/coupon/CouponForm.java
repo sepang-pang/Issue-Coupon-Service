@@ -11,6 +11,7 @@ public class CouponForm {
     private Long couponId;
     private String couponName;
     private String couponContent;
+    private String couponImage;
     private int totalQuantity;
     private int remainQuantity;
     private ValidityStatus validityStatus;
@@ -23,6 +24,7 @@ public class CouponForm {
         this.couponId = coupon.getId();
         this.couponName = coupon.getCouponName();
         this.couponContent = coupon.getCouponContent();
+        this.couponImage = coupon.getCouponImage();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
         this.validityStatus = coupon.getValidityStatus();
@@ -36,6 +38,7 @@ public class CouponForm {
         this.couponId = coupon.getId();
         this.couponName = coupon.getCouponName();
         this.couponContent = coupon.getCouponContent();
+        this.couponImage = coupon.getCouponImage();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
         this.validityStatus = coupon.getValidityStatus();

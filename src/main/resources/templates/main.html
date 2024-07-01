@@ -64,12 +64,8 @@
 
             <!-- 쿠폰 정보 화면 -->
             <div th:if="${coupon != null}" class="container mt-5">
-                <div class="ratio ratio-16x9 max-width-600">
-                    <svg class="bd-placeholder-img" xmlns="http://www.w3.org/2000/svg" role="img"
-                         aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#868e96"></rect>
-                    </svg>
+                <div class="ratio ratio-16x9 max-width-600 container d-flex justify-content-center align-items-center">
+                    <img th:src="${coupon.couponImage}"  alt="쿠폰 이미지">
                 </div>
                 <h2 class="fw-normal mt-4" id="coupon-name" th:text="${coupon.couponName}"></h2>
                 <div class="container mb-4" id="expiration-counter">
