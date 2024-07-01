@@ -42,19 +42,8 @@ public class CouponService {
         // 쿠폰 생성
         Coupon coupon = Coupon.CreateCoupon(param, coupons);
 
-        if (file != null && !file.isEmpty()) {
-            // 파일 업로드
-            String couponFile = imageService.upload(file, "coupon " + coupon.getId());
-
-            // 파일 URL 중복 검증
-            if (couponRepository.existsByCouponImageAndId(couponFile, coupon.getId())) {
-                throw new IllegalArgumentException("중복된 파일명입니다.");
-            }
-
-            // 쿠폰에 파일 URL 설정
-            coupon.updateCouponImage(couponFile);
-
-        }
+        // 쿠폰 이미지 업로드
+        uploadImage(file, coupon);
 
         // 쿠폰 저장
         couponRepository.save(coupon);
@@ -162,6 +151,15 @@ public class CouponService {
 
         if (exists) {
             throw new IllegalArgumentException("이미 존재하는 쿠폰명입니다.");
+        }
+    }
+
+    // 쿠폰 이미지 업로드 메서드
+    private void uploadImage(MultipartFile file, Coupon coupon) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            String couponFile = imageService.upload(file, "coupon " + coupon.getId());
+
+            coupon.updateCouponImage(couponFile);
         }
     }
 

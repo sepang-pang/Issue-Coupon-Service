@@ -48,6 +48,10 @@ public class User extends Timestamped {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserCoupon> userCoupons = new ArrayList<>();
 
+    public void updateUserImage(String userFile) {
+        this.userImage = userFile;
+    }
+
     @Builder
     public User(String nickName, String username, String email, Role role, String provider, String providerId) {
         this.nickName = nickName;
