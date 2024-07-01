@@ -63,10 +63,6 @@ public class User extends Timestamped {
     }
 
     public void modifyUserDetails(UserModificationParam param) {
-        if (!param.getUserImage().isBlank() && !this.userImage.equals(param.getUserImage())) {
-            this.userImage = param.getUserImage();
-        }
-
         if (!param.getNickName().isBlank() && !this.nickName.equals(param.getNickName())) {
             this.nickName = param.getNickName();
         }

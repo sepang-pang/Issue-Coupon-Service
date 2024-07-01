@@ -4,6 +4,7 @@ import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.user.UserModificationParam;
 import com.coupon.issuecouponservice.repository.user.UserRepository;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
+import com.coupon.issuecouponservice.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +23,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ImageService imageService;
 
     // 프로필 수정
-    public void modifyUserProfile(User user, UserModificationParam param) {
+    public void modifyUserProfile(User user, UserModificationParam param, MultipartFile file) throws IOException {
         User findUser = getUser(user);
+
+        if (file != null && !file.isEmpty()) {
+            // 파일 업로드
+            String userFile = imageService.upload(file, "findUser " + findUser.getId());
+
+            findUser.updateUserImage(userFile);
+        }
 
         findUser.modifyUserDetails(param);
 
