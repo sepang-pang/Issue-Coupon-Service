@@ -2,11 +2,13 @@ package com.coupon.issuecouponservice.domain.user;
 
 import com.coupon.issuecouponservice.domain.common.Timestamped;
 import com.coupon.issuecouponservice.domain.coupon.UserCoupon;
-import com.coupon.issuecouponservice.domain.image.Image;
 import com.coupon.issuecouponservice.dto.request.user.UserModificationParam;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +32,8 @@ public class User extends Timestamped {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "image")
-    private String image;
+    @Column(name = "user-image")
+    private String userImage;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role", nullable = false)
@@ -46,9 +48,6 @@ public class User extends Timestamped {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserCoupon> userCoupons = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Image> images = new ArrayList<>();
-
     @Builder
     public User(String nickName, String username, String email, Role role, String provider, String providerId) {
         this.nickName = nickName;
@@ -60,8 +59,8 @@ public class User extends Timestamped {
     }
 
     public void modifyUserDetails(UserModificationParam param) {
-        if (!param.getImage().isBlank() && !this.image.equals(param.getImage())) {
-            this.image = param.getImage();
+        if (!param.getUserImage().isBlank() && !this.userImage.equals(param.getUserImage())) {
+            this.userImage = param.getUserImage();
         }
 
         if (!param.getNickName().isBlank() && !this.nickName.equals(param.getNickName())) {

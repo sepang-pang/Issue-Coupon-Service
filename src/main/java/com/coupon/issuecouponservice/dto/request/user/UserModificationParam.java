@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserModificationParam {
-    private String image;
+    private String userImage;
     private String nickName;
 }
