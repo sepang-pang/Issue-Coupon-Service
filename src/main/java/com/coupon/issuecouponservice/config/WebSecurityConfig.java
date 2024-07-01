@@ -44,6 +44,7 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/user/check-role").authenticated()
                         .requestMatchers("/upcoming-coupons").permitAll()
                         .requestMatchers("/past-coupons").permitAll()
                         .requestMatchers("/user/**").hasRole("USER")
