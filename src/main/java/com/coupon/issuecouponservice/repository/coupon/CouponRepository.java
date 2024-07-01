@@ -16,6 +16,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
             "and c.isDeleted = false")
     boolean existsByCouponName(@Param("couponName") String couponName);
 
+    Boolean existsByCouponImageAndId(String couponFileUrl, Long id);
+
     @Query("select c from Coupon c where c.isDeleted = false order by c.createdAt desc")
     List<Coupon> findAllCoupons();
 

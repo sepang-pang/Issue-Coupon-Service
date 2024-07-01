@@ -2,7 +2,6 @@ package com.coupon.issuecouponservice.service.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
 import com.coupon.issuecouponservice.domain.coupon.UserCoupon;
-import com.coupon.issuecouponservice.domain.image.Image;
 import com.coupon.issuecouponservice.domain.user.User;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
@@ -10,7 +9,6 @@ import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
-import com.coupon.issuecouponservice.repository.image.ImageRepository;
 import com.coupon.issuecouponservice.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +29,6 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final UserCouponQueryService userCouponQueryService;
     private final ImageService imageService;
-    private final ImageRepository imageRepository;
     private final CouponScheduler couponScheduler;
 
     // 쿠폰 생성
@@ -45,17 +42,22 @@ public class CouponService {
         // 쿠폰 생성
         Coupon coupon = Coupon.CreateCoupon(param, coupons);
 
-        couponRepository.save(coupon);
+        if (file != null && !file.isEmpty()) {
+            // 파일 업로드
+            String couponFile = imageService.upload(file, "coupon " + coupon.getId());
 
-        if (file != null) {
-
-            String fileUrl = imageService.upload(file, "coupon " + coupon.getId());
-            if (imageRepository.existsByImageUrlAndId(fileUrl, coupon.getId())) {
+            // 파일 URL 중복 검증
+            if (couponRepository.existsByCouponImageAndId(couponFile, coupon.getId())) {
                 throw new IllegalArgumentException("중복된 파일명입니다.");
             }
-            imageRepository.save(new Image(coupon, fileUrl));
+
+            // 쿠폰에 파일 URL 설정
+            coupon.setCouponImage(couponFile);
 
         }
+
+        // 쿠폰 저장
+        couponRepository.save(coupon);
 
         // 스케줄 등록
         couponScheduler.scheduleCouponStatusChange(coupon);
