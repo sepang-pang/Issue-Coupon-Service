@@ -21,7 +21,7 @@ public class ImageService {
 
     private final AmazonS3 amazonS3Client;
 
-    @Value("${BUCKET_NAME}")
+    @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     // multipartFile 타입으로 file 을 받아온다.
