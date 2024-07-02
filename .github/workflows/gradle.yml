@@ -42,12 +42,23 @@ jobs:
           echo "${{ secrets.APPLICATION_TEST_PROPERTIES }}" > ./application-test.properties
         shell: bash
 
+      - name: test properties 파일 생성
+        run: |
+          cd ./src/test/resources
+          touch ./application-test.properties
+          echo "cloud.aws.credentials.access-key=${{ secrets.ACCESS_KEY }}" >> ./application-test.properties
+          echo "cloud.aws.credentials.secret-key=${{ secrets.SECRET_KEY }}" >> ./application-test.properties
+          echo "cloud.aws.region.static=${{ secrets.REGION }}" >> ./application-test.properties
+          echo "cloud.aws.s3.bucket=${{ secrets.BUCKET_NAME }}" >> ./application-test.properties
+          echo "cloud.aws.stack.auto=false" >> ./application-test.properties
+        shell: bash
+
       - name: Install AWS CLI
         run: |
           sudo apt-get update
           sudo apt-get install -y awscli
-  
-              # AWS CLI 설정
+
+      # AWS CLI 설정
       - name: Configure AWS CLI
         run: |
           aws configure set aws_access_key_id ${{ secrets.ACCESS_KEY }}
@@ -83,14 +94,3 @@ jobs:
         with:
           report_paths: '**/build/test-results/test/TEST-*.xml'
 
-      # application.properties 파일 생성 및 환경 변수 설정
-      - name: Create application.properties file
-        run: |
-          cd ./src/main/resources
-          touch ./application.properties
-          echo "cloud.aws.credentials.access-key=${{ secrets.ACCESS_KEY }}" >> ./application.properties
-          echo "cloud.aws.credentials.secret-key=${{ secrets.SECRET_KEY }}" >> ./application.properties
-          echo "cloud.aws.region.static=${{ secrets.REGION }}" >> ./application.properties
-          echo "cloud.aws.s3.bucket=${{ secrets.BUCKET_NAME }}" >> ./application.properties
-          echo "cloud.aws.stack.auto=false" >> ./application.properties
-        shell: bash
