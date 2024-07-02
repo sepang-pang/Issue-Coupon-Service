@@ -42,17 +42,6 @@ jobs:
           echo "${{ secrets.APPLICATION_TEST_PROPERTIES }}" > ./application-test.properties
         shell: bash
 
-      - name: test properties 파일 생성
-        run: |
-          cd ./src/test/resources
-          touch ./application-test.properties
-          echo "cloud.aws.credentials.access-key=${{ secrets.ACCESS_KEY }}" >> ./application-test.properties
-          echo "cloud.aws.credentials.secret-key=${{ secrets.SECRET_KEY }}" >> ./application-test.properties
-          echo "cloud.aws.region.static=${{ secrets.REGION }}" >> ./application-test.properties
-          echo "cloud.aws.s3.bucket=${{ secrets.BUCKET_NAME }}" >> ./application-test.properties
-          echo "cloud.aws.stack.auto=false" >> ./application-test.properties
-        shell: bash
-
       - name: Install AWS CLI
         run: |
           sudo apt-get update
@@ -64,6 +53,8 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.ACCESS_KEY }}
           aws configure set aws_secret_access_key ${{ secrets.SECRET_KEY }}
           aws configure set region ${{ secrets.REGION }}
+        env:
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
