@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,12 +54,10 @@ public class CouponService {
 
     // 쿠폰 전체 조회
     @Transactional(readOnly = true)
-    public List<CouponForm> readAllCoupons() {
-        List<Coupon> findCoupons = couponRepository.findAllCoupons();
+    public Page<CouponForm> readAllCoupons(Pageable pageable) {
+        Page<Coupon> findCoupons = couponRepository.findAllCoupons(pageable);
 
-        return findCoupons.stream()
-                .map(CouponForm::new)
-                .collect(Collectors.toList());
+        return findCoupons.map(CouponForm::new);
     }
 
     // 진행 중 쿠폰 조회
@@ -70,7 +67,7 @@ public class CouponService {
         return findCoupon != null ? new CouponOneForm(findCoupon) : null;
     }
 
-    // 예정된 쿠폰 전체 조히
+    // 예정된 쿠폰 전체 조회
     public Page<CouponForm> readAllOpenCoupons(Pageable pageable) {
         Page<Coupon> findCoupons = couponRepository.findOpenCoupons(pageable);
 

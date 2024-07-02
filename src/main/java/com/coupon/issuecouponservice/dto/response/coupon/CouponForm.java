@@ -1,6 +1,7 @@
 package com.coupon.issuecouponservice.dto.response.coupon;
 
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
+import com.coupon.issuecouponservice.domain.coupon.CouponStatus;
 import com.coupon.issuecouponservice.domain.coupon.ValidityStatus;
 import lombok.Getter;
 
@@ -14,6 +15,7 @@ public class CouponForm {
     private String couponImage;
     private int totalQuantity;
     private int remainQuantity;
+    private CouponStatus couponStatus;
     private ValidityStatus validityStatus;
     private LocalDateTime createdAt;
     private LocalDateTime expiredAt;
@@ -27,6 +29,7 @@ public class CouponForm {
         this.couponImage = coupon.getCouponImage();
         this.totalQuantity = coupon.getTotalQuantity();
         this.remainQuantity = coupon.getRemainQuantity();
+        this.couponStatus = coupon.getCouponStatus();
         this.validityStatus = coupon.getValidityStatus();
         this.createdAt = coupon.getCreatedAt();
         this.expiredAt = coupon.getExpiredAt();
