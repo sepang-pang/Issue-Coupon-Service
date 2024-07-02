@@ -45,7 +45,7 @@ jobs:
       - name: Install AWS CLI
         run: |
           sudo apt-get update
-          sudo apt-get install -y acyclic
+          sudo apt-get install -y awscli
   
               # AWS CLI 설정
       - name: Configure AWS CLI
