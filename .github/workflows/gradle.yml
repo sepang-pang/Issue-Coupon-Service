@@ -53,8 +53,7 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.ACCESS_KEY }}
           aws configure set aws_secret_access_key ${{ secrets.SECRET_KEY }}
           aws configure set region ${{ secrets.REGION }}
-        env:
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
