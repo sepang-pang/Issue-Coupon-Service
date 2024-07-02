@@ -56,6 +56,11 @@ jobs:
         env:
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
 
+      - name: Check application-test.properties contents
+        run: |
+          cat ./src/test/resources/application-test.properties
+        shell: bash
+
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
         run: chmod +x ./gradlew
