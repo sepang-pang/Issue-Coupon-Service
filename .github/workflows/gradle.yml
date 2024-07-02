@@ -42,6 +42,17 @@ jobs:
           echo "${{ secrets.APPLICATION_TEST_PROPERTIES }}" > ./application-test.properties
         shell: bash
 
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y acyclic
+  
+              # AWS CLI 설정
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.ACCESS_KEY }}
+          aws configure set aws_secret_access_key ${{ secrets.SECRET_KEY }}
+          aws configure set region ${{ secrets.REGION }}
 
       # gradle 실행 허가
       - name: Run chmod to make gradlew executable
@@ -53,7 +64,6 @@ jobs:
       # Bulid Test
       - name: Build with Gradle
         run: ./gradlew build
-      #
 
 
       # PR conversation & Action에 몇 개의 테스트 중에 몇 개가 통과 되었는지
@@ -72,3 +82,15 @@ jobs:
         if: success() || failure() # always run even if the previous step fails
         with:
           report_paths: '**/build/test-results/test/TEST-*.xml'
+
+      # application.properties 파일 생성 및 환경 변수 설정
+      - name: Create application.properties file
+        run: |
+          cd ./src/main/resources
+          touch ./application.properties
+          echo "cloud.aws.credentials.access-key=${{ secrets.ACCESS_KEY }}" >> ./application.properties
+          echo "cloud.aws.credentials.secret-key=${{ secrets.SECRET_KEY }}" >> ./application.properties
+          echo "cloud.aws.region.static=${{ secrets.REGION }}" >> ./application.properties
+          echo "cloud.aws.s3.bucket=${{ secrets.BUCKET_NAME }}" >> ./application.properties
+          echo "cloud.aws.stack.auto=false" >> ./application.properties
+        shell: bash
