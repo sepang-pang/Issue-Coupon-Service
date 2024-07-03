@@ -23,6 +23,11 @@ public class AdminController {
 
     private final CouponService couponService;
 
+    @GetMapping()
+    public String index() {
+        return "admin/admin-main";
+    }
+
     @GetMapping("/coupons")
     public String readAllCoupons(Model model, @PageableDefault(size = 9) Pageable pageable) {
         Page<CouponForm> coupons = couponService.readAllCoupons(pageable);
