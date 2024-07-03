@@ -74,7 +74,6 @@ function updateTimer(timerElement) {
     updateRemainingTime(); // 초기 실행
 }
 
-
 // 모달 내용 업데이트 함수
 function updateModalContent(name, description, created, expired, status) {
     document.getElementById('modalCouponName').innerText = name;
@@ -152,6 +151,32 @@ function updateStatusBadge(status) {
     }
 }
 
+// 쿠폰 삭제 처리 함수
+document.getElementById('modalChoice').addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const couponId = button.getAttribute('data-coupon-id');
+    const confirmButton = this.querySelector('#confirmDelete');
+    confirmButton.setAttribute('data-coupon-id', couponId);
+});
+
+document.getElementById('confirmDelete').addEventListener('click', function () {
+    const couponId = this.getAttribute('data-coupon-id');
+    fetch(`/admin/coupon/${couponId}`, {
+        method: 'DELETE'
+    }).then(response => {
+        if (response.ok) {
+            console.log('쿠폰 삭제 성공');
+            window.location.reload();
+        } else {
+            alert('쿠폰 삭제 실패');
+        }
+    }).catch((error) => {
+        console.error("Error: ", error.message);
+        alert("쿠폰 삭제에 실패했습니다: " + error.message);
+    });
+});
+
+// 카드 높이 처리 함수
 window.onload = function () {
     let maxHeight = 0;
     const cardBodies = document.querySelectorAll('.card-body');

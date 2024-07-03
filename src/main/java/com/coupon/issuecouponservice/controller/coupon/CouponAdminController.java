@@ -39,10 +39,11 @@ public class CouponAdminController {
     }
 
     @DeleteMapping("/coupon/{couponId}")
-    public void deleteCoupon(@PathVariable("couponId") Long couponId) {
+    public ResponseEntity<ApiResponseForm> deleteCoupon(@PathVariable("couponId") Long couponId) {
 
         couponService.deleteCoupon(couponId);
 
+        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 삭제 성공", HttpStatus.OK.value()));
     }
 
 }
