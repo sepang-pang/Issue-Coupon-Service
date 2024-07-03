@@ -23,8 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.getElementById("back").addEventListener("click", function () {
-    window.location.href = "/";
+    window.history.back();
 });
+
 document.getElementById("create").addEventListener("click", function () {
 
     const formData = new FormData();
@@ -77,7 +78,7 @@ document.getElementById("create").addEventListener("click", function () {
         })
         .then(data => {
             console.log("Success: ", data);
-            window.location.href = "/";
+            window.location.href = "/admin";
         })
         .catch((error) => {
             console.error("Error: ", error);
