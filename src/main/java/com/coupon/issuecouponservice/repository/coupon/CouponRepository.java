@@ -34,5 +34,5 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("select c from Coupon c where c.couponStatus = 'CLOSED' and c.isDeleted = false order by c.closedAt")
     Page<Coupon> findClosedCoupons(Pageable pageable);
 
-    List<Coupon> findAllByOrderByClosedAtDesc();
+    List<Coupon> findAllByIsDeletedFalseOrderByClosedAtDesc();
 }

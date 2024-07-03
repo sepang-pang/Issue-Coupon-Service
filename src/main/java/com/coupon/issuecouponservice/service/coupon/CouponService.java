@@ -36,7 +36,7 @@ public class CouponService {
         checkForDuplicateCouponName(param.getCouponName());
 
         // 쿠폰 마감일자 최신순으로 조회
-        List<Coupon> coupons = couponRepository.findAllByOrderByClosedAtDesc();
+        List<Coupon> coupons = couponRepository.findAllByIsDeletedFalseOrderByClosedAtDesc();
 
         // 쿠폰 생성
         Coupon coupon = Coupon.CreateCoupon(param, coupons);
