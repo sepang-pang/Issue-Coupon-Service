@@ -35,11 +35,6 @@ public class HomeController {
         return "login";
     }
 
-    @GetMapping("/create-coupon")
-    public String create() {
-        return "create-coupon";
-    }
-
     @GetMapping("/upcoming-coupons")
     public String upcoming(Model model, @PageableDefault(size = 9) Pageable pageable) {
         Page<CouponForm> coupons = couponService.readAllOpenCoupons(pageable);
