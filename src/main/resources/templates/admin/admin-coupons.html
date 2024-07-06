@@ -101,7 +101,7 @@
                                     </small>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
-                                    <button type="button" class="btn btn-primary">수정</button>
+                                    <button type="button" class="btn btn-primary" th:onclick="goToUpdate('[[${coupon.couponId}]]')">수정</button>
                                     <button type="button" class="btn btn-danger"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalChoice"
