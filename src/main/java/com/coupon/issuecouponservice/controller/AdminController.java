@@ -1,6 +1,7 @@
 package com.coupon.issuecouponservice.controller;
 
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
+import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import com.coupon.issuecouponservice.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import static com.coupon.issuecouponservice.domain.user.Role.Authority.ADMIN;
@@ -32,6 +34,13 @@ public class AdminController {
     @GetMapping("/create-coupon")
     public String createCoupon() {
         return "admin/create-coupon";
+    }
+
+    @GetMapping("/update-coupon/{couponId}")
+    public String updateCoupon(Model model, @PathVariable Long couponId) {
+        CouponOneForm couponOneForm = couponService.selectCoupon(couponId);
+        model.addAttribute("coupon", couponOneForm);
+        return "admin/update-coupon";
     }
 
     @GetMapping("/coupons")
