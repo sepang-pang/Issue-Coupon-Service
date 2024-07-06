@@ -30,7 +30,7 @@ public class Coupon extends Timestamped {
     @Column(name = "coupon_content", nullable = false)
     private String couponContent;
 
-    @Column(name = "coupon_image")
+    @Column(name = "coupon_image", nullable = false)
     private String couponImage;
 
     @Column(name = "total_quantity", nullable = false)
@@ -54,13 +54,13 @@ public class Coupon extends Timestamped {
     @Column(name = "validity_status")
     private ValidityStatus validityStatus;
 
-    @Column(name = "open_at")
+    @Column(name = "open_at", nullable = false)
     private LocalDateTime openAt;
 
-    @Column(name = "closed_at")
+    @Column(name = "closed_at", nullable = false)
     private LocalDateTime closedAt;
 
-    @Column(name = "expired_at")
+    @Column(name = "expired_at", nullable = false)
     private LocalDateTime expiredAt;
 
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.REMOVE)
@@ -101,17 +101,31 @@ public class Coupon extends Timestamped {
     }
 
     /* == 수정 메서드 == */
-    public void modifyCoupon(CouponModificationParam param) {
-        if (param.getCouponName() != null && !param.getCouponName().isBlank() && !this.couponName.equals(param.getCouponName())) {
+    public void modifyCoupon(CouponModificationParam param, List<Coupon> coupons) {
+        if (param.getCouponName() != null && !this.couponName.equals(param.getCouponName())) {
             this.couponName = param.getCouponName();
         }
 
-        if (this.totalQuantity != param.getTotalQuantity()) {
+        if (param.getCouponContent() != null && !this.couponContent.equals(param.getCouponContent())) {
+            this.couponContent = param.getCouponContent();
+        }
+
+        if (this.totalQuantity != param.getTotalQuantity() && param.getTotalQuantity() != 0) {
             this.totalQuantity = param.getTotalQuantity();
         }
 
-        if (this.remainQuantity != param.getRemainQuantity()) {
+        if (this.remainQuantity != param.getRemainQuantity() && param.getRemainQuantity() != 0) {
             this.remainQuantity = param.getRemainQuantity();
+        }
+
+        if (param.getOpenAt() != null && !this.openAt.equals(param.getOpenAt())) {
+            check(param, coupons);
+            this.openAt = param.getOpenAt();
+        }
+
+        if (param.getClosedAt() != null && !this.closedAt.equals(param.getClosedAt())) {
+            check(param, coupons);
+            this.closedAt = param.getClosedAt();
         }
 
         if (param.getExpiredAt() != null && !this.expiredAt.equals(param.getExpiredAt())) {
@@ -140,12 +154,26 @@ public class Coupon extends Timestamped {
         return false;
     }
 
-    /* == 검증 메서드 : 날짜 검증  == */
+    /* == 검증 메서드 : 쿠폰 생성 날짜 검증  == */
     private static void checkClosedAt(CouponCreationParam param, List<Coupon> coupons) {
         if(!coupons.isEmpty()){
             LocalDateTime lastCouponClosedAt = coupons.get(0).getClosedAt();
             if(param.getOpenAt().isBefore(lastCouponClosedAt)){
                 throw new IllegalArgumentException("새 쿠폰의 시작일은 기존 쿠폰의 발급 마감일( " + lastCouponClosedAt + " )보다 이후여야 합니다.");
+            }
+        }
+    }
+
+    /* == 검증 메서드 : 쿠폰 수정 날짜 검증  == */
+    private void check(CouponModificationParam param, List<Coupon> coupons) {
+        LocalDateTime updateOpenAt = param.getOpenAt();
+        LocalDateTime updateClosedAt = param.getClosedAt();
+
+        for (Coupon coupon : coupons) {
+            if(!this.id.equals(coupon.id)){
+                if (!updateClosedAt.isBefore(coupon.openAt) && !updateOpenAt.isAfter(coupon.closedAt)) {
+                    throw new IllegalArgumentException("해당 쿠폰이 " + coupon.couponName + "과 시간이 겹칩니다.");
+                }
             }
         }
     }

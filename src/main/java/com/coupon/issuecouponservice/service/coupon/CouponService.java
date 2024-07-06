@@ -84,15 +84,24 @@ public class CouponService {
     }
 
     // 쿠폰 수정
-    public void modifyCoupon(Long couponId, CouponModificationParam param) {
-        // 쿠폰 이름 중복 검증
-        checkForDuplicateCouponName(param.getCouponName());
-
+    public void modifyCoupon(Long couponId, CouponModificationParam param, MultipartFile file) throws IOException {
         // 쿠폰 조회
         Coupon findCoupon = getCoupon(couponId);
 
+        // 쿠폰 이름이 수정되었을 경우에만 중복 검사를 수행
+        checkForDuplicateOriginCouponName(param, findCoupon);
+
+        // 쿠폰 마감일자 최신순으로 조회
+        List<Coupon> coupons = couponRepository.findAllByIsDeletedFalseOrderByClosedAtDesc();
+
         // 쿠폰 수정
-        findCoupon.modifyCoupon(param);
+        findCoupon.modifyCoupon(param, coupons);
+
+        // 이미지 업로드
+        uploadImage(file, findCoupon);
+
+        // 스케줄 등록
+        couponScheduler.scheduleCouponStatusChange(findCoupon);
     }
 
     // 쿠폰 삭제
@@ -142,7 +151,14 @@ public class CouponService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 쿠폰입니다."));
     }
 
-    // 쿠폰 검증 메서드
+    // 수정 시 기존 쿠폰을 제외한 이름 검증 메서드
+    private void checkForDuplicateOriginCouponName(CouponModificationParam param, Coupon findCoupon) {
+        if (!findCoupon.getCouponName().equals(param.getCouponName())) {
+            checkForDuplicateCouponName(param.getCouponName());
+        }
+    }
+
+    // 쿠폰 이름 검증 메서드
     private void checkForDuplicateCouponName(String couponName) {
         boolean exists = couponRepository.existsByCouponName(couponName);
 
