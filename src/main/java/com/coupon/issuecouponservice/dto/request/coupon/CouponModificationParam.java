@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 public class CouponModificationParam {
 
     private String couponName;
-
-    private int totalQuantity;
-
-    private int remainQuantity;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private String couponContent;
+    private String couponImage;
+    private Integer totalQuantity;
+    private Integer remainQuantity;
+    private LocalDateTime openAt;
+    private LocalDateTime closedAt;
     private LocalDateTime expiredAt;
 }
