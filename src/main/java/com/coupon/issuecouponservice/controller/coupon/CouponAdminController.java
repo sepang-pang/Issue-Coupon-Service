@@ -34,7 +34,7 @@ public class CouponAdminController {
     @PatchMapping("/coupon/{couponId}")
     public ResponseEntity<ApiResponseForm> modifyCoupon(@PathVariable("couponId") Long couponId,
                                                         @RequestPart("param") CouponModificationParam param,
-                                                        @RequestPart(value = "couponImage", required = false) MultipartFile file) throws IOException  {
+                                                        @RequestPart(value = "couponImage", required = false) MultipartFile file) throws IOException {
 
         couponService.modifyCoupon(couponId, param, file);
         return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 수정 성공", HttpStatus.OK.value()));

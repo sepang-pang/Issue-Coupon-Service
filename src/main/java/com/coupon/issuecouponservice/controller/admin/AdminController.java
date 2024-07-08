@@ -1,4 +1,4 @@
-package com.coupon.issuecouponservice.controller;
+package com.coupon.issuecouponservice.controller.admin;
 
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;

@@ -59,8 +59,8 @@ public class UserController {
         return "my-page";
     }
 
-    @PatchMapping("/user/profile/setup")
     @ResponseBody
+    @PatchMapping("/user/profile/setup")
     public ResponseEntity<ApiResponseForm> modifyUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                       @RequestPart("param") UserModificationParam param,
                                                       @RequestPart(value = "userImage", required = false) MultipartFile file) throws IOException {
