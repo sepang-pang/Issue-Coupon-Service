@@ -33,7 +33,7 @@ public class CouponScheduler {
     private void activateCoupon(Long couponId) {
         transactionTemplate.execute(status -> {
             Coupon coupon = couponQueryService.getCoupon(couponId);
-            if(coupon.getCouponStatus() != CouponStatus.CLOSED){
+            if (coupon.getCouponStatus() != CouponStatus.CLOSED) {
                 coupon.updateCouponStatus(CouponStatus.ACTIVE);
             }
             return null;

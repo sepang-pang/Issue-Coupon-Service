@@ -28,8 +28,8 @@
 <body>
 <!-- 네비게이션 바 설정 -->
 <header>
-    <div th:replace="nav-bar-1st :: navbarFragment"></div>
-    <div th:replace="nav-bar-2nd :: navbarFragment"></div>
+    <div th:replace="fragments/nav-bar-auth :: navbarFragment"></div>
+    <div th:replace="fragments/nav-bar-coupons :: navbarFragment"></div>
 </header>
 
 <div class="container d-flex flex-column full-height full-width bg-custom">
@@ -65,7 +65,7 @@
             <!-- 쿠폰 정보 화면 -->
             <div th:if="${coupon != null}" class="container mt-5">
                 <div class="ratio ratio-16x9 max-width-600 container d-flex justify-content-center align-items-center">
-                    <img th:src="${coupon.couponImage}"  alt="쿠폰 이미지">
+                    <img th:src="${coupon.couponImage}" alt="쿠폰 이미지">
                 </div>
                 <h2 class="fw-normal mt-4" id="coupon-name" th:text="${coupon.couponName}"></h2>
                 <div class="container mb-4" id="expiration-counter">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <button class="mb-5 mt-2 btn-custom btn-bg btn-gra-anim" type="button" id="issue"
-                th:data-coupon-id="${coupon.couponId}">
+                        th:data-coupon-id="${coupon.couponId}">
                     발급받기
                 </button>
             </div>

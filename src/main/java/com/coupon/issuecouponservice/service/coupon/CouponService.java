@@ -7,7 +7,7 @@ import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
-import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
+import com.coupon.issuecouponservice.dto.response.coupon.CouponSummaryForm;
 import com.coupon.issuecouponservice.repository.coupon.CouponRepository;
 import com.coupon.issuecouponservice.service.image.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,6 @@ public class CouponService {
         couponScheduler.scheduleCouponStatusChange(coupon);
     }
 
-
     // 쿠폰 전체 조회
     @Transactional(readOnly = true)
     public Page<CouponForm> readAllCoupons(Pageable pageable) {
@@ -62,9 +61,9 @@ public class CouponService {
 
     // 진행 중 쿠폰 조회
     @Transactional(readOnly = true)
-    public CouponOneForm readActiveCoupon() {
+    public CouponSummaryForm readActiveCoupon() {
         Coupon findCoupon = couponRepository.findActiveCoupon().orElse(null);
-        return findCoupon != null ? new CouponOneForm(findCoupon) : null;
+        return findCoupon != null ? new CouponSummaryForm(findCoupon) : null;
     }
 
     // 예정된 쿠폰 전체 조회
@@ -115,12 +114,12 @@ public class CouponService {
 
     // 쿠폰 상세 조회
     @Transactional(readOnly = true)
-    public CouponOneForm selectCoupon(Long couponId) {
+    public CouponSummaryForm selectCoupon(Long couponId) {
         // 쿠폰 조회
         Coupon coupon = getCoupon(couponId);
 
         // 쿠폰 반환
-        return new CouponOneForm(coupon);
+        return new CouponSummaryForm(coupon);
     }
 
     // 쿠폰 발급
@@ -175,5 +174,4 @@ public class CouponService {
             coupon.updateCouponImage(couponFile);
         }
     }
-
 }

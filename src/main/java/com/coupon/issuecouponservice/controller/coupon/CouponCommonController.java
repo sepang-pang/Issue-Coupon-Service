@@ -1,30 +1,22 @@
 package com.coupon.issuecouponservice.controller.coupon;
 
-import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
+import com.coupon.issuecouponservice.dto.response.coupon.CouponSummaryForm;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class CouponCommonController {
 
     private final CouponService couponService;
 
-//    // 쿠폰 전체 조회
-//    @GetMapping("/coupon")
-//    public List<CouponForm> readAllCoupons() {
-//
-//        return couponService.readAllCoupons();
-//
-//    }
-
-    // 쿠폰 상세 조회
-    @GetMapping("/coupon/{couponId}")
-    public CouponOneForm readOneCoupon(@PathVariable Long couponId){
-        return couponService.selectCoupon(couponId);
+    @GetMapping({"", "/"})
+    public String home(Model model) {
+        CouponSummaryForm coupon = couponService.readActiveCoupon();
+        model.addAttribute("coupon", coupon);
+        return "main";
     }
-
 }

@@ -1,7 +1,7 @@
-package com.coupon.issuecouponservice.controller;
+package com.coupon.issuecouponservice.controller.admin;
 
 import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
-import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
+import com.coupon.issuecouponservice.dto.response.coupon.CouponSummaryForm;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import com.coupon.issuecouponservice.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,8 +38,8 @@ public class AdminController {
 
     @GetMapping("/update-coupon/{couponId}")
     public String updateCoupon(Model model, @PathVariable Long couponId) {
-        CouponOneForm couponOneForm = couponService.selectCoupon(couponId);
-        model.addAttribute("coupon", couponOneForm);
+        CouponSummaryForm couponSummaryForm = couponService.selectCoupon(couponId);
+        model.addAttribute("coupon", couponSummaryForm);
         return "admin/update-coupon";
     }
 

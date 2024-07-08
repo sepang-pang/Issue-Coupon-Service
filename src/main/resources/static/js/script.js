@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname;
     if (currentPath === "/") {
         document.getElementById("nav-home").classList.add("active");
-    } else if (currentPath === "/upcoming-coupons") {
+    } else if (currentPath === "/user/upcoming-coupons") {
         document.getElementById("nav-upcoming").classList.add("active");
-    } else if (currentPath === "/past-coupons") {
+    } else if (currentPath === "/user/past-coupons") {
         document.getElementById("nav-past").classList.add("active");
-    } else if (currentPath === "/my-page") {
+    } else if (currentPath === "/user/my-page") {
         document.getElementById("nav-my-page").classList.add("active");
     }
 
@@ -149,11 +149,6 @@ function updateStatusBadge(status) {
             statusBadge.className = 'badge bg-success';
             break;
     }
-}
-
-// 쿠폰 수정 페이지 이동
-function goToUpdate(couponId){
-    window.location.href="/admin/update-coupon/" + couponId;
 }
 
 // 쿠폰 삭제 처리 함수
