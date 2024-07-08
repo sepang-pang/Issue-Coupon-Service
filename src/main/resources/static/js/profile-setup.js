@@ -32,15 +32,3 @@ document.getElementById("submit").addEventListener("click", function () {
             alert("프로필 업데이트에 실패했습니다.");
         });
 });
-
-
-// function collectFormDate() {
-//     const formData = new FormData();
-//     const image = document.getElementById("file-input").files[0];
-//     const nickName = document.querySelector(".form-control").value;
-//
-//     formData.append("file", image); // 파일 추가
-//     formData.append("param", new Blob([JSON.stringify({ nickName: nickName })], { type: "application/json" }));
-//
-//     return formData;
-// }

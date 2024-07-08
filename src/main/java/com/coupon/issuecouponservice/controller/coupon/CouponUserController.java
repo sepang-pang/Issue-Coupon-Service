@@ -41,7 +41,7 @@ public class CouponUserController {
         model.addAttribute("count", (int) coupons.getTotalElements());
         model.addAttribute("paginationUtils", paginationUtils);
 
-        return "upcoming-coupons";
+        return "user/upcoming-coupons";
     }
 
     // 마감된 쿠폰 조회
@@ -56,7 +56,7 @@ public class CouponUserController {
         model.addAttribute("count", (int) coupons.getTotalElements());
         model.addAttribute("paginationUtils", paginationUtils);
 
-        return "past-coupons";
+        return "user/past-coupons";
     }
 
     // 쿠폰 발급

@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping("/user/profile/setup")
     public String setupProfile() {
-        return "profile-setup";
+        return "user/profile-setup";
     }
 
     @GetMapping("/user/my-page")
@@ -56,7 +56,7 @@ public class UserController {
         model.addAttribute("count", (int) coupons.getTotalElements());
         model.addAttribute("paginationUtils", paginationUtils);
 
-        return "my-page";
+        return "user/my-page";
     }
 
     @ResponseBody
