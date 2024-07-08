@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class CouponOneForm {
+public class CouponSummaryForm {
 
     private Long couponId;
     private String couponName;
@@ -18,7 +18,7 @@ public class CouponOneForm {
     private LocalDateTime closedAt;
     private LocalDateTime expiredAt;
 
-    public CouponOneForm(Coupon coupon) {
+    public CouponSummaryForm(Coupon coupon) {
         this.couponId = coupon.getId();
         this.couponName = coupon.getCouponName();
         this.couponContent = coupon.getCouponContent();

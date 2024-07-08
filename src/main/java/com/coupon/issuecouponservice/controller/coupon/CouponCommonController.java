@@ -1,6 +1,6 @@
 package com.coupon.issuecouponservice.controller.coupon;
 
-import com.coupon.issuecouponservice.dto.response.coupon.CouponOneForm;
+import com.coupon.issuecouponservice.dto.response.coupon.CouponSummaryForm;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ public class CouponCommonController {
 
     @GetMapping({"", "/"})
     public String home(Model model) {
-        CouponOneForm coupon = couponService.readActiveCoupon();
+        CouponSummaryForm coupon = couponService.readActiveCoupon();
         model.addAttribute("coupon", coupon);
         return "main";
     }
