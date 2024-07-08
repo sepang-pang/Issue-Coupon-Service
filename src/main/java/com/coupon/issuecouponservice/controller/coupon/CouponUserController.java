@@ -7,6 +7,7 @@ import com.coupon.issuecouponservice.facade.RedissonLockFacade;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import com.coupon.issuecouponservice.util.PaginationUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,30 +33,17 @@ public class CouponUserController {
 
     // 오픈 예정 쿠폰 조회
     @GetMapping("/upcoming-coupons")
-    public String upcoming(Model model, @PageableDefault(size = 9) Pageable pageable) {
+    public String upcoming(HttpServletRequest request, Model model, @PageableDefault(size = 9) Pageable pageable) {
         Page<CouponForm> coupons = couponService.readAllOpenCoupons(pageable);
-
-        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
-
-        model.addAttribute("coupons", coupons);
-        model.addAttribute("count", (int) coupons.getTotalElements());
-        model.addAttribute("paginationUtils", paginationUtils);
-
+        addModelAttributes(request, model, coupons);
         return "user/upcoming-coupons";
     }
 
     // 마감된 쿠폰 조회
     @GetMapping("/past-coupons")
-    public String past(Model model, @PageableDefault(size = 9) Pageable pageable) {
-
+    public String past(HttpServletRequest request, Model model, @PageableDefault(size = 9) Pageable pageable) {
         Page<CouponForm> coupons = couponService.readAllClosedCoupons(pageable);
-
-        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
-
-        model.addAttribute("coupons", coupons);
-        model.addAttribute("count", (int) coupons.getTotalElements());
-        model.addAttribute("paginationUtils", paginationUtils);
-
+        addModelAttributes(request, model, coupons);
         return "user/past-coupons";
     }
 
@@ -64,7 +52,14 @@ public class CouponUserController {
     @PostMapping("/coupon")
     public ResponseEntity<ApiResponseForm> issueCoupon(@RequestBody CouponIssueParam couponIssueParam, @AuthenticationPrincipal UserDetailsImpl userDetails){
         redissonLockFacade.issueCouponWithLock(couponIssueParam, userDetails.getUser());
-
         return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 발급에 성공했습니다.", HttpStatus.OK.value()));
+    }
+
+    private void addModelAttributes(HttpServletRequest request, Model model, Page<CouponForm> coupons) {
+        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
+        model.addAttribute("baseUri", request.getRequestURI());
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("count", (int) coupons.getTotalElements());
+        model.addAttribute("paginationUtils", paginationUtils);
     }
 }
