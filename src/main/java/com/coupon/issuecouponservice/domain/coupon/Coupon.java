@@ -140,14 +140,14 @@ public class Coupon extends Timestamped {
 
     /* == 검증 메서드 == */
     public void validateCoupon() {
-        if(this.stockStatus.equals(StockStatus.OUT_OF_STOCK)) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
-        if(this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
+        if (this.stockStatus.equals(StockStatus.OUT_OF_STOCK)) throw new IllegalArgumentException("쿠폰이 매진되었습니다.");
+        if (this.expiredAt.isBefore(LocalDateTime.now())) throw new IllegalArgumentException("쿠폰이 만료되었습니다.");
     }
 
     /* == 검증 메서드 : 중복 검증  == */
     private boolean couponAlreadyIssue(Long couponId) {
-        for(UserCoupon userCoupon : userCoupons){
-            if(userCoupon.getCoupon().getId().equals(couponId)){
+        for (UserCoupon userCoupon : userCoupons) {
+            if (userCoupon.getCoupon().getId().equals(couponId)) {
                 return true;
             }
         }
@@ -156,9 +156,9 @@ public class Coupon extends Timestamped {
 
     /* == 검증 메서드 : 쿠폰 생성 날짜 검증  == */
     private static void checkClosedAt(CouponCreationParam param, List<Coupon> coupons) {
-        if(!coupons.isEmpty()){
+        if (!coupons.isEmpty()) {
             LocalDateTime lastCouponClosedAt = coupons.get(0).getClosedAt();
-            if(param.getOpenAt().isBefore(lastCouponClosedAt)){
+            if (param.getOpenAt().isBefore(lastCouponClosedAt)) {
                 throw new IllegalArgumentException("새 쿠폰의 시작일은 기존 쿠폰의 발급 마감일( " + lastCouponClosedAt + " )보다 이후여야 합니다.");
             }
         }
@@ -170,7 +170,7 @@ public class Coupon extends Timestamped {
         LocalDateTime updateClosedAt = param.getClosedAt();
 
         for (Coupon coupon : coupons) {
-            if(!this.id.equals(coupon.id)){
+            if (!this.id.equals(coupon.id)) {
                 if (!updateClosedAt.isBefore(coupon.openAt) && !updateOpenAt.isAfter(coupon.closedAt)) {
                     throw new IllegalArgumentException("해당 쿠폰이 " + coupon.couponName + "과 시간이 겹칩니다.");
                 }
@@ -181,7 +181,7 @@ public class Coupon extends Timestamped {
     /* == 쿠폰 재고 감소 == */
     public void decreaseQuantity() {
         this.remainQuantity = this.remainQuantity - 1;
-        if(this.remainQuantity <= 0){
+        if (this.remainQuantity <= 0) {
             this.stockStatus = StockStatus.OUT_OF_STOCK;
         }
     }
