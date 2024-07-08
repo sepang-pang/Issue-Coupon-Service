@@ -72,6 +72,8 @@ class CouponConcurrencyTest {
                 .couponName("테스트 쿠폰")
                 .couponContent("쿠폰입니다.")
                 .couponImage("image")
+                .openAt(LocalDateTime.now())
+                .closedAt(LocalDateTime.now().plusDays(10))
                 .expiredAt(LocalDateTime.now().plusDays(30))
                 .totalQuantity(100)
                 .build();
