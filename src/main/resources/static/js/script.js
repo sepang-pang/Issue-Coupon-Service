@@ -151,6 +151,11 @@ function updateStatusBadge(status) {
     }
 }
 
+// 쿠폰 수정 페이지 이동
+function goToUpdate(couponId){
+    window.location.href="/admin/update-coupon/" + couponId;
+}
+
 // 쿠폰 삭제 처리 함수
 document.getElementById('modalChoice').addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
