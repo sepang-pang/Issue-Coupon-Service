@@ -41,17 +41,4 @@ public class UserController {
 
         return ResponseEntity.ok().body(new ApiResponseForm("프로필 작성 완료", HttpStatus.OK.value()));
     }
-
-    // 쿠폰 생성 사용자 권한 확인
-    @GetMapping("/check-role")
-    @ResponseBody
-    public Map<String, Boolean> checkAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(Role.Authority.ADMIN));
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("isAdmin", isAdmin);
-        return response;
-    }
-
 }

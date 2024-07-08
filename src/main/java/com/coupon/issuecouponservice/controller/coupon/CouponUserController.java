@@ -33,11 +33,4 @@ public class CouponUserController {
 
         return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 발급에 성공했습니다.", HttpStatus.OK.value()));
     }
-
-    // 사용자 쿠폰 전체 조회
-    @GetMapping("/coupon")
-    public Page<CouponForm> readAllUserCoupons(@AuthenticationPrincipal UserDetailsImpl userDetails, Pageable pageable){
-        return couponService.readAllUserCoupons(userDetails.getUser(), pageable);
-    }
-
 }

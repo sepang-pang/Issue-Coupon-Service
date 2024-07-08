@@ -77,9 +77,4 @@ public class HomeController {
 
         return "my-page";
     }
-
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
 }
