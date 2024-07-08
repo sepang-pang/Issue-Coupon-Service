@@ -51,7 +51,6 @@ public class CouponService {
         couponScheduler.scheduleCouponStatusChange(coupon);
     }
 
-
     // 쿠폰 전체 조회
     @Transactional(readOnly = true)
     public Page<CouponForm> readAllCoupons(Pageable pageable) {
@@ -175,5 +174,4 @@ public class CouponService {
             coupon.updateCouponImage(couponFile);
         }
     }
-
 }
