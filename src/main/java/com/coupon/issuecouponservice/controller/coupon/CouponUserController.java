@@ -6,13 +6,16 @@ import com.coupon.issuecouponservice.dto.response.coupon.CouponForm;
 import com.coupon.issuecouponservice.facade.RedissonLockFacade;
 import com.coupon.issuecouponservice.security.userdetails.UserDetailsImpl;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
+import com.coupon.issuecouponservice.util.PaginationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import static com.coupon.issuecouponservice.domain.user.Role.Authority.USER;
@@ -25,6 +28,35 @@ public class CouponUserController {
 
     private final CouponService couponService;
     private final RedissonLockFacade redissonLockFacade;
+
+    // 오픈 예정 쿠폰 조회
+    @GetMapping("/upcoming-coupons")
+    public String upcoming(Model model, @PageableDefault(size = 9) Pageable pageable) {
+        Page<CouponForm> coupons = couponService.readAllOpenCoupons(pageable);
+
+        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
+
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("count", (int) coupons.getTotalElements());
+        model.addAttribute("paginationUtils", paginationUtils);
+
+        return "upcoming-coupons";
+    }
+
+    // 마감된 쿠폰 조회
+    @GetMapping("/past-coupons")
+    public String past(Model model, @PageableDefault(size = 9) Pageable pageable) {
+
+        Page<CouponForm> coupons = couponService.readAllClosedCoupons(pageable);
+
+        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
+
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("count", (int) coupons.getTotalElements());
+        model.addAttribute("paginationUtils", paginationUtils);
+
+        return "past-coupons";
+    }
 
     // 쿠폰 발급
     @PostMapping("/coupon")
