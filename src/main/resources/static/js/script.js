@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname;
     if (currentPath === "/") {
         document.getElementById("nav-home").classList.add("active");
-    } else if (currentPath === "/user/upcoming-coupons") {
+    } else if (currentPath === "/upcoming-coupons") {
         document.getElementById("nav-upcoming").classList.add("active");
-    } else if (currentPath === "/user/past-coupons") {
+    } else if (currentPath === "/past-coupons") {
         document.getElementById("nav-past").classList.add("active");
     } else if (currentPath === "/user/my-page") {
         document.getElementById("nav-my-page").classList.add("active");

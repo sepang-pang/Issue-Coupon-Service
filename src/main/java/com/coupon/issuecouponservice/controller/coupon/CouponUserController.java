@@ -31,22 +31,6 @@ public class CouponUserController {
     private final CouponService couponService;
     private final RedissonLockFacade redissonLockFacade;
 
-    // 오픈 예정 쿠폰 조회
-    @GetMapping("/upcoming-coupons")
-    public String upcoming(HttpServletRequest request, Model model, @PageableDefault(size = 9) Pageable pageable) {
-        Page<CouponForm> coupons = couponService.readAllOpenCoupons(pageable);
-        addModelAttributes(request, model, coupons);
-        return "user/upcoming-coupons";
-    }
-
-    // 마감된 쿠폰 조회
-    @GetMapping("/past-coupons")
-    public String past(HttpServletRequest request, Model model, @PageableDefault(size = 9) Pageable pageable) {
-        Page<CouponForm> coupons = couponService.readAllClosedCoupons(pageable);
-        addModelAttributes(request, model, coupons);
-        return "user/past-coupons";
-    }
-
     // 쿠폰 발급
     @ResponseBody
     @PostMapping("/coupon")
@@ -55,11 +39,4 @@ public class CouponUserController {
         return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 발급에 성공했습니다.", HttpStatus.OK.value()));
     }
 
-    private void addModelAttributes(HttpServletRequest request, Model model, Page<CouponForm> coupons) {
-        PaginationUtils paginationUtils = new PaginationUtils(coupons, 10);
-        model.addAttribute("baseUri", request.getRequestURI());
-        model.addAttribute("coupons", coupons);
-        model.addAttribute("count", (int) coupons.getTotalElements());
-        model.addAttribute("paginationUtils", paginationUtils);
-    }
 }
