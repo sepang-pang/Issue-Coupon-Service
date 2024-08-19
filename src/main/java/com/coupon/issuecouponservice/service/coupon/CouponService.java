@@ -66,6 +66,17 @@ public class CouponService {
         return findCoupon != null ? new CouponSummaryForm(findCoupon) : null;
     }
 
+    // 예정된 쿠폰 단일 조회
+    public CouponSummaryForm readOpenCoupon() {
+        System.out.println("예정된 쿠폰 단일 조회 수행");
+        Coupon findCoupon = couponRepository.findOpenCoupon().stream().findFirst().orElse(null);
+
+        if (findCoupon != null) {
+            System.out.println("예정 쿠폰 Null 아님 - " + "쿠폰 이름 : " + findCoupon.getCouponName());
+        }
+        return findCoupon != null ? new CouponSummaryForm(findCoupon) : null;
+    }
+
     // 예정된 쿠폰 전체 조회
     public Page<CouponForm> readAllOpenCoupons(Pageable pageable) {
         Page<Coupon> findCoupons = couponRepository.findOpenCoupons(pageable);

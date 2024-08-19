@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname;
     if (currentPath === "/") {
         document.getElementById("nav-home").classList.add("active");
-    } else if (currentPath === "/user/upcoming-coupons") {
+    } else if (currentPath === "/upcoming-coupons") {
         document.getElementById("nav-upcoming").classList.add("active");
-    } else if (currentPath === "/user/past-coupons") {
+    } else if (currentPath === "/past-coupons") {
         document.getElementById("nav-past").classList.add("active");
     } else if (currentPath === "/user/my-page") {
         document.getElementById("nav-my-page").classList.add("active");
@@ -26,6 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // 타이머 업데이트
+    const timerElement = document.getElementById('timer');
+    updateTimer(timerElement);
+
     // My Page 링크 클릭 이벤트 처리
     const myPageLink = document.getElementById("nav-my-page");
     myPageLink.addEventListener("click", function (event) {
@@ -37,19 +41,22 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("issue").addEventListener("click", function () {
         issueCoupon(this.getAttribute('data-coupon-id'));
     });
-
-    // 타이머 업데이트
-    const timerElement = document.getElementById('timer');
-    updateTimer(timerElement);
 });
 
 // 타이머 업데이트 함수
 function updateTimer(timerElement) {
-    const closedAt = new Date(timerElement.dataset.closedAt);
+    const status = timerElement.getAttribute('data-status');
+    let targetTime;
+
+    if (status === 'ACTIVE') {
+        targetTime = new Date(timerElement.dataset.closedAt);
+    } else {
+        targetTime =  new Date(timerElement.dataset.openAt);
+    }
 
     function updateRemainingTime() {
         const now = new Date();
-        const timeDifference = closedAt - now;
+        const timeDifference = targetTime - now;
 
         if (timeDifference > 0) {
             const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
@@ -62,7 +69,6 @@ function updateTimer(timerElement) {
             document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
         } else {
-            // 시간이 지났을 때 처리
             document.getElementById('days').textContent = '0';
             document.getElementById('hours').textContent = '00';
             document.getElementById('minutes').textContent = '00';
@@ -70,9 +76,10 @@ function updateTimer(timerElement) {
         }
     }
 
-    setInterval(updateRemainingTime, 1000); // 매 초마다 업데이트
-    updateRemainingTime(); // 초기 실행
+    setInterval(updateRemainingTime, 1000);
+    updateRemainingTime();
 }
+
 
 // 모달 내용 업데이트 함수
 function updateModalContent(name, description, created, expired, status) {

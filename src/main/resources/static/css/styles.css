@@ -40,6 +40,30 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'PyeongChangPeace-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.f-pcp-bold {
+    font-family: 'PyeongChangPeace-Bold', sans-serif;
+    color: black;
+}
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.f-yg-regular {
+    font-family: 'yg-jalnan', sans-serif;
+    color: black;
+}
+
 body {
     width: 100%;
 }

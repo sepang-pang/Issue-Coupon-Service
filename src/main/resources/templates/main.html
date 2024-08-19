@@ -35,28 +35,36 @@
 <div class="container d-flex flex-column full-height full-width bg-custom">
     <div class="container-fluid flex-grow-1 pt-5">
         <div class="position-relative p-5 text-center text-muted bg-transparent">
-            <div th:if="${coupon != null}" class="container d-flex justify-content-center">
+            <div th:if="${coupon != null}" class="container d-flex flex-column justify-content-center align-items-center">
+                <div th:if="${coupon.couponStatus.name() == 'INACTIVE'}" class="text-center mb-5">
+                    <h1 class="f-pcp-bold">쿠폰 <span class="color-coral">오픈</span> 카운트다운 시작 !</h1>
+                    <h4 class="f-yg-regular" style="color: #4A545C">놓치지 마세요. 특별한 행운이 당신을 기다리고 있습니다.</h4>
+                </div>
                 <!-- 타이머 화면 -->
                 <div class="d-flex flex-wrap justify-content-center align-items-center timer-bg-custom p-3 mb-5"
-                     id="timer" th:data-closed-at="${#temporals.format(coupon.closedAt, 'yyyy-MM-dd''T''HH:mm:ss')}"
+                     id="timer"
+                     th:data-closed-at="${#temporals.format(coupon.closedAt, 'yyyy-MM-dd''T''HH:mm:ss')}"
+                     th:data-open-at="${#temporals.format(coupon.openAt, 'yyyy-MM-dd''T''HH:mm:ss')}"
+                     th:data-status="${coupon.couponStatus.name()}"
                      style="min-width: 400px; width: 70%;">
-                    <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5" id="days">0</div>
+
+                <div class="text-center px-3 mx-3">
+                        <div class="number custom-fs-5" id="days"></div>
                         <div class="caption">DAYS</div>
                     </div>
                     <div class="h3 mx-3">:</div>
                     <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5" id="hours">00</div>
+                        <div class="number custom-fs-5" id="hours"></div>
                         <div class="caption">HOURS</div>
                     </div>
                     <div class="h3 mx-3">:</div>
                     <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5" id="minutes">00</div>
+                        <div class="number custom-fs-5" id="minutes"></div>
                         <div class="caption">MINUTES</div>
                     </div>
                     <div class="h3 mx-3">:</div>
                     <div class="text-center px-3 mx-3">
-                        <div class="number custom-fs-5" id="seconds">00</div>
+                        <div class="number custom-fs-5" id="seconds"></div>
                         <div class="caption">SECONDS</div>
                     </div>
                 </div>
@@ -84,7 +92,9 @@
                         <span id="total-stock" th:text="${coupon.totalQuantity}">100</span>
                     </div>
                 </div>
+                <!-- 쿠폰 발급 버튼 -->
                 <button class="mb-5 mt-2 btn-custom btn-bg btn-gra-anim" type="button" id="issue"
+                        th:if="${coupon.couponStatus.name() == 'ACTIVE'}"
                         th:data-coupon-id="${coupon.couponId}">
                     발급받기
                 </button>
