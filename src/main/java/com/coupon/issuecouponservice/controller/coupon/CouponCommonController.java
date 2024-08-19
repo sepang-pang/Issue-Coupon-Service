@@ -22,6 +22,12 @@ public class CouponCommonController {
     @GetMapping("/")
     public String home(Model model) {
         CouponSummaryForm coupon = couponService.readActiveCoupon();
+
+        if (coupon == null) {
+            System.out.println("오픈 예정 쿠폰 Null 체크");
+            coupon = couponService.readOpenCoupon();
+        }
+
         model.addAttribute("coupon", coupon);
         return "main";
     }
