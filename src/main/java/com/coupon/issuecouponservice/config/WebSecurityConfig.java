@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/user/check-role").authenticated()
+                        .requestMatchers("/user/coupon-test").permitAll()
                         .requestMatchers("/upcoming-coupons").permitAll()
                         .requestMatchers("/past-coupons").permitAll()
                         .requestMatchers("/user/**").hasRole("USER")

@@ -21,7 +21,7 @@ import static com.coupon.issuecouponservice.domain.user.Role.Authority.USER;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@Secured(USER)
+//@Secured(USER)
 public class CouponUserController {
 
     private final RedissonLockFacade redissonLockFacade;
