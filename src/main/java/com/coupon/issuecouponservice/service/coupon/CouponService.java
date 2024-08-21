@@ -3,6 +3,7 @@ package com.coupon.issuecouponservice.service.coupon;
 import com.coupon.issuecouponservice.domain.coupon.Coupon;
 import com.coupon.issuecouponservice.domain.coupon.UserCoupon;
 import com.coupon.issuecouponservice.domain.user.User;
+import com.coupon.issuecouponservice.dto.request.CouponIssueTestParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponCreationParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponModificationParam;
@@ -135,6 +136,17 @@ public class CouponService {
 
     // 쿠폰 발급
     public void issueCoupon(CouponIssueParam param, User user) {
+        // 쿠폰 조회
+        Coupon coupon = getCoupon(param.getCouponId());
+
+        // 쿠폰 발급
+        UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);
+
+        userCouponQueryService.saveUserCoupon(userCoupon);
+    }
+
+    // 쿠폰 발급 테스트
+    public void issueCoupon(CouponIssueTestParam param, User user) {
         // 쿠폰 조회
         Coupon coupon = getCoupon(param.getCouponId());
 
