@@ -146,9 +146,9 @@ public class CouponService {
     }
 
     // 쿠폰 발급 테스트
-    public void issueCoupon(CouponIssueTestParam param, User user) {
+    public void issueCoupon(CouponIssueTestParam testParam, User user) {
         // 쿠폰 조회
-        Coupon coupon = getCoupon(param.getCouponId());
+        Coupon coupon = getCoupon(testParam.getCouponId());
 
         // 쿠폰 발급
         UserCoupon userCoupon = UserCoupon.CreateUserCoupon(coupon, user);

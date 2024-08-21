@@ -1,7 +1,5 @@
 package com.coupon.issuecouponservice.controller.coupon;
 
-import com.coupon.issuecouponservice.domain.user.User;
-import com.coupon.issuecouponservice.dto.request.CouponIssueTestParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
 import com.coupon.issuecouponservice.dto.response.ApiResponseForm;
 import com.coupon.issuecouponservice.facade.RedissonLockFacade;
@@ -21,7 +19,7 @@ import static com.coupon.issuecouponservice.domain.user.Role.Authority.USER;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-//@Secured(USER)
+@Secured(USER)
 public class CouponUserController {
 
     private final RedissonLockFacade redissonLockFacade;
@@ -33,10 +31,4 @@ public class CouponUserController {
         return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 발급에 성공했습니다.", HttpStatus.OK.value()));
     }
 
-    // 쿠폰 발급 테스트
-    @PostMapping("/coupon-test")
-    public ResponseEntity<ApiResponseForm> issueCouponTest(@RequestBody CouponIssueTestParam couponIssueTestParam) {
-        redissonLockFacade.issueCouponTestWithLock(couponIssueTestParam);
-        return ResponseEntity.ok().body(new ApiResponseForm("쿠폰 발급에 성공했습니다.", HttpStatus.OK.value()));
-    }
 }
