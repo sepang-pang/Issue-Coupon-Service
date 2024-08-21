@@ -2,7 +2,6 @@ package com.coupon.issuecouponservice.controller.coupon;
 
 import com.coupon.issuecouponservice.dto.request.CouponIssueTestParam;
 import com.coupon.issuecouponservice.dto.response.ApiResponseForm;
-import com.coupon.issuecouponservice.facade.RedissonLockFacade;
 import com.coupon.issuecouponservice.facade.RedissonLockTestFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

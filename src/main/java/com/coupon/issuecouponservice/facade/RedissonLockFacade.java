@@ -1,9 +1,7 @@
 package com.coupon.issuecouponservice.facade;
 
 import com.coupon.issuecouponservice.domain.user.User;
-import com.coupon.issuecouponservice.dto.request.CouponIssueTestParam;
 import com.coupon.issuecouponservice.dto.request.coupon.CouponIssueParam;
-import com.coupon.issuecouponservice.repository.user.UserRepository;
 import com.coupon.issuecouponservice.service.coupon.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
