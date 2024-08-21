@@ -16,12 +16,13 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j(topic = "RedissonLockFacade")
 @RequiredArgsConstructor
-public class RedissonLockFacade {
-
+public class RedissonLockTestFacade {
     private final RedissonClient redissonClient;
     private final CouponService couponService;
+    private final UserRepository userRepository;
 
-    public void issueCouponWithLock(CouponIssueParam param, User user) {
+    public void issueCouponTestWithLock(CouponIssueTestParam param) {
+        User user = userRepository.findById(param.getUserId()).get();
         RLock lock = redissonClient.getLock(param.getCouponId().toString());
 
         try {
@@ -39,5 +40,4 @@ public class RedissonLockFacade {
             lock.unlock();
         }
     }
-
 }
