@@ -30,7 +30,7 @@ spring:
               - email
             client-name: Naver
             authorization-grant-type: authorization_code
-            redirect-uri: http://43.202.23.28/login/oauth2/code/naver
+            redirect-uri: http://172.31.4.32/login/oauth2/code/naver
 
         provider:
           kakao:
