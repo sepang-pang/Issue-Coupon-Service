@@ -37,8 +37,9 @@ dependencies {
 
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.30.0'  // Redisson 라이브러리
-
+	implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.30.0'
+	implementation 'org.springframework.session:spring-session-data-redis'
+	
 	// Spring Security
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
