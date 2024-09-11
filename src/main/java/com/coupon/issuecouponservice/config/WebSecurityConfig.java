@@ -22,7 +22,6 @@ import java.io.IOException;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-@EnableRedisHttpSession
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
